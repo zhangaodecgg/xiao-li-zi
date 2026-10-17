@@ -1,0 +1,17 @@
+# 统一行尾：仓库里一律 LF
+#
+# 原因：本机 core.autocrlf=true，git 触碰文件时会把 LF 改成 CRLF。
+# 而主文件在工作区根目录、副本在仓库里，两边行尾不一致时，
+# 每次 `cp` 同步都会显示"整个文件全改了"，diff 完全没法看。
+* text=auto eol=lf
+
+*.html text eol=lf
+*.md   text eol=lf
+*.js   text eol=lf
+*.css  text eol=lf
+*.json text eol=lf
+
+# 图片等二进制不要做行尾转换
+*.png binary
+*.jpg binary
+*.ico binary

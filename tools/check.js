@@ -1,25 +1,44 @@
 #!/usr/bin/env node
 /**
- * 卡片墙数据校验
+ * 工程名词卡片墙 · 数据校验器（跨项目版）
  *
- *   node tools/check.js
+ *   node check.js                      # 自动找当前目录下的卡片墙
+ *   node check.js <卡片墙.html>        # 指定文件
  *
- * 检查 CARDS / DEEP / DEEP_BODY / EXTRA 四张表是否对齐，
- * 以及「同族指向不存在的卡」这类会被页面静默吞掉的问题。
- * 有问题时退出码为 1，方便接到 CI 里。
+ * 检查 CARDS / EXTRA / DEEP / DEEP_BODY 四张表是否对齐，
+ * 以及「同族指向不存在的卡」「别名切成单字」这类会被页面静默吞掉的问题。
+ * 有问题时退出码为 1。
+ *
+ * 用法见 SKILL.md「修改流程」一节：每次改完必须跑到 0 问题。
  */
 const fs = require('fs');
 const path = require('path');
 
-const FILE = path.join(__dirname, '..', '工程名词卡片墙.html');
+/* ---------- 定位文件 ---------- */
+function resolveFile() {
+  const arg = process.argv[2];
+  if (arg) return path.resolve(arg);
+  const cands = [
+    path.join(__dirname, '..', '工程名词卡片墙.html'),          // 放在 <仓库>/tools/ 时的标准布局
+    path.join(process.cwd(), '工程名词卡片墙.html'),
+    path.join(process.cwd(), 'xiao-li-zi', '工程名词卡片墙.html'),
+    path.join(__dirname, '..', '..', '..', 'Desktop', '工作台输入内容库',
+      '2026-10-16-19-19-01', '工程名词卡片墙.html'),            // 他这台的默认工作区
+  ];
+  for (const c of cands) if (fs.existsSync(c)) return c;
+  console.error('找不到卡片墙文件，请把路径作为第一个参数传进来。试过：\n  ' + cands.join('\n  '));
+  process.exit(2);
+}
+
+const FILE = resolveFile();
 const src = fs.readFileSync(FILE, 'utf8');
 
 /** 从 HTML 里取出一个 const 的值（括号配对扫描，避开字符串里的括号） */
 function pick(name) {
   const key = 'const ' + name + ' = ';
-  let i = src.indexOf(key);
-  if (i < 0) throw new Error('在 HTML 里找不到常量 ' + name);
-  i += key.length;
+  const at = src.indexOf(key);
+  if (at < 0) throw new Error('在 HTML 里找不到常量 ' + name + '（是不是被误删了？）');
+  let i = at + key.length;
   while (/\s/.test(src[i])) i++;
   const open = src[i];
   if (open !== '{' && open !== '[') throw new Error(name + ' 的值不是对象或数组');
@@ -51,6 +70,12 @@ const DEEP = pick('DEEP');
 const BODY = pick('DEEP_BODY');
 const EXTRA = pick('EXTRA');
 
+// NAME2IDX 是翻面逻辑的索引表 —— 曾经被误删导致"卡片点了没反应"，这里直接查它在不在
+if (!/NAME2IDX/.test(src)) {
+  console.error('❌ 致命：页面里找不到 NAME2IDX —— 翻面会抛 ReferenceError，卡片点了不会动。');
+  process.exit(1);
+}
+
 const problems = [];
 const warn = [];
 const names = new Set();
@@ -63,13 +88,15 @@ CARDS.forEach((c, i) => {
   if (names.has(c.n)) dup.push(c.n);
   names.add(c.n);
 
-  if (!(c.r in RINGS) && !RINGS[c.r]) problems.push(tag + '：环号 r=' + c.r + ' 不在 RINGS 里');
+  if (!(c.r in RINGS)) problems.push(tag + '：环号 r=' + c.r + ' 不在 RINGS 里');
   if (c.lv !== 'core' && c.lv !== 'adv') problems.push(tag + '：lv 只能是 core 或 adv，当前是 ' + c.lv);
   if (!c.d) problems.push(tag + '：缺少 d（一句话解释）');
+  else if (c.d.length > 50) warn.push(tag + '：d 有 ' + c.d.length + ' 字，目标 ≤40 字（超过 50 就该砍）');
   if (!c.m) problems.push(tag + '：缺少 m（口诀）');
+  else if (c.m.length > 18) warn.push(tag + '：口诀 ' + c.m.length + ' 字，目标 ≤12 字（超过 18 就该砍）');
   if (!Array.isArray(c.k)) problems.push(tag + '：k 应该是数组');
   (c.k || []).forEach(k => {
-    if (!names.has(k) && !CARDS.some(x => x.n === k)) {
+    if (!CARDS.some(x => x.n === k)) {
       problems.push(tag + '：同族「' + k + '」在 CARDS 里不存在，这个链接会点不动');
     }
   });
@@ -112,10 +139,9 @@ Object.entries(BODY).forEach(([n, b]) => {
   } else {
     b.body.forEach((p, i) => {
       if (typeof p !== 'string' || p.trim().length < 40) problems.push(n + '：body[' + i + '] 太短（少于 40 字）');
-      const star = (p.match(/\*\*/g) || []).length;
-      if (star % 2) problems.push(n + '：body[' + i + '] 的 ** 没有成对');
-      const bt = (p.match(/`/g) || []).length;
-      if (bt % 2) problems.push(n + '：body[' + i + '] 的反引号没有成对');
+      if ((p.match(/\*\*/g) || []).length % 2) problems.push(n + '：body[' + i + '] 的 ** 没有成对');
+      if ((p.match(/`/g) || []).length % 2) problems.push(n + '：body[' + i + '] 的反引号没有成对');
+      if (/<\/?[a-z][a-z0-9]*>/i.test(p)) warn.push(n + '：body[' + i + '] 里疑似混入了 HTML 标签');
     });
   }
   if (!Array.isArray(b.trap) || !b.trap.length) problems.push(n + '：DEEP_BODY.trap 至少要有一条"最容易搞错的地方"');
@@ -153,14 +179,31 @@ Object.entries(EXTRA).forEach(([n, e]) => {
   if (e.s.filter(v => v >= 2).length === 0) problems.push(n + '：六个方向一个都没到 2 分，按方向筛选时它会彻底消失');
 });
 
+/* ---------- 6. 文案里的卡数是否跟实际一致 ---------- */
+// 卡数改过 66 → 67 → 102 三次，title / sub / foot / 倒查兜底文案里都残留过旧数字。
+{
+  const re = /(\d+)\s*(?:张卡|张可翻转|个名词|张卡里)/g;
+  let m;
+  const wrong = new Set();
+  while ((m = re.exec(src))) {
+    const v = Number(m[1]);
+    if (v !== CARDS.length && v > 10 && v < 1000) wrong.add(v);
+  }
+  if (wrong.size) {
+    warn.push('页面文案里出现了非当前卡数的数字：' + [...wrong].join(' / ') +
+      '（当前 ' + CARDS.length + ' 张）——改过卡数就要全文 grep 一遍');
+  }
+}
+
 /* ---------- 输出 ---------- */
 const ok = problems.length === 0;
-console.log('卡片墙体检\n');
+console.log('卡片墙体检 · ' + path.basename(FILE) + '\n');
 console.log('  卡片     ' + CARDS.length + ' 张');
 console.log('  环       ' + Object.keys(RINGS).length + ' 档');
 console.log('  方向     ' + SCENES.length + ' 个');
 console.log('  链接     ' + Object.values(DEEP).reduce((s, d) => s + (d.s || []).length, 0) + ' 条');
-console.log('  正文     ' + Object.values(BODY).reduce((s, b) => s + (b.body || []).join('').length, 0) + ' 字\n');
+console.log('  正文     ' + Object.values(BODY).reduce((s, b) => s + (b.body || []).join('').length, 0) + ' 字');
+console.log('  方向理由 ' + Object.values(EXTRA).reduce((s, e) => s + (e.w || []).filter(Boolean).length, 0) + ' 条\n');
 
 if (warn.length) {
   console.log('提醒（不阻塞）：');
@@ -168,7 +211,7 @@ if (warn.length) {
   console.log('');
 }
 if (ok) {
-  console.log('✅ 全部通过，可以提 PR 了。');
+  console.log('✅ 全部通过，数据对齐、可以提交了。');
   process.exit(0);
 } else {
   console.log('❌ 发现 ' + problems.length + ' 个问题：');
