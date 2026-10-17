@@ -1,0 +1,3626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>工程名词卡片墙 · 102 张可翻转的知识卡</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 26px 18px 60px; background: #0b0d12; color: #e6e9ef;
+    font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+    line-height: 1.6;
+  }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .wrap { max-width: 1040px; margin: 0 auto; }
+  h1 { font-size: 19px; font-weight: 500; margin: 0 0 4px; }
+  .sub { font-size: 12px; color: #8b95a5; margin: 0 0 18px; }
+  .bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px; }
+  .chip {
+    font-size: 12px; padding: 6px 11px; border-radius: 999px; cursor: pointer;
+    background: #141821; border: 1px solid #262c38; color: #94a3b8; font-family: inherit;
+  }
+  .chip:hover { border-color: #3d5a80; color: #cbd5e1; }
+  .chip.on { background: #0C447C; border-color: #85B7EB; color: #E6F1FB; }
+  .chip.t.on { background: #085041; border-color: #5DCAA5; color: #E1F5EE; }
+  input#q {
+    flex: 1; min-width: 180px; padding: 8px 13px; font-size: 13px; color: #e6e9ef;
+    background: #141821; border: 1px solid #262c38; border-radius: 10px; outline: none; font-family: inherit;
+  }
+  input#q:focus { border-color: #3d5a80; }
+  .prog { font-size: 12px; color: #7c8698; margin-left: auto; }
+  .prog b { color: #5DCAA5; font-weight: 500; }
+  .hint { font-size: 12px; color: #5c6473; margin: 0 0 18px; }
+  .wall { display: grid; grid-template-columns: repeat(auto-fill, minmax(268px, 1fr)); gap: 10px; }
+  .card {
+    background: #12161f; border: 1px solid #212836; border-radius: 13px;
+    padding: 14px 15px; min-height: 148px; cursor: pointer; outline: none;
+    display: flex; flex-direction: column; transition: border-color .12s, background .12s;
+  }
+  .card:hover { border-color: #35507a; background: #141924; }
+  .card:focus { border-color: #85B7EB; }
+  .card.adv { border-style: dashed; }
+  .card.done { border-color: #2f6b56; background: #101a17; }
+  .card.flash { border-color: #5DCAA5; background: #12211d; }
+  .card.hide { display: none; }
+  .nm { font-size: 15px; font-weight: 500; color: #e6e9ef; line-height: 1.4; }
+  .ring { font-size: 11px; color: #6b7484; margin-top: 4px; }
+  .d { font-size: 13px; color: #b6c0cf; margin-top: 9px; }
+  .m { font-size: 12px; color: #5DCAA5; margin-top: 8px; }
+  .m b { font-weight: 500; color: #7ee0bb; }
+  .kinwrap { margin-top: auto; padding-top: 11px; }
+  .kinlbl { font-size: 11px; color: #5c6473; }
+  .kins { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px; }
+  .kin {
+    font-size: 11px; padding: 2px 8px; border-radius: 999px;
+    border: 1px solid #2b3547; color: #8fa7c4; cursor: pointer;
+  }
+  .kin:hover { border-color: #5DCAA5; color: #9FE1CB; }
+  .acts { display: flex; gap: 6px; margin-top: 10px; }
+  .act {
+    flex: 1; font-size: 11px; padding: 5px 0; border-radius: 8px; cursor: pointer;
+    background: #171c27; border: 1px solid #262c38; color: #94a3b8; font-family: inherit;
+  }
+  .act:hover { border-color: #3d5a80; color: #cbd5e1; }
+  .flipback { font-size: 11px; color: #5c6473; margin-top: 9px; }
+  .deepbtn {
+    margin-top: 9px; width: 100%; font-size: 11.5px; padding: 6px 9px; border-radius: 8px; cursor: pointer;
+    background: #132030; border: 1px solid #2b4a6b; color: #9fc6e8; font-family: inherit;
+  }
+  .deepbtn:hover { border-color: #85B7EB; color: #d3e8fb; background: #16283c; }
+  .foot { font-size: 12px; color: #5c6473; margin-top: 34px; text-align: center; }
+
+  /* 深挖弹层 */
+  .mask {
+    position: fixed; inset: 0; background: rgba(6,8,12,.74);
+    display: none; align-items: flex-start; justify-content: center; padding: 26px 16px; z-index: 99;
+    overflow: auto;
+  }
+  .mask.on { display: flex; }
+  .modal {
+    width: 100%; max-width: 780px; background: #12161f; border: 1px solid #2b3547;
+    border-radius: 16px; padding: 20px 24px 18px; position: relative;
+  }
+  .modal h3 { margin: 0 0 3px; font-size: 17px; font-weight: 500; color: #e6e9ef; }
+  .mtag { font-size: 11.5px; color: #6b7484; margin-bottom: 4px; }
+  .mwhy { font-size: 13px; color: #b6c0cf; margin: 10px 0 2px; }
+  .msec { font-size: 11px; color: #7c8698; margin: 18px 0 7px; letter-spacing: .5px; }
+  .msec.first { margin-top: 12px; }
+  /* 详细解读正文 */
+  .mbody { font-size: 13.5px; line-height: 1.85; color: #c3ccda; max-width: 660px; }
+  .mbody p { margin: 0 0 10px; }
+  .mbody p:last-child { margin-bottom: 0; }
+  .mbody b { color: #eaf0f8; font-weight: 500; }
+  .mbody code {
+    font-family: ui-monospace, Consolas, monospace; font-size: 12px;
+    background: #1a2130; border: 1px solid #29313f; color: #9FE1CB;
+    padding: 1px 5px; border-radius: 4px;
+  }
+  /* 别搞混 */
+  .mtrap { font-size: 12.5px; line-height: 1.7; color: #c9b18f; }
+  .mtrap .tr {
+    padding: 8px 11px 8px 10px; margin-bottom: 6px; border-radius: 8px;
+    background: #1c1810; border-left: 2px solid #7a5c2e;
+  }
+  .mtrap .tr b { color: #e8d3a8; font-weight: 500; }
+  .row {
+    display: flex; gap: 9px; align-items: flex-start; padding: 9px 11px; border-radius: 9px;
+    background: #171c27; border: 1px solid #212836; margin-bottom: 6px; text-decoration: none;
+  }
+  .row:hover { border-color: #3d5a80; background: #1a2130; }
+  .badge { font-size: 10px; padding: 2px 6px; border-radius: 5px; flex-shrink: 0; margin-top: 2px; }
+  .b-doc { background: #0C447C; color: #B5D4F4; }
+  .b-cn { background: #085041; color: #9FE1CB; }
+  .b-vid { background: #5a2a2a; color: #f0b7b7; }
+  .b-paper { background: #3f2f5c; color: #d3c2f0; }
+  .b-kw { background: #3a3420; color: #e8d99a; }
+  .rt { font-size: 12.5px; color: #dbe3ee; display: block; }
+  .rn { font-size: 11px; color: #7c8698; margin-top: 2px; display: block; }
+  .qbtn {
+    display: inline-block; text-decoration: none;
+    font-size: 11.5px; padding: 6px 11px; border-radius: 8px; cursor: pointer; font-family: inherit;
+    background: #171c27; border: 1px solid #2b3547; color: #a9bdd6; margin: 0 6px 6px 0;
+  }
+  .qbtn:hover { border-color: #5DCAA5; color: #9FE1CB; background: #15211e; }
+  .t1 {
+    font-size: 12.5px; color: #e4d9a8; background: #1d1b12;
+    border: 1px solid #3d3720; padding: 10px 12px; border-radius: 9px; margin-top: 4px;
+  }
+  .mfoot { display: flex; gap: 8px; margin-top: 20px; padding-top: 14px; border-top: 1px solid #212836; }
+  .mfoot button {
+    flex: 1; font-size: 12.5px; padding: 9px 0; border-radius: 9px; cursor: pointer; font-family: inherit;
+    background: #171c27; border: 1px solid #2b3547; color: #94a3b8;
+  }
+  .mfoot button:hover { border-color: #3d5a80; color: #e6e9ef; }
+  .mfoot button.pri { background: #0C447C; border-color: #85B7EB; color: #E6F1FB; }
+
+  .b-zh { background: #5c3a1e; color: #f0d0a8; }
+  .chip.lead { background: #16283c; border-color: #2b4a6b; color: #9fc6e8; }
+  .chip.lead:hover { border-color: #85B7EB; color: #d3e8fb; }
+  .hint .em { color: #9fc6e8; font-weight: 500; }
+
+  /* 六方向点位（卡片背面） */
+  .scwrap { margin-top: 10px; }
+  .scap { font-size: 11px; color: #5c6473; margin-bottom: 7px; }
+  .unib { color: #5DCAA5; }
+  .scline { display: flex; align-items: baseline; gap: 8px; font-size: 12px; line-height: 1.6; padding: 3px 0; }
+  .scline b { font-weight: 500; flex-shrink: 0; min-width: 52px; }
+  .scline i { font-style: normal; flex-shrink: 0; letter-spacing: 1.5px; font-size: 11px; }
+  .scline em { font-style: normal; color: #6b7484; }
+  .scline.hi em { color: #98a3b4; }
+
+  /* 方向速览入口 */
+  .scnav { margin: 2px 0 14px; font-size: 12px; }
+  .scnav span { color: #9fc6e8; cursor: pointer; border-bottom: 1px dashed #3d5a80; padding-bottom: 1px; }
+  .scnav span:hover { color: #d3e8fb; }
+
+  /* 方向速览弹层 */
+  .scblk { background: #141a24; border: 1px solid #232c3b; border-radius: 11px; padding: 13px 14px; margin: 10px 0; }
+  .scbh { font-size: 14.5px; display: flex; align-items: baseline; gap: 9px; }
+  .scbh em { font-style: normal; font-size: 11.5px; color: #6b7484; }
+  .scbd { font-size: 12.5px; color: #a8b2c1; line-height: 1.75; margin: 7px 0 8px; }
+  .scbr { font-size: 11.5px; color: #7c8698; }
+  .scbf { font-size: 11.5px; color: #7c8698; margin-top: 6px; line-height: 2; }
+  .scfk { color: #9fc6e8; cursor: pointer; border-bottom: 1px dotted #3d5a80; margin-right: 9px; }
+  .scfk:hover { color: #d3e8fb; }
+  .scgo { margin-top: 11px; font-size: 12px; padding: 7px 14px; border-radius: 8px; cursor: pointer; font-family: inherit;
+    background: #171c27; border: 1px solid #2b3547; color: #94a3b8; }
+  .scgo:hover { border-color: #3d5a80; color: #e6e9ef; }
+
+  /* 底部来源 */
+  .srcs { margin-top: 26px; border-top: 1px solid #212836; padding-top: 16px; }
+  .srcs h4 { font-size: 13.5px; font-weight: 500; color: #cbd5e1; margin: 0 0 5px; }
+  .srcs p { font-size: 11.5px; color: #6b7484; margin: 0 0 11px; line-height: 1.7; }
+  .src { display: block; font-size: 12.5px; color: #9fc6e8; text-decoration: none; padding: 8px 0; border-bottom: 1px solid #1a202b; }
+  .src:hover { color: #d3e8fb; }
+  .src em { font-style: normal; color: #6b7484; font-size: 11.5px; }
+
+  /* 我听到一句话 */
+  textarea#traceIn {
+    width: 100%; min-height: 76px; resize: vertical; font-family: inherit; font-size: 13px;
+    color: #e6e9ef; background: #0e1219; border: 1px solid #2b3547; border-radius: 10px;
+    padding: 10px 12px; outline: none; line-height: 1.65;
+  }
+  textarea#traceIn:focus { border-color: #3d5a80; }
+  .hit {
+    display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border-radius: 10px;
+    background: #141a24; border: 1px solid #2b4a6b; margin-bottom: 7px;
+  }
+  .hit .hn { font-size: 13.5px; color: #e6e9ef; }
+  .hit .hi { font-size: 11.5px; color: #7c8698; margin-top: 4px; line-height: 1.6; }
+  .hit .go {
+    flex-shrink: 0; font-size: 11px; padding: 5px 10px; border-radius: 7px; cursor: pointer;
+    background: #0C447C; border: 1px solid #85B7EB; color: #E6F1FB; font-family: inherit;
+  }
+  .chain { font-size: 12.5px; color: #e4d9a8; background: #1d1b12; border: 1px solid #3d3720;
+    padding: 10px 12px; border-radius: 9px; margin: 12px 0 4px; }
+  .weak { font-size: 12px; color: #7c8698; margin-top: 10px; line-height: 1.8; }
+  .weak b { color: #9fc6e8; font-weight: 500; cursor: pointer; }
+  .tracebar { display: flex; gap: 8px; margin-top: 12px; }
+  .tracebar button {
+    flex: 1; font-size: 12.5px; padding: 9px 0; border-radius: 9px; cursor: pointer; font-family: inherit;
+    background: #171c27; border: 1px solid #2b3547; color: #94a3b8;
+  }
+  .tracebar button.pri { background: #0C447C; border-color: #85B7EB; color: #E6F1FB; }
+  .tracebar button:hover { border-color: #3d5a80; color: #e6e9ef; }
+
+  /* 抽卡 */
+  .qbig { font-size: 27px; text-align: center; padding: 40px 0 34px; color: #e6e9ef; letter-spacing: 1px; line-height: 1.5; }
+  .qmeta { text-align: center; font-size: 12px; color: #6b7484; margin-bottom: 4px; }
+  .qans { font-size: 13px; color: #b6c0cf; }
+  .qans .m { margin-top: 9px; }
+</style>
+</head>
+<body>
+<h2 class="sr-only">102 张可翻转的工程名词卡片，按科研八环分类，每张卡片带解释、记忆口诀与关联名词</h2>
+<div class="wrap">
+  <h1>工程名词卡片墙</h1>
+  <p class="sub">点一下卡片翻面 · 102 个名词 · 按科研八环归位 · 每张卡连着同族、有详细解读、也知道该去哪学 · 每张卡都写清"它在哪几个方向里用得上、用在哪"</p>
+
+  <div class="bar" id="ringbar"></div>
+  <div class="bar" id="scenebar"></div>
+  <p class="scnav"><span id="scopen">📖 六个方向速览 —— 每个方向到底在干什么</span></p>
+  <div class="bar">
+    <button class="chip t on" id="lvcore">只看核心</button>
+    <button class="chip t" id="lvall">含进阶</button>
+    <input id="q" placeholder="搜名词 / 关键词：量化、显存、复现 ……">
+    <span class="prog">已记 <b id="dn">0</b> / <span id="tt">0</span></span>
+    <button class="chip" id="reset">重置进度</button>
+  </div>
+  <div class="bar">
+    <button class="chip lead" id="trace">🔎 我听到一句话 →</button>
+    <button class="chip lead" id="quiz">🎲 随机抽一张</button>
+    <span class="prog" id="histwrap"></span>
+  </div>
+  <p class="hint">三种用法：① 听到一个词 → 直接点卡片翻面；② 听到一整句话 → 点上面 <b class="em">「我听到一句话」</b>，它会把这句话拆成卡片并告诉你落在哪几环；③ 翻到背面后，<b class="em">"同族"</b>可以点着勾连，<b class="em">"再深一层"</b>会先给你一段<b class="em">详细解读</b>（它到底是什么、别搞混的地方），再给出具体该去哪里学。背面那几行就是<b class="em">"它在哪几个方向里用得上"</b>——每个方向都配了一句理由，不是拍脑袋打分。顶上的方向按钮可以按方向筛，点 <b class="em">「六个方向速览」</b> 能看到每个方向到底在干什么。</p>
+
+  <div class="wall" id="wall"></div>
+  <p class="foot">虚线边框的是进阶卡，第一遍可以先跳过 · 102 张卡每张都有：详细解读 + 别搞混 + 学习入口 + 搜索线索 + 第一次上手</p>
+
+  <div class="srcs" id="srcs"></div>
+</div>
+
+<div class="mask" id="mask"><div class="modal" id="modal"></div></div>
+
+<script>
+const RINGS = {
+  0: '底座 · 贯穿全程',
+  1: '第 1 环 选题与文献',
+  2: '第 2 环 环境与复现',
+  3: '第 3 环 代码与版本',
+  4: '第 4 环 数据与处理',
+  5: '第 5 环 实验与监控',
+  6: '第 6 环 写作与图表',
+  7: '第 7 环 协作与评审',
+  8: '第 8 环 复现 · 交付与归档'
+};
+
+const CARDS = [
+  { n: 'Linux / 命令行', r: 0, lv: 'core', d: '在服务器的黑框框里干活的方式——没有鼠标，全靠打字。', m: '服务器上唯一的操作方式', k: ['Shell / bash', 'SSH', 'tmux'] },
+  { n: 'Shell / bash', r: 0, lv: 'core', d: '在终端里跟操作系统说话的语言，一行行下命令。', m: '你跟系统说话的语言', k: ['Linux / 命令行', '环境变量 / PATH'] },
+  { n: 'SSH', r: 0, lv: 'core', d: '从你自己的电脑登录远端服务器，敲的每个字都发到对面执行。', m: '把终端接到远端机器上', k: ['Linux / 命令行', 'tmux', 'Slurm / sbatch'] },
+  { n: 'tmux', r: 0, lv: 'core', d: '服务器上的窗口会话，你关掉电脑它还在跑，回来再接上。', m: '断线了程序也继续跑', k: ['SSH', 'Slurm / sbatch'] },
+  { n: '环境变量 / PATH', r: 0, lv: 'core', d: '"明明装了却找不到命令"的答案——系统不认识它在哪。', m: '装了却找不到，多半是它', k: ['Shell / bash', '虚拟环境 venv / conda'] },
+  { n: 'sudo / 权限', r: 0, lv: 'adv', d: '"Permission denied" 的来源：你的账号没被允许动这个文件。', m: '拒绝访问的原因', k: ['Linux / 命令行'] },
+  { n: 'WSL', r: 0, lv: 'adv', d: '在 Windows 里装一个真正的 Linux 子系统，不用装双系统。', m: 'Windows 里塞一个 Linux', k: ['Linux / 命令行'] },
+  { n: '管道 / 重定向', r: 0, lv: 'core', d: '把上一条命令的输出直接喂给下一条（|），或者写进文件（>）——命令行能"串起来"就靠它。', m: '| 往下传，> 存文件', k: ['Linux / 命令行', 'Shell / bash', 'grep / 正则'] },
+  { n: 'grep / 正则', r: 0, lv: 'core', d: '在一大堆文件里搜内容；正则是一种描述"长什么样"的模糊匹配写法。', m: '满屋子找字符串，且能模糊找', k: ['Shell / bash', '管道 / 重定向', 'Linux / 命令行'] },
+  { n: 'curl / wget', r: 0, lv: 'core', d: '在终端里下载文件，或直接调一个接口看它返回什么——不开浏览器。', m: '命令行里发请求', k: ['Linux / 命令行', '部署 / API', 'JSON / YAML / TOML'] },
+  { n: 'rsync / scp', r: 0, lv: 'core', d: '在本地和服务器之间传文件；rsync 只传改过的部分，大目录快得多。', m: '两边搬文件', k: ['SSH', 'Linux / 命令行', 'Slurm / sbatch'] },
+  { n: 'top / nvidia-smi', r: 0, lv: 'core', d: '看现在 CPU、内存、GPU 被谁占着、占了多少——机器变慢的第一诊断。', m: '谁在吃我的资源', k: ['GPU', '显存 VRAM', 'Linux / 命令行'] },
+  { n: '进程 / 线程', r: 0, lv: 'core', d: '程序跑起来就是一个"进程"；线程是进程内部并行干活的几条线。', m: '进程 = 一个程序在跑，线程 = 它里面的几双手', k: ['Linux / 命令行', 'top / nvidia-smi'] },
+  { n: 'SDK / CLI / GUI', r: 0, lv: 'core', d: '三个天天见的缩写：SDK = 别人给你的开发工具包；CLI = 命令行界面；GUI = 图形界面。', m: '工具包 / 打字用 / 点着用', k: ['Linux / 命令行', '部署 / API', '交叉编译'] },
+  { n: 'tar / 压缩解压', r: 0, lv: 'adv', d: '把一堆文件打成一个包、顺手压一下，Linux 上分发东西的默认格式。', m: '打包再压一下', k: ['Linux / 命令行', 'rsync / scp'] },
+  { n: '交叉编译', r: 0, lv: 'adv', d: '在一台电脑上，编译出"给另一种芯片跑"的程序——嵌入式开发的日常。', m: '在这台机，编那块板的程序', k: ['环境变量 / PATH', 'make / Makefile', 'SDK / CLI / GUI'] },
+
+  { n: 'arXiv', r: 1, lv: 'core', d: '预印本论文库。AI 领域最新成果基本都先发这里，还没正式发表。', m: 'AI 论文的第一现场', k: ['Zotero', '综述 Survey'] },
+  { n: '综述 Survey', r: 1, lv: 'core', d: '把一个方向已有工作系统总结的论文，入门的标准起点。', m: '读综述等于抄近路', k: ['arXiv', 'Connected Papers'] },
+  { n: 'Zotero', r: 1, lv: 'core', d: '文献管理软件，一键抓取论文信息，写作时自动生成参考文献。', m: '文献收纳盒 + 自动引用', k: ['arXiv', '综述 Survey'] },
+  { n: 'Connected Papers', r: 1, lv: 'adv', d: '输入一篇论文，自动画出与它相关的论文关系图，用来找谱系。', m: '论文关系图谱', k: ['综述 Survey', '双链笔记'] },
+  { n: '双链笔记', r: 1, lv: 'adv', d: '笔记之间互相链接形成知识网，典型工具是 Obsidian。', m: '笔记连成网，不是堆', k: ['Connected Papers'] },
+  { n: '影响因子 / 分区', r: 1, lv: 'core', d: '期刊会议的"段位表"：影响因子、中科院分区、CCF 推荐列表——老师说的"一区""顶会"就是它。', m: '论文世界的段位表', k: ['会议 vs 期刊', '投稿流程', '综述 Survey'] },
+  { n: '会议 vs 期刊', r: 1, lv: 'core', d: '论文发在哪：计算机领域最认会议（CVPR、NeurIPS 这类），多数其他学科最认期刊。', m: '计算机看会议，别的看期刊', k: ['影响因子 / 分区', '投稿流程', 'arXiv'] },
+  { n: '投稿流程', r: 1, lv: 'core', d: '投稿 → 审稿人打分 → 大修 / 小修 / 拒 → rebuttal 回辩 → 接收，或转投别家。', m: '投 — 审 — 改 — 辩 — 收', k: ['会议 vs 期刊', '影响因子 / 分区', '复现'] },
+  { n: 'BibTeX / 引用格式', r: 1, lv: 'core', d: '论文里引用别人工作的标准写法；BibTeX 是它的机器可读版本，Zotero 能自动生成。', m: '引用不是手打的', k: ['Zotero', 'LaTeX', 'Overleaf'] },
+  { n: '大创 / 国创', r: 1, lv: 'core', d: '大学生创新创业训练计划——本科生进实验室、拿项目、攒科研经历最常规的入口。', m: '本科生进组的常规门票', k: ['组会 / 周报', '综述 Survey', 'README'] },
+  { n: '组会 / 周报', r: 1, lv: 'core', d: '实验室每周汇报进度的场合——也是"异步沟通"在科研里的具体样子。', m: '每周把进度摆到桌面上', k: ['异步沟通', '实验记录', '文档 / Wiki'] },
+
+  { n: 'Docker', r: 2, lv: 'core', d: '把代码、库、系统依赖整个打包成一个镜像，换台机器照样跑。', m: '一次打包，处处运行', k: ['镜像 / 容器', 'Dockerfile', '依赖地狱'] },
+  { n: '镜像 / 容器', r: 2, lv: 'core', d: '镜像是打包好的光盘，容器是这张光盘跑起来之后的实例。', m: '光盘 vs 正在播的片子', k: ['Docker', '虚拟机 vs 容器'] },
+  { n: 'Dockerfile', r: 2, lv: 'core', d: '一份写清楚"这个环境怎么装出来"的配方文件。', m: '打包的配方', k: ['Docker', '镜像 / 容器'] },
+  { n: '虚拟环境 venv / conda', r: 2, lv: 'core', d: '给每个项目一个独立的包目录，装 A 项目的库不会搞崩 B 项目。', m: '项目各用各的包', k: ['requirements.txt', '依赖地狱'] },
+  { n: 'requirements.txt', r: 2, lv: 'core', d: '记录这个项目用了哪些库、什么版本，别人照着重装就能跑。', m: '依赖清单', k: ['虚拟环境 venv / conda', 'pip / PyPI'] },
+  { n: '依赖地狱', r: 2, lv: 'core', d: 'A 要 1.0 版、B 要 2.0 版，装哪个都崩——环境问题的总称。', m: '版本互相打架', k: ['Docker', '虚拟环境 venv / conda'] },
+  { n: 'CUDA 版本', r: 2, lv: 'core', d: 'GPU 跑深度学习要用的软件层，它、显卡驱动、框架三者版本必须对上。', m: '错一个版本就全崩', k: ['GPU', 'Docker'] },
+  { n: '虚拟机 vs 容器', r: 2, lv: 'adv', d: '虚拟机模拟一整台电脑（重慢），容器只隔离进程（轻快）、共用主机内核。', m: '整台机 vs 一层壳', k: ['Docker', '镜像 / 容器'] },
+
+  { n: 'Git', r: 3, lv: 'core', d: '给代码存档、随时读回来，还能开岔路、和别人合并改动。', m: '代码的存档 / 读档', k: ['commit', 'branch', 'GitHub'] },
+  { n: 'commit', r: 3, lv: 'core', d: '存一档。每做出一个能跑的状态就存一次，附一句说明。', m: '存一档', k: ['Git', 'branch', '.gitignore'] },
+  { n: 'branch', r: 3, lv: 'core', d: '从主线开一条岔路做实验，做坏了也不影响主线。', m: '开岔路做实验', k: ['commit', 'merge', 'PR (Pull Request)'] },
+  { n: 'merge', r: 3, lv: 'core', d: '把岔路上的改动合回主线。', m: '合回来', k: ['branch', 'conflict'] },
+  { n: 'conflict', r: 3, lv: 'core', d: '两个人改了同一处，Git 不知道听谁的，要你手动选。', m: '合并撞车', k: ['merge', 'code review'] },
+  { n: 'clone / pull / push', r: 3, lv: 'core', d: 'clone 抄到本地、pull 拉最新的、push 把本地改动送上去。', m: '三个动作和远端同步', k: ['Git', 'GitHub'] },
+  { n: 'GitHub', r: 3, lv: 'core', d: '放 Git 仓库的云端平台，也是协作、开源和你的代码作品集。', m: '代码的云端 + 名片', k: ['Git', 'PR (Pull Request)', 'GitHub Actions'] },
+  { n: 'PR (Pull Request)', r: 3, lv: 'core', d: '请求把你的分支改动合进主分支，同时公开给别人审查。', m: '申请合入，等人审', k: ['code review', 'branch'] },
+  { n: 'issue', r: 3, lv: 'core', d: '仓库里的问题 / 待办记录，谁都能提，谁都能认领。', m: '公开的问题清单', k: ['PR (Pull Request)', 'GitHub'] },
+  { n: 'code review', r: 3, lv: 'core', d: '别人读你的改动并给意见——这是"工程"和"自己玩"的分界线。', m: '别人的眼睛进你代码', k: ['PR (Pull Request)', 'README'] },
+  { n: '.gitignore', r: 3, lv: 'core', d: '告诉 Git 哪些文件别管：临时文件、大文件，还有密钥。', m: '别把垃圾和密钥提交', k: ['Git', 'commit'] },
+  { n: 'CI/CD', r: 3, lv: 'core', d: '你一推代码，服务器自动帮你跑测试、打包、部署。', m: '推上去就自动跑', k: ['GitHub Actions', 'code review'] },
+  { n: 'GitHub Actions', r: 3, lv: 'adv', d: 'GitHub 上的 CI 工具，仓库页面那个绿勾红叉就是它给的。', m: '那个绿勾红叉', k: ['CI/CD', 'GitHub'] },
+  { n: '调试器 / 断点', r: 3, lv: 'core', d: '让程序停在你指定的那一行，把当时的变量掏出来看——比到处 print 高级得多的排错方式。', m: '让程序停下来给你看内脏', k: ['编译 vs 解释', 'make / Makefile', '日志 logging'] },
+  { n: 'make / Makefile', r: 3, lv: 'core', d: '一条命令按依赖关系自动编译整个项目——C 项目的老规矩，"make 一下"就是这个。', m: '一条命令编完整个项目', k: ['编译 vs 解释', 'Git', '交叉编译'] },
+  { n: '编译 vs 解释', r: 3, lv: 'core', d: 'C 是编译型：先整体翻译成机器码再跑；Python 是解释型：边读边跑。这决定了报错的时机。', m: '先翻译完 vs 边说边做', k: ['make / Makefile', '调试器 / 断点', 'Python'] },
+  { n: 'Markdown', r: 3, lv: 'core', d: '用几个符号就能排版的纯文本格式——README、笔记、文档基本都用它。', m: '用符号排版，不靠鼠标', k: ['README', '文档 / Wiki', 'GitHub'] },
+  { n: 'JSON / YAML / TOML', r: 3, lv: 'core', d: '给机器读的"结构化文本"：配置文件、接口返回、实验参数基本都是它们。', m: '机器读的配置语言', k: ['部署 / API', '虚拟环境 venv / conda', 'Git'] },
+  { n: 'Jupyter Notebook', r: 3, lv: 'core', d: '一格一格跑代码、代码和结果（图）留在同一页的交互式笔记本，数据分析最常用。', m: '代码和结果住在一起', k: ['Python', 'matplotlib', 'pandas'] },
+  { n: '开源许可证 License', r: 3, lv: 'core', d: '用别人的代码之前先看它允许你干什么——MIT 最宽松，GPL 有传染性，商用尤其要小心。', m: '用之前先看它允许你干什么', k: ['GitHub', 'README', '复现'] },
+  { n: '单元测试', r: 3, lv: 'adv', d: '写一小段程序专门验证你的函数没写错；改完一键跑一遍，改崩了立刻告诉你。', m: '给自己写的自动验算', k: ['CI/CD', '调试器 / 断点', 'GitHub Actions'] },
+  { n: '技术债', r: 3, lv: 'adv', d: '为了方便先凑合的那部分代码，迟早要连本带利还回去——工程里最常被提起的隐喻。', m: '先凑合的账，迟早要还', k: ['code review', '文档 / Wiki', '实验记录'] },
+
+  { n: 'Python', r: 4, lv: 'core', d: '科研和 AI 的通用语言，语法简单、库特别多。', m: '科研的通用语言', k: ['pip / PyPI', 'numpy', 'pandas'] },
+  { n: 'pip / PyPI', r: 4, lv: 'core', d: 'pip 是装库的命令，PyPI 是这些库的官方仓库。', m: '装库的标准动作', k: ['Python', 'requirements.txt'] },
+  { n: 'numpy', r: 4, lv: 'core', d: '把数据当数组一次性算完，比 Python 循环快几十倍。', m: '数组运算的底座', k: ['Python', 'pandas'] },
+  { n: 'pandas', r: 4, lv: 'core', d: '处理表格数据（读 CSV、筛选、分组、统计）的标准工具。', m: 'Python 里的 Excel', k: ['numpy', 'Polars', 'SQL'] },
+  { n: 'SQL', r: 4, lv: 'core', d: '对数据库提问的语言，做数据几乎躲不开。', m: '跟数据库提问', k: ['pandas', '数据泄露'] },
+  { n: 'R 语言', r: 4, lv: 'core', d: '和 Python 同类的语言，统计和生信圈常用——只是第 4 环里的一个选项。', m: '统计圈的 Python', k: ['Python', 'matplotlib'] },
+  { n: 'matplotlib', r: 4, lv: 'core', d: 'Python 最常用的画图库，论文里的曲线图基本出自它。', m: '画论文配图', k: ['Python', '矢量图 vs 位图', 'TikZ'] },
+  { n: 'Polars', r: 4, lv: 'adv', d: '更快的 DataFrame 库，数据大到 pandas 扛不住时换它。', m: 'pandas 的加速版', k: ['pandas'] },
+
+  { n: 'GPU', r: 5, lv: 'core', d: '显卡，擅长同时做海量简单运算，深度学习全靠它。', m: '并行算力的来源', k: ['显存 VRAM', 'CUDA 版本', '多卡 / 分布式训练'] },
+  { n: '显存 VRAM', r: 5, lv: 'core', d: '显卡自带的内存，比主机内存小很多，模型一加载就吃掉好几个 G。', m: '显卡的内存', k: ['GPU', 'OOM (爆显存)', '模型量化'] },
+  { n: 'OOM (爆显存)', r: 5, lv: 'core', d: 'Out Of Memory：内存或显存不够了，跑不动时第一个怀疑对象。', m: '爆内存了', k: ['显存 VRAM', '模型量化'] },
+  { n: 'Slurm / sbatch', r: 5, lv: 'core', d: '学校超算的排队系统：提交作业后排队，轮到你才在计算节点上跑。', m: '集群排队交作业', k: ['tmux', '多卡 / 分布式训练'] },
+  { n: 'WandB / TensorBoard', r: 5, lv: 'core', d: '把训练过程画成曲线实时看，不用盯着终端猜。', m: '训练过程的仪表盘', k: ['超参数', 'baseline', '实验记录'] },
+  { n: '超参数', r: 5, lv: 'core', d: '训练前要你定的参数（学习率、批大小等），模型自己学不出来。', m: '你得手调的旋钮', k: ['WandB / TensorBoard', 'baseline'] },
+  { n: 'baseline', r: 5, lv: 'core', d: '对比的基准。没有 baseline，"我的方法变好了"就无从谈起。', m: '比较的参照物', k: ['benchmark', '消融实验'] },
+  { n: 'benchmark', r: 5, lv: 'core', d: '用统一的测试集和指标比较不同方法的性能。', m: '统一标准的比武场', k: ['baseline', '数据泄露'] },
+  { n: '多卡 / 分布式训练', r: 5, lv: 'adv', d: '一张卡装不下或太慢，就把模型和数据拆到多张卡上一起算。', m: '堆卡', k: ['GPU', 'Slurm / sbatch'] },
+  { n: '消融实验', r: 5, lv: 'adv', d: '把你的方法拆开，一次去掉一个部分，看谁在真正起作用。', m: '拆开看哪块有用', k: ['baseline', 'benchmark'] },
+  { n: 'epoch / batch / iteration', r: 5, lv: 'core', d: '训练时：把全部数据过一遍 = 1 个 epoch；一次喂几条 = batch size；更新一次参数 = 1 个 iteration。', m: '一口 = batch，一轮 = epoch', k: ['超参数', 'benchmark', '过拟合 / 欠拟合'] },
+  { n: '过拟合 / 欠拟合', r: 5, lv: 'core', d: '训练集上特别好、一换新数据就拉胯 = 过拟合；两边都差 = 欠拟合。', m: '背答案 vs 没学会', k: ['训练 vs 推理', '数据泄露', '超参数'] },
+  { n: '微调 fine-tune', r: 5, lv: 'core', d: '拿别人预训练好的大模型，用自己的小数据再训一会儿，让它适应你的任务。', m: '站在别人肩膀上改一改', k: ['训练 vs 推理', '模型量化', 'checkpoint / 权重'] },
+  { n: 'checkpoint / 权重', r: 5, lv: 'core', d: '训练中途存下来的模型快照，断电了能从它继续；也指模型里那堆学出来的数字。', m: '模型的存档点', k: ['Git', '实验记录', '微调 fine-tune'] },
+  { n: 'token / 词元', r: 5, lv: 'core', d: '模型眼里的最小文字单位——不是字、也不是词。API 按它计费，上下文长度也按它算。', m: '模型的最小口粮，按它计费', k: ['训练 vs 推理', '微调 fine-tune', '部署 / API'] },
+  { n: 'LoRA', r: 5, lv: 'adv', d: '微调大模型的一种省法：不动原来的权重，只额外训一小块——显存需求掉一个量级。', m: '只训一小块补丁', k: ['微调 fine-tune', '模型量化', '显存 VRAM'] },
+  { n: 'vLLM / 推理加速', r: 5, lv: 'adv', d: '让大模型"回答更快、同时服务更多人"的推理框架，部署时的性能关键。', m: '让模型答得更快', k: ['训练 vs 推理', '部署 / API', 'GPU'] },
+
+  { n: 'LaTeX', r: 6, lv: 'core', d: '用代码排版论文，公式和交叉引用是它的主场。', m: '论文排版的行业标准', k: ['Overleaf', 'TikZ', '矢量图 vs 位图'] },
+  { n: 'Overleaf', r: 6, lv: 'core', d: '在线 LaTeX，不用本地装环境，多人能同时编辑。', m: '在线写 LaTeX', k: ['LaTeX'] },
+  { n: '矢量图 vs 位图', r: 6, lv: 'core', d: '矢量图放大不糊、位图放大就糊；论文配图优先用矢量图。', m: '论文图别用位图', k: ['TikZ', 'matplotlib'] },
+  { n: 'TikZ', r: 6, lv: 'adv', d: '用代码画矢量图，论文里的流程示意图常用它。', m: '用代码画示意图', k: ['LaTeX', '矢量图 vs 位图'] },
+
+  { n: 'README', r: 7, lv: 'core', d: '项目的说明书：这是什么、怎么装、怎么跑。', m: '别人进来的第一页', k: ['复现', 'code review', '部署 / API'] },
+  { n: '异步沟通', r: 7, lv: 'core', d: '不要求即时回，靠文档和评论推进——科研协作的默认节奏。', m: '不即时回事的协作', k: ['README', 'code review'] },
+  { n: '文档 / Wiki', r: 7, lv: 'adv', d: '把项目知识沉淀成可查的页面，而不是散在聊天记录里。', m: '知识沉淀的地方', k: ['README', '异步沟通'] },
+
+  { n: '复现', r: 8, lv: 'core', d: '别人拿你的代码和数据，能跑出和你一样的结果——科研的硬要求。', m: '科研的硬要求', k: ['随机种子 seed', 'README', '实验记录'] },
+  { n: '随机种子 seed', r: 8, lv: 'core', d: '固定它，每次跑结果才一样；不固定就等于结果不可复现。', m: '不固定种子 = 白跑', k: ['复现', '实验记录'] },
+  { n: '实验记录', r: 8, lv: 'core', d: '每次改动 + 每次结果都留档，不然一周后你自己都不知道哪版更好。', m: '改了什么都要记', k: ['复现', 'WandB / TensorBoard'] },
+  { n: '训练 vs 推理', r: 8, lv: 'core', d: '训练是学参数（慢、吃显存）；推理是用模型出结果（快、要省资源）。', m: '学 vs 用', k: ['模型量化', '部署 / API'] },
+  { n: '模型量化', r: 8, lv: 'core', d: '把模型权重从高精度压成低精度，显存省一半以上、跑得更快，精度掉一点点。', m: '精度换显存', k: ['剪枝 / 蒸馏', '显存 VRAM', '部署 / API'] },
+  { n: '部署 / API', r: 8, lv: 'core', d: '把跑通的模型包成一个服务，别人发请求就能用，而不是你本地跑脚本。', m: '从脚本到服务', k: ['训练 vs 推理', 'Docker', 'README'] },
+  { n: '剪枝 / 蒸馏', r: 8, lv: 'adv', d: '剪枝删掉不重要的连接；蒸馏让大模型教一个小模型。都是压缩手段。', m: '压缩模型的一家人', k: ['模型量化', 'ONNX'] },
+  { n: 'ONNX', r: 8, lv: 'adv', d: '通用的模型文件格式，方便在不同框架、不同硬件之间搬。', m: '模型的通用格式', k: ['剪枝 / 蒸馏', '部署 / API'] },
+  { n: '数据泄露', r: 8, lv: 'adv', d: '训练数据里混进了测试数据，指标虚高——新手最常踩的坑。', m: '指标好得不正常', k: ['复现', 'benchmark'] },
+  { n: '日志 logging', r: 8, lv: 'core', d: '让程序自己把"什么时候干了什么、出了什么错"写进文件——出事时它是唯一的证词。', m: '出事了唯一的证词', k: ['实验记录', '调试器 / 断点', '复现'] },
+  { n: '异常处理', r: 8, lv: 'core', d: '程序出错时不直接崩，而是"接住"这个错误再决定怎么办——Python 里的 try / except。', m: '接住错误，别让它炸全场', k: ['日志 logging', '调试器 / 断点', 'Python'] },
+  { n: '.env / 密钥管理', r: 8, lv: 'core', d: 'API key、密码这类不能写进代码里的东西，单独放文件，并且永远不提交到 Git。', m: '密钥不进代码库', k: ['.gitignore', '部署 / API', '开源许可证 License'] },
+  { n: '容器编排 / k8s', r: 8, lv: 'adv', d: '一台机器上跑几十个容器时，用来自动分配、重启、扩缩容的那一层——Docker 的上一层。', m: '管一堆容器的调度员', k: ['Docker', '镜像 / 容器', 'Slurm / sbatch'] }
+];
+
+/* ============================================================
+   深挖数据：每张卡的"再深一层"路线
+   s: [类型, 名称, 链接, 一句话说明]
+     类型 doc=官方/权威  cn=中文教程  vid=视频/交互  paper=论文/书
+   q: 搜索词（会在弹层里生成知乎 / B站 / Google 一键搜索）
+   t1: 第一次上手该做的那个动作
+   ============================================================ */
+const DEEP = {
+  'Linux / 命令行': {
+    why: '这是所有其他卡片的公共底座。不进服务器、不跑超算，你就永远停在"本机玩家"。',
+    t1: '今晚只做一件事：在终端里把 cd / ls / cat / grep / find 各用一次，把当前目录走一遍。',
+    s: [
+      ['doc', 'MIT · The Missing Semester', 'https://missing.csail.mit.edu/', '计算机教育里被漏掉的那一课，讲 shell 与工具'],
+      ['cn', '中文版 The Missing Semester', 'https://missing-semester-cn.github.io/', '同一个课的官方中文翻译，看这个就行'],
+      ['cn', 'CS DIY · 计算机自学指南', 'https://csdiy.wiki/', '国内外课程与工具链的自学地图，非常全'],
+      ['vid', 'B 站 · Linux 命令行入门', 'https://search.bilibili.com/all?keyword=Linux%20%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%85%A5%E9%97%A8', '要视频版就看这个搜索页']
+    ],
+    q: ['Linux 命令行 入门 常用命令', 'Linux 命令 速查表 中文']
+  },
+  'Shell / bash': {
+    why: '你写 C 语言迟早要写编译脚本；实验跑一批参数，也是一行 shell 的事。',
+    t1: '写一个 3 行的 .sh：打印日期 → 编译你的 C 程序 → 运行它，然后用 bash 跑起来。',
+    s: [
+      ['doc', 'Bash 官方手册（GNU）', 'https://www.gnu.org/software/bash/manual/', '权威但枯燥，当字典查'],
+      ['cn', '阮一峰 · Bash 脚本教程', 'https://wangdoc.com/bash/', '中文，章节短，最适合入门'],
+      ['vid', 'explainshell', 'https://explainshell.com/', '贴一行命令进去，它逐段给你解释'],
+      ['cn', 'ShellCheck 在线检查', 'https://www.shellcheck.net/', '把你写的脚本贴进去，找出坑']
+    ],
+    q: ['bash 脚本 入门 教程', 'shell 脚本 常用语法']
+  },
+  'SSH': {
+    why: '进实验室、用超算、连云主机，第一步永远是这条命令。不会 SSH 等于进不了门。',
+    t1: '生成一对密钥（ssh-keygen），把公钥贴到 GitHub 的 SSH keys 里，然后 ssh -T git@github.com 试一下。',
+    s: [
+      ['cn', '菜鸟教程 · Linux 远程登录', 'https://www.runoob.com/linux/linux-remote-login.html', '中文最短路径'],
+      ['doc', 'SSH 官方使用指南', 'https://www.ssh.com/academy/ssh', '原理与用法都有'],
+      ['doc', 'GitHub · 配置 SSH 密钥', 'https://docs.github.com/zh/authentication/connecting-to-github-with-ssh', '跟着做一遍就会了']
+    ],
+    q: ['SSH 免密登录 配置 教程', 'ssh config 配置文件 多个服务器']
+  },
+  'tmux': {
+    why: '你现在所有的"跑训练"，将来都在远端机器上。一断线就前功尽弃，这是防止它发生的工具。',
+    t1: 'ssh 到任意机器，敲 tmux，跑一个 sleep 600，然后断开重连，看它还在不在。',
+    s: [
+      ['doc', 'tmux 官方 Wiki', 'https://github.com/tmux/tmux/wiki', '官方文档，Getting Started 那页够用'],
+      ['doc', 'tmux 速查表', 'https://tmuxcheatsheet.com/', '按键记不住就挂这个页面'],
+      ['cn', '阮一峰 · tmux 使用教程', 'https://www.ruanyifeng.com/blog/2019/10/tmux.html', '中文，十分钟读完']
+    ],
+    q: ['tmux 教程 快捷键', 'tmux 断线 保持程序运行']
+  },
+  '环境变量 / PATH': {
+    why: '"明明装好了却 command not found" 是新手第一个高频崩溃点，理解了 PATH 就再也不慌。',
+    t1: '敲 echo $PATH 看清楚它由冒号分成几段，再敲 which python 找出当前用的是哪一个 python。',
+    s: [
+      ['cn', '菜鸟教程 · Linux 环境变量', 'https://www.runoob.com/linux/linux-system-contents.html', '基础概念一步到位'],
+      ['cn', '阮一峰 · 环境变量与命令行配置', 'https://wangdoc.com/bash/variable', 'PATH 和配置文件讲得清楚'],
+      ['doc', 'Ubuntu 官方 · 环境变量说明', 'https://help.ubuntu.com/community/EnvironmentVariables', '讲 .bashrc / .profile 的区别']
+    ],
+    q: ['Linux PATH 环境变量 详解', 'command not found 解决']
+  },
+  'sudo / 权限': {
+    why: '服务器上绝大多数操作失败都是权限问题。看懂 rwx 和 chmod 就少一半火气。',
+    t1: '建一个文件，chmod 000 它，试着读一下——看到 Permission denied 就懂了。',
+    s: [
+      ['cn', '菜鸟教程 · Linux 文件权限', 'https://www.runoob.com/linux/linux-file-attr-permission.html', 'rwx 与 chmod 讲得最直白'],
+      ['doc', 'chmod 手册页', 'https://man7.org/linux/man-pages/man1/chmod.1.html', '当字典用'],
+      ['doc', 'sudo 官方说明', 'https://www.sudo.ws/docs/', '为什么要有 sudo，不只是"加个前缀"']
+    ],
+    q: ['Linux 文件权限 rwx chmod 详解', 'sudo 原理 sudoers']
+  },
+  'WSL': {
+    why: '你想练命令行又不想装双系统，这是 Windows 用户性价比最高的入口。',
+    t1: '在 PowerShell 里跑 wsl --install，重启后你就有了一台 Ubuntu。',
+    s: [
+      ['doc', '微软官方 · WSL 文档', 'https://learn.microsoft.com/zh-cn/windows/wsl/', '官方中文，install 那页跟着做'],
+      ['doc', 'WSL 与 VS Code 联用', 'https://learn.microsoft.com/zh-cn/windows/wsl/tutorials/wsl-vscode', '装完 WSL 的下一步'],
+      ['vid', 'B 站 · WSL2 安装教程', 'https://search.bilibili.com/all?keyword=WSL2%20%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B', '卡住时看视频最快']
+    ],
+    q: ['WSL2 安装 教程 Windows', 'WSL2 和虚拟机 区别']
+  },
+  'arXiv': {
+    why: '所有 AI 新工作都先出现在这里。搜索方式和读法是有套路的，值得花半小时专门学。',
+    t1: '打开 arxiv.org，搜一个你眼熟的词（比如 CNN），按时间排序看最新几篇的标题和摘要。',
+    s: [
+      ['doc', 'arXiv 官网', 'https://arxiv.org/', '本体，先注册一个账号'],
+      ['cn', '知乎 · 如何高效检索 arXiv', 'https://www.zhihu.com/search?type=content&q=arXiv%20%E9%AB%98%E6%95%88%E6%A3%80%E7%B4%A2', '站内相关回答聚合'],
+      ['doc', 'alphaXiv', 'https://www.alphaxiv.org/', '同一篇论文，带讨论区，能看到别人怎么喷'],
+      ['doc', 'arXiv Sanity Lite', 'https://arxiv-sanity-lite.com/', '按兴趣做论文推荐，筛掉噪音']
+    ],
+    q: ['arXiv 检索 技巧 高级搜索', 'arXiv 论文 怎么读 入门']
+  },
+  '综述 Survey': {
+    why: '一个方向的正确入口是综述，不是从最新论文硬啃。学会"找综述"比读得快更值钱。',
+    t1: '在 Google Scholar 搜「你的方向 + survey」，限定近三年，挑一篇高被引的读引言和图表。',
+    s: [
+      ['doc', 'Annual Reviews', 'https://www.annualreviews.org/', '专门发综述的期刊，质量高'],
+      ['doc', 'Google Scholar', 'https://scholar.google.com/', '搜 survey / review + 年份过滤'],
+      ['paper', '知乎 · 综述怎么写 / 怎么读', 'https://www.zhihu.com/search?type=content&q=%E7%BB%BC%E8%BF%B0%20%E6%80%8E%E4%B9%88%E8%AF%BB', '读综述的方法论讨论'],
+      ['doc', 'Papers with Code · 各方向榜单', 'https://paperswithcode.com/sota', '看某个任务的进展脉络']
+    ],
+    q: ['如何读综述 论文 入门', 'survey review 论文 怎么找']
+  },
+  'Zotero': {
+    why: '论文一多就乱。文献管理是越早装越省事的那类工具。',
+    t1: '装 Zotero + 浏览器插件，把今天随手点开的一篇论文一键抓进库里。',
+    s: [
+      ['doc', 'Zotero 官网', 'https://www.zotero.org/', '本体下载'],
+      ['cn', 'Zotero 中文社区', 'https://zotero-chinese.com/', '插件、教程、翻译全在这，中文用户必看'],
+      ['vid', 'B 站 · Zotero 使用教程', 'https://search.bilibili.com/all?keyword=Zotero%20%E6%95%99%E7%A8%8B', '跟着配一遍插件就够了']
+    ],
+    q: ['Zotero 使用教程 插件配置', 'Zotero 和 EndNote 区别']
+  },
+  'Connected Papers': {
+    why: '想弄清一个方向"谁影响了谁"，靠一篇篇读要花几周；图一画出来五分钟就明白。',
+    t1: '拿一篇你听说过的论文，丢进 Connected Papers，看它把哪些论文连在一起。',
+    s: [
+      ['doc', 'Connected Papers', 'https://www.connectedpapers.com/', '本体，免费额度够用'],
+      ['doc', 'Semantic Scholar', 'https://www.semanticscholar.org/', '另一个强大的学术搜索，还带引用上下文'],
+      ['doc', 'OpenAlex', 'https://openalex.org/', '开放的学术图谱数据服务'],
+      ['vid', 'B 站 · 文献图谱工具', 'https://search.bilibili.com/all?keyword=%E6%96%87%E7%8C%AE%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7', '同类工具横向对比']
+    ],
+    q: ['Connected Papers 怎么用', '文献调研 工具 学术图谱']
+  },
+  '双链笔记': {
+    why: '你需要的不是"记更多"，而是"记得住、找得到、连得上"。这是笔记的方法论层。',
+    t1: '装 Obsidian，建一个库，把今天这 102 张卡片里最戳你的三个词各建一条笔记，用 [[ ]] 互相连起来。',
+    s: [
+      ['doc', 'Obsidian 官网', 'https://obsidian.md/', '本地 Markdown，双击就能开始'],
+      ['cn', 'Obsidian 中文帮助', 'https://publish.obsidian.md/help-zh/', '官方帮助的中文版'],
+      ['paper', 'PARA 方法', 'https://fortelabs.com/blog/para/', '一套流行的笔记组织法，值得知道名字'],
+      ['vid', 'B 站 · Obsidian 双链笔记入门', 'https://search.bilibili.com/all?keyword=Obsidian%20%E5%8F%8C%E9%93%BE%E7%AC%94%E8%AE%B0', '上手视频']
+    ],
+    q: ['双链笔记 Zettelkasten 方法', 'Obsidian 入门 教程']
+  },
+  'Docker': {
+    why: '这一环最该先动手的一个。复现别人代码、交给别人你的代码，全靠它。',
+    t1: '装好 Docker Desktop，跑 docker run hello-world，看到那行提示就算通关第一关。',
+    s: [
+      ['doc', 'Docker 官方 Get Started', 'https://docs.docker.com/get-started/', '官方入门教程，跟着走一遍约 1 小时'],
+      ['cn', '《Docker —— 从入门到实践》', 'https://yeasy.gitbook.io/docker_practice', '中文开源书，口碑最好的中文材料'],
+      ['vid', 'Play with Docker（在线实验场）', 'https://labs.play-with-docker.com/', '不装东西也能在浏览器里玩，限时免费'],
+      ['vid', 'B 站 · Docker 入门', 'https://search.bilibili.com/all?keyword=Docker%20%E5%85%A5%E9%97%A8', '视频版']
+    ],
+    q: ['Docker 入门 教程 中文', 'Docker 复现论文代码 实践']
+  },
+  '镜像 / 容器': {
+    why: '搞不清"镜像和容器的区别"，后面所有 Docker 操作都是背命令。这两个词是概念地基。',
+    t1: '跑 docker images 看本地镜像列表，再跑 docker ps -a 看容器列表——一个"像"，一个"活"。',
+    s: [
+      ['doc', 'Docker 官方 · 什么是容器', 'https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-a-container/', '官方概念页，图很清楚'],
+      ['doc', 'Docker 官方 · 什么是镜像', 'https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-an-image/', '配上面那篇一起看'],
+      ['cn', '《Docker —— 从入门到实践》核心概念', 'https://yeasy.gitbook.io/docker_practice/basic_concept', '中文解释']
+    ],
+    q: ['Docker 镜像 容器 区别', 'docker images ps 命令 详解']
+  },
+  'Dockerfile': {
+    why: '镜像不是手搓出来的，是用一份配方"烤"出来的。会写 Dockerfile 才算会用 Docker。',
+    t1: '给你的一个 Python 小脚本写一份 5 行的 Dockerfile，docker build 一次。',
+    s: [
+      ['doc', 'Dockerfile 官方参考', 'https://docs.docker.com/reference/dockerfile/', '每个指令的官方定义'],
+      ['doc', '官方 · 构建最佳实践', 'https://docs.docker.com/build/building/best-practices/', '镜像怎么才小、才快，都在这'],
+      ['doc', 'docker init 一键生成', 'https://docs.docker.com/reference/cli/docker/init/', '官方脚手架，先看它生成什么']
+    ],
+    q: ['Dockerfile 编写 最佳实践', 'Dockerfile 多阶段构建']
+  },
+  '虚拟环境 venv / conda': {
+    why: '你现在装库大概是全局 pip，这就是未来所有"环境被我搞坏了"的病根。半小时能改掉。',
+    t1: '在一个空文件夹里跑 python -m venv .venv，激活它，装个 numpy，然后关掉终端重开看它还在不在。',
+    s: [
+      ['doc', 'Python 官方 · venv 中文文档', 'https://docs.python.org/zh-cn/3/library/venv.html', '官方中文，最标准'],
+      ['cn', '廖雪峰 · Python 虚拟环境', 'https://liaoxuefeng.com/books/python/', '中文入门，讲 venv 与 pip'],
+      ['doc', 'Conda 官方入门', 'https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html', '要装 CUDA 生态时更常用 conda'],
+      ['doc', 'uv（现代替代品）', 'https://docs.astral.sh/uv/', '极快的包管理器，值得知道名字']
+    ],
+    q: ['Python 虚拟环境 venv 教程', 'conda 和 venv 区别']
+  },
+  'requirements.txt': {
+    why: '这是你交给别人代码时的"零件清单"。没有它，你的项目对别人来说就是一堆碎片。',
+    t1: '在你的项目里跑 pip freeze > requirements.txt，再打开文件看它长什么样。',
+    s: [
+      ['doc', 'pip 官方 · 依赖文件格式', 'https://pip.pypa.io/en/stable/reference/requirements-file-format/', '官方格式说明'],
+      ['doc', 'pip-tools', 'https://pip-tools.readthedocs.io/', '真正的工程做法：锁定版本'],
+      ['cn', '知乎 · requirements.txt 怎么写', 'https://www.zhihu.com/search?type=content&q=requirements.txt', '实操讨论']
+    ],
+    q: ['requirements.txt 生成 用法', 'Python 项目依赖管理']
+  },
+  '依赖地狱': {
+    why: '知道这个词，你以后看到"版本冲突"就不会瞎试，而是知道该用环境隔离去解。',
+    t1: '故意装两个互相冲突版本的包，看 pip 报什么错——记住这个报错长什么样。',
+    s: [
+      ['paper', '维基百科 · Dependency hell', 'https://en.wikipedia.org/wiki/Dependency_hell', '概念的完整来龙去脉'],
+      ['doc', '语义化版本 semver 中文', 'https://semver.org/lang/zh-CN/', '看懂 1.2.3 每个数字在说什么'],
+      ['doc', 'pip 依赖解析说明', 'https://pip.pypa.io/en/stable/topics/dependency-resolution/', 'pip 为什么解不出来']
+    ],
+    q: ['Python 依赖冲突 解决', '依赖地狱 版本冲突']
+  },
+  'CUDA 版本': {
+    why: '这是深度学习环境里 90% 报错的来源。显卡驱动、CUDA、PyTorch 三者必须对得上。',
+    t1: '在终端敲 nvidia-smi，右上角那个 CUDA Version 就是你驱动支持的上限，记住它。',
+    s: [
+      ['doc', 'NVIDIA · CUDA 版本对照表', 'https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html', '驱动与 CUDA 对应关系，查表用'],
+      ['doc', 'PyTorch 官方安装命令生成器', 'https://pytorch.org/get-started/locally/', '选好版本它会给你正确命令'],
+      ['cn', '知乎 · CUDA 版本 怎么看', 'https://www.zhihu.com/search?type=content&q=CUDA%20%E7%89%88%E6%9C%AC%20%E5%AF%B9%E5%BA%94', '踩坑经验多'],
+      ['doc', 'nvidia-smi 说明', 'https://developer.nvidia.com/nvidia-system-management-interface', '那个命令到底是什么']
+    ],
+    q: ['CUDA 版本 对应 驱动', 'nvidia-smi CUDA Version 含义']
+  },
+  '虚拟机 vs 容器': {
+    why: '面试和组会都爱问的一个概念题。理解了隔离粒度，很多"为什么快/为什么慢"就通了。',
+    t1: '不用动手，只做一件事：搜一张两者的架构对比图，看懂"共不共用内核"这一条。',
+    s: [
+      ['doc', 'Docker 官方 · 容器与虚拟机', 'https://www.docker.com/resources/what-container/', '官方对比图最直观'],
+      ['paper', '维基百科 · OS-level virtualization', 'https://en.wikipedia.org/wiki/OS-level_virtualization', '概念溯源'],
+      ['cn', '《Docker —— 从入门到实践》· 与传统虚拟化对比', 'https://yeasy.gitbook.io/docker_practice/introduction/what', '中文解释']
+    ],
+    q: ['容器 和 虚拟机 区别 原理', 'namespace cgroup 隔离 原理']
+  },
+  'Git': {
+    why: '这一张是全部卡片里你最不该拖的。"改崩了能读回来"这一条，价值就超过其他所有。',
+    t1: '在任意一个文件夹里 git init，建一个 a.txt，git add . 然后 git commit -m "first"，再用 git log 看你的第一档。',
+    s: [
+      ['cn', 'Pro Git 中文版（官方书）', 'https://git-scm.com/book/zh/v2', '免费官方书，前 3 章读完就够日常用'],
+      ['cn', '廖雪峰 · Git 教程', 'https://liaoxuefeng.com/books/git/', '中文最短路径，边看边敲'],
+      ['vid', 'Learn Git Branching（交互式）', 'https://learngitbranching.js.org/?locale=zh_CN', '在图形界面上点着学分支，游戏化，强烈推荐'],
+      ['vid', 'B 站 · Git 入门', 'https://search.bilibili.com/all?keyword=Git%20%E5%85%A5%E9%97%A8', '视频版']
+    ],
+    q: ['Git 入门 教程 中文', 'Git 提交 回退 命令 详解']
+  },
+  'commit': {
+    why: '提交粒度决定你以后能不能"精准读档"。随手一提交，等于把存档点全打乱了。',
+    t1: '给今天的代码提交三次，每次只包含一件改完成的事，commit message 写清楚"做了什么"。',
+    s: [
+      ['cn', '约定式提交规范（中文）', 'https://www.conventionalcommits.org/zh-hans/v1.0.0/', 'feat/fix/docs 前缀就是出自这'],
+      ['cn', '知乎 · commit message 怎么写', 'https://www.zhihu.com/search?type=content&q=commit%20message%20%E8%A7%84%E8%8C%83', '各种写法讨论'],
+      ['cn', 'Pro Git · 查看提交历史', 'https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E6%9F%A5%E7%9C%8B%E6%8F%90%E4%BA%A4%E5%8E%86%E5%8F%B2', '连 git log 都讲透了']
+    ],
+    q: ['commit message 规范 怎么写', 'git commit --amend 修改']
+  },
+  'branch': {
+    why: '这是 Git 真正的价值所在：敢做实验，因为做坏了主线不动。科研试方案天天用。',
+    t1: 'git checkout -b test-idea 开一条分支，随便改点东西提交，再切回主线确认主线没变。',
+    s: [
+      ['vid', 'Learn Git Branching', 'https://learngitbranching.js.org/?locale=zh_CN', '分支这件事用游戏学最快'],
+      ['cn', 'Pro Git · 分支简介', 'https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%AE%80%E4%BB%8B', '官方中文'],
+      ['cn', '知乎 · git branch 用法', 'https://www.zhihu.com/search?type=content&q=git%20branch%20%E7%94%A8%E6%B3%95', '实操问答']
+    ],
+    q: ['git branch 用法 教程', 'Git 分支管理 策略']
+  },
+  'merge': {
+    why: '合回来那一下是最容易出事的动作。知道有 merge / rebase 两条路，就不会被吓住。',
+    t1: '在上一条实验分支上改一行，切回主线，git merge test-idea，看文件变没变。',
+    s: [
+      ['cn', 'Pro Git · 分支的新建与合并', 'https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6', '官方中文，含图解'],
+      ['cn', '知乎 · merge 和 rebase 区别', 'https://www.zhihu.com/search?type=content&q=merge%20rebase%20%E5%8C%BA%E5%88%AB', '这是被问最多的问题之一'],
+      ['vid', 'Learn Git Branching · 合并关卡', 'https://learngitbranching.js.org/?locale=zh_CN', '点着看历史树怎么变']
+    ],
+    q: ['git merge 用法', 'merge 和 rebase 区别']
+  },
+  'conflict': {
+    why: '每个人都会撞上，第一次见会慌。其实机制很简单：它只是让你选。',
+    t1: '故意制造一次冲突（两个分支改同一行），把文件里 <<<<<<< 那几行读懂并删掉。',
+    s: [
+      ['doc', 'GitHub 官方 · 解决合并冲突', 'https://docs.github.com/zh/pull-requests/collaborating-with-pull-requests/addressing-merge-conflicts', '官方中文，图很清楚'],
+      ['doc', 'VS Code · 冲突解决界面', 'https://code.visualstudio.com/docs/sourcecontrol/overview', '编辑器里点"采用当前/传入"就行'],
+      ['cn', '知乎 · git 冲突 解决', 'https://www.zhihu.com/search?type=content&q=git%20%E5%86%B2%E7%AA%81%20%E8%A7%A3%E5%86%B3', '经验帖']
+    ],
+    q: ['git 冲突 解决 步骤', 'merge conflict 怎么看']
+  },
+  'clone / pull / push': {
+    why: '这三个是每天都会敲的命令。"顺序搞错导致代码没了"是这个阶段最惨的事故。',
+    t1: 'clone 一个自己的仓库到本地，改一行，add + commit + push，去网页上刷新看到变化。',
+    s: [
+      ['cn', 'Pro Git · 远程仓库的使用', 'https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8', '官方中文'],
+      ['doc', 'GitHub 中文文档 · 推送提交', 'https://docs.github.com/zh/get-started/using-git/pushing-commits-to-a-remote-repository', '官方步骤'],
+      ['cn', '知乎 · pull 和 fetch 区别', 'https://www.zhihu.com/search?type=content&q=git%20pull%20fetch%20%E5%8C%BA%E5%88%AB', '这两个别混']
+    ],
+    q: ['git clone pull push 用法', 'git pull 和 fetch 区别']
+  },
+  'GitHub': {
+    why: '它是你的云端备份 + 协作平台 + 简历。保研、进组，老师真的会点开看你的主页。',
+    t1: '把今天那个仓库 push 上 GitHub，仓库设为 public，再打开自己的主页看一眼。',
+    s: [
+      ['doc', 'GitHub Skills（官方互动课）', 'https://skills.github.com/', '官方手把手，做完就有一批仓库'],
+      ['doc', 'GitHub 中文文档', 'https://docs.github.com/zh', '所有功能的官方说明'],
+      ['doc', 'Hello World 官方教程', 'https://docs.github.com/zh/get-started/start-your-journey/hello-world', '完全零起点从这里开始'],
+      ['cn', '知乎 · GitHub 怎么用 新手', 'https://www.zhihu.com/search?type=content&q=GitHub%20%E6%96%B0%E6%89%8B%20%E6%80%8E%E4%B9%88%E7%94%A8', '中文经验帖']
+    ],
+    q: ['GitHub 新手 使用教程', 'GitHub 主页 简历 展示']
+  },
+  'PR (Pull Request)': {
+    why: '这是开源协作的核心机制，也是"别人怎么审你的代码"的入口。见过一次就不神秘了。',
+    t1: '找一个标了 good first issue 的开源仓库，看一个已合并的 PR 长什么样（改动 + 评论）。',
+    s: [
+      ['doc', 'GitHub 官方 · 关于 PR', 'https://docs.github.com/zh/pull-requests', '官方定义与流程'],
+      ['doc', 'First Contributions', 'https://github.com/firstcontributions/first-contributions', '专为第一次提 PR 的人准备的练习仓库'],
+      ['cn', '知乎 · 如何提第一个 PR', 'https://www.zhihu.com/search?type=content&q=%E6%8F%90%E7%AC%AC%E4%B8%80%E4%B8%AA%20PR', '完整实操帖']
+    ],
+    q: ['GitHub PR 流程 教程', 'good first issue 怎么找']
+  },
+  'issue': {
+    why: '看别人怎么描述 bug，是学"把问题说清楚"的最好素材——这项能力写论文也要用。',
+    t1: '去一个你熟悉的开源项目，翻 5 个已关闭的 issue，看提问的人漏了什么信息。',
+    s: [
+      ['doc', 'GitHub 官方 · Issue 文档', 'https://docs.github.com/zh/issues', '官方功能说明'],
+      ['doc', '如何提一个好 issue（官方指南）', 'https://docs.github.com/zh/communities/using-templates-to-encourage-useful-issues-and-pull-requests', '模板机制背后的用意'],
+      ['doc', 'Minimal Reproducible Example', 'https://stackoverflow.com/help/minimal-reproducible-example', '提 bug 的黄金标准，非常值得读']
+    ],
+    q: ['GitHub issue 怎么写', '如何提问 最小可复现示例']
+  },
+  'code review': {
+    why: '这是"自己玩"和"工程"的分界线。被 review 过的人，代码质量会跃一个台阶。',
+    t1: '让舍友（或本喵）读你一段代码并指出问题，你只负责听、不辩解。',
+    s: [
+      ['doc', 'Google 工程实践 · Code Review 指南', 'https://google.github.io/eng-practices/review/', '大厂标准，权威且实用'],
+      ['doc', 'Google · 作为审查者', 'https://google.github.io/eng-practices/review/reviewer/', '看别人怎么审'],
+      ['cn', '知乎 · code review 怎么做', 'https://www.zhihu.com/search?type=content&q=code%20review%20%E6%80%8E%E4%B9%88%E5%81%9A', '团队实践讨论']
+    ],
+    q: ['code review 流程 规范', '如何优雅地接受代码审查']
+  },
+  '.gitignore': {
+    why: '不设它，你迟早会把密钥、数据集或几千个临时文件提交上去，然后清理起来很痛苦。',
+    t1: '给你的仓库加一个 .gitignore，把 .venv/ 和 __pycache__/ 写进去，看 git status 是否干净了。',
+    s: [
+      ['doc', 'GitHub 官方 gitignore 模板库', 'https://github.com/github/gitignore', '各种语言的现成清单，直接抄'],
+      ['cn', 'Pro Git · 忽略文件', 'https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E8%AE%B0%E5%BD%95%E6%AF%8F%E6%AC%A1%E6%9B%B4%E6%96%B0%E5%88%B0%E4%BB%93%E5%BA%93', '官方中文规则说明'],
+      ['cn', '知乎 · gitignore 语法', 'https://www.zhihu.com/search?type=content&q=gitignore%20%E8%AF%AD%E6%B3%95', '通配符怎么写']
+    ],
+    q: ['gitignore 语法 规则', 'gitignore 模板 Python']
+  },
+  'CI/CD': {
+    why: '它回答的是"你怎么保证自己没改坏"。科研代码也需要——不然复现时你会怀疑人生。',
+    t1: '随便建个仓库，加一条 GitHub Actions：push 后自动打印 hello，看 Actions 页面的绿勾。',
+    s: [
+      ['doc', 'GitHub Actions 中文文档', 'https://docs.github.com/zh/actions', '官方完整体系'],
+      ['doc', 'Actions 快速上手', 'https://docs.github.com/zh/actions/quickstart', '先跑通第一个 workflow'],
+      ['cn', '知乎 · CI/CD 是什么', 'https://www.zhihu.com/search?type=content&q=CI%20CD%20%E6%98%AF%E4%BB%80%E4%B9%88', '概念科普']
+    ],
+    q: ['CI CD 是什么 通俗解释', 'GitHub Actions 入门 教程']
+  },
+  'GitHub Actions': {
+    why: '它是最容易上手的 CI 工具——不用自己搭服务器，写个 yaml 就有。',
+    t1: '在仓库里新建 .github/workflows/ci.yml，粘官方 quickstart 的内容，push 后看它跑起来。',
+    s: [
+      ['doc', 'GitHub Actions 官方文档', 'https://docs.github.com/zh/actions', '含语法与全部动作'],
+      ['doc', 'Actions 市场', 'https://github.com/marketplace?type=actions', '别人写好的动作，直接引用'],
+      ['doc', 'Awesome Actions', 'https://github.com/sdras/awesome-actions', '社区整理的好用动作合集']
+    ],
+    q: ['GitHub Actions 教程 yml', 'GitHub Actions 自动测试 Python']
+  },
+  'Python': {
+    why: '你已经有 C 的底子，Python 语法不是问题——需要补的是"科研里怎么写 Python"。',
+    t1: '用 venv 建一个环境，写一个读 CSV 算平均值并打印的脚本，跑通它。',
+    s: [
+      ['doc', 'Python 官方教程（中文）', 'https://docs.python.org/zh-cn/3/tutorial/', '官方中文，够全'],
+      ['cn', '廖雪峰 · Python 教程', 'https://liaoxuefeng.com/books/python/', '中文入门经典'],
+      ['cn', 'Python 中文学习手册', 'https://docs.python.org/zh-cn/3/', '标准库与语言参考全中文'],
+      ['vid', 'B 站 · Python 科研 入门', 'https://search.bilibili.com/all?keyword=Python%20%E7%A7%91%E7%A0%94%20%E5%85%A5%E9%97%A8', '面向科研场景的视频']
+    ],
+    q: ['Python 从 C 转过来 注意什么', 'Python 科研 常用库 入门']
+  },
+  'pip / PyPI': {
+    why: '你要装任何库都绕不开这两个词，它们也会是你第一个遇到"装不上"的地方。',
+    t1: '跑 pip install requests，再跑 pip show requests 看看它从哪来的。',
+    s: [
+      ['doc', 'PyPI 官网', 'https://pypi.org/', '所有 Python 库的官方仓库，来这查版本'],
+      ['doc', 'pip 官方文档', 'https://pip.pypa.io/en/stable/', '命令参考与常见问题'],
+      ['cn', '知乎 · pip 国内镜像 加速', 'https://www.zhihu.com/search?type=content&q=pip%20%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F', '在国内装包必学的一步']
+    ],
+    q: ['pip 用法 常用命令', 'pip 换源 镜像 配置']
+  },
+  'numpy': {
+    why: '所有深度学习和数据分析的底层都是它。搞懂"向量化"，你的代码会快几十倍。',
+    t1: '建一个 100 万长度的数组，用 for 循环加起来算一次时间，再用 np.sum() 算一次，对比看看。',
+    s: [
+      ['doc', 'NumPy 官方 · 绝对新手指南', 'https://numpy.org/doc/stable/user/absolute_beginners.html', '官方写给完全新手的那一篇'],
+      ['cn', 'NumPy 中文文档', 'https://www.numpy.org.cn/', '中文社区版'],
+      ['doc', 'NumPy 100 道练习', 'https://github.com/rougier/numpy-100', '刷一遍顶看十篇教程'],
+      ['cn', '知乎 · numpy 向量化', 'https://www.zhihu.com/search?type=content&q=numpy%20%E5%90%91%E9%87%8F%E5%8C%96', '为什么快，讲得通俗']
+    ],
+    q: ['numpy 入门 教程 中文', 'numpy 向量化 为什么快']
+  },
+  'pandas': {
+    why: '凡是"表格数据"的活都是它。科研里的数据清洗阶段几乎全在这。',
+    t1: '读一个 CSV 进来，打印前 5 行，按某一列分组求平均值。三行代码。',
+    s: [
+      ['doc', 'pandas 官方 · 10 分钟入门', 'https://pandas.pydata.org/docs/user_guide/10min.html', '官方最受欢迎的一页'],
+      ['doc', 'Kaggle Learn · Pandas', 'https://www.kaggle.com/learn/pandas', '免费互动课，边做边学'],
+      ['cn', 'pandas 中文文档', 'https://www.pypandas.cn/', '中文翻译版'],
+      ['doc', 'pandas 官方速查表', 'https://pandas.pydata.org/Pandas_Cheat_Sheet.pdf', '打印出来贴墙上']
+    ],
+    q: ['pandas 入门 教程 中文', 'pandas 数据清洗 常用操作']
+  },
+  'SQL': {
+    why: '数据量一大就不在文件里了，在数据库里。这是"取数据"的通用语言。',
+    t1: '去 SQLBolt 做前 3 关，感受一下"用一句话问数据"。',
+    s: [
+      ['vid', 'SQLBolt（互动入门）', 'https://sqlbolt.com/', '在网页上直接练，十几分钟上手'],
+      ['cn', '菜鸟教程 · SQL', 'https://www.runoob.com/sql/sql-tutorial.html', '中文快速参考'],
+      ['cn', 'W3School SQL（中文）', 'https://www.w3school.com.cn/sql/', '同类的中文教程'],
+      ['doc', 'SQLite 官方', 'https://www.sqlite.org/docs.html', '最小的数据库，本地就能玩']
+    ],
+    q: ['SQL 入门 教程', 'SQL join 用法 图解']
+  },
+  'R 语言': {
+    why: '你舍友嘴上那个 R。你不需要精通，但要能说出它是"谁、在什么圈子、干什么用"。',
+    t1: '花 5 分钟看一眼它的官网和一张 ggplot2 图长什么样，不装环境。',
+    s: [
+      ['doc', 'R 官网', 'https://www.r-project.org/', '本体，看一眼它自己怎么介绍自己'],
+      ['doc', 'R for Data Science（第二版）', 'https://r4ds.hadley.nz/', 'R 生态最出名的免费书，看目录就懂它擅长什么'],
+      ['doc', 'Tidyverse', 'https://www.tidyverse.org/', 'R 做数据处理的核心包集合'],
+      ['cn', '知乎 · R 语言 和 Python 区别', 'https://www.zhihu.com/search?type=content&q=R%20%E8%AF%AD%E8%A8%80%20%E5%92%8C%20Python%20%E5%8C%BA%E5%88%AB', '圈子差异的讨论']
+    ],
+    q: ['R 语言 是做什么的 入门', 'R 和 Python 区别 统计']
+  },
+  'matplotlib': {
+    why: '论文里的图基本出自它。而"图好不好看"直接影响审稿人对你的印象。',
+    t1: '画一条正弦曲线，加上横纵轴标签和标题，存成 PDF（不是 PNG）。',
+    s: [
+      ['doc', 'matplotlib 官方 · 快速上手', 'https://matplotlib.org/stable/users/explain/quick_start.html', '官方入门'],
+      ['doc', 'matplotlib 官方图库', 'https://matplotlib.org/stable/gallery/', '想要什么图来这抄代码'],
+      ['cn', 'matplotlib 中文文档', 'https://www.matplotlib.org.cn/', '中文版'],
+      ['doc', 'SciencePlots（论文风格模板）', 'https://github.com/garrettj403/SciencePlots', '一键输出期刊风格的图']
+    ],
+    q: ['matplotlib 教程 中文', '论文 配图 matplotlib 风格']
+  },
+  'Polars': {
+    why: '不是必学，是"知道有这么个东西"。数据大到 pandas 卡住时你会想起它。',
+    t1: '记住一句话就够：同样的活，写法很像 pandas，但更快。',
+    s: [
+      ['doc', 'Polars 官方文档', 'https://docs.pola.rs/', '官方文档，写得很好'],
+      ['doc', '从 pandas 迁移到 Polars', 'https://docs.pola.rs/user-guide/migration/pandas/', '官方对照表，看看差别'],
+      ['doc', 'DuckDB（同类思路的数据库）', 'https://duckdb.org/docs/', '另一种"快"的路子，一起认识']
+    ],
+    q: ['Polars 和 pandas 性能 对比', 'pandas 太慢 怎么优化']
+  },
+  'GPU': {
+    why: '你要做 AI，这是唯一不能靠"聪明"绕过的东西。理解它为什么适合深度学习。',
+    t1: '敲一次 nvidia-smi，看清 GPU 型号、显存总量和当前占用——这是你的机器体检报告。',
+    s: [
+      ['doc', 'NVIDIA 开发者官网', 'https://developer.nvidia.com/', '官方的教程与工具入口'],
+      ['doc', 'nvidia-smi 官方说明', 'https://developer.nvidia.com/nvidia-system-management-interface', '那个命令到底是什么'],
+      ['cn', '知乎 · GPU 架构 入门', 'https://www.zhihu.com/search?type=content&q=GPU%20%E6%9E%B6%E6%9E%84%20%E5%85%A5%E9%97%A8', '通俗讲解'],
+      ['cn', 'B 站 · GPU 工作原理', 'https://search.bilibili.com/all?keyword=GPU%20%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86', '视频版更好懂']
+    ],
+    q: ['GPU 和 CPU 区别 原理', '深度学习 为什么用 GPU 显存']
+  },
+  '显存 VRAM': {
+    why: 'OOM 是深度学习最日常的报错。搞清显存被谁吃掉，你才有办法救。',
+    t1: '跑一个训练脚本，同时开 nvidia-smi -l 1 盯着，看显存在哪一步暴涨。',
+    s: [
+      ['doc', 'PyTorch 官方 · 显存管理', 'https://pytorch.org/docs/stable/notes/cuda.html', '官方讲缓存分配器'],
+      ['doc', 'HuggingFace · 模型显存估算', 'https://huggingface.co/docs/accelerate/main/en/usage_guides/model_size_estimator', '帮你算要多少显存'],
+      ['cn', '知乎 · 显存 占用 分析', 'https://www.zhihu.com/search?type=content&q=%E6%98%BE%E5%AD%98%20%E5%8D%A0%E7%94%A8%20%E5%88%86%E6%9E%90', '常见经验帖']
+    ],
+    q: ['显存 和 内存 区别', '模型 显存 占用 估算 公式']
+  },
+  'OOM (爆显存)': {
+    why: '看到这四个字母知道先做什么，能省你几个小时。这是"工程经验"最典型的体现。',
+    t1: '记住那张急救清单：先减 batch size，再降精度，再梯度累积，最后换小模型。',
+    s: [
+      ['doc', 'PyTorch 论坛（搜 CUDA out of memory）', 'https://discuss.pytorch.org/search?q=cuda%20out%20of%20memory', '官方论坛，最权威的问答'],
+      ['cn', '知乎 · CUDA out of memory 解决', 'https://www.zhihu.com/search?type=content&q=CUDA%20out%20of%20memory%20%E8%A7%A3%E5%86%B3', '中文踩坑合集'],
+      ['doc', 'HuggingFace · 显存优化技巧', 'https://huggingface.co/docs/transformers/main/en/perf_train_gpu_one', '官方整理的省显存手法']
+    ],
+    q: ['CUDA out of memory 解决 方法', 'batch size 显存 关系']
+  },
+  'Slurm / sbatch': {
+    why: '国内高校超算基本都用它。不会提交作业，就算老师给了你集群账号你也用不了。',
+    t1: '看一份 sbatch 脚本模板，读懂里面的 --gres / --nodes / --time 三行。',
+    s: [
+      ['doc', 'Slurm 官方快速入门', 'https://slurm.schedmd.com/quickstart.html', '官方，命令大全'],
+      ['cn', '上海交大 · 超算 Slurm 使用文档', 'https://docs.hpc.sjtu.edu.cn/job/slurm.html', '中文实操，写得很清楚'],
+      ['cn', '中科大超算用户文档', 'https://scc.ustc.edu.cn/ustc-scc/gyfw/_content/', '另一份中文参考'],
+      ['cn', '知乎 · sbatch 提交作业', 'https://www.zhihu.com/search?type=content&q=sbatch%20%E6%8F%90%E4%BA%A4%E4%BD%9C%E4%B8%9A', '上手问答']
+    ],
+    q: ['slurm sbatch 脚本 写法', '超算 作业提交 教程']
+  },
+  'WandB / TensorBoard': {
+    why: '没有可视化，你就是在盲跑实验。这是"看得见训练在干什么"的工具。',
+    t1: '给一个最小训练脚本接上 TensorBoard，看到 loss 曲线在网页里动起来。',
+    s: [
+      ['doc', 'Weights & Biases 文档', 'https://docs.wandb.ai/', '现在最流行的实验跟踪平台'],
+      ['doc', 'TensorBoard 官方', 'https://www.tensorflow.org/tensorboard', '最经典的训练可视化'],
+      ['doc', 'PyTorch + TensorBoard 教程', 'https://pytorch.org/tutorials/intermediate/tensorboard_tutorial.html', '官方手把手'],
+      ['cn', '知乎 · wandb 使用', 'https://www.zhihu.com/search?type=content&q=wandb%20%E4%BD%BF%E7%94%A8', '中文实践']
+    ],
+    q: ['wandb 入门 教程', 'tensorboard pytorch 使用']
+  },
+  '超参数': {
+    why: '调参是实验的日常。知道"该调哪几个、按什么顺序调"，比乱试省一周。',
+    t1: '只挑学习率这一个参数，用 3 个不同值各跑一次，把结果记下来。',
+    s: [
+      ['paper', 'Bergstra · 超参数优化综述', 'https://arxiv.org/abs/1206.5533', '这篇是随机搜索的经典，读摘要就够'],
+      ['doc', 'Optuna 官方', 'https://optuna.org/', '自动调参框架，知道它存在就行'],
+      ['cn', '知乎 · 学习率 调参 经验', 'https://www.zhihu.com/search?type=content&q=%E5%AD%A6%E4%B9%A0%E7%8E%87%20%E8%B0%83%E5%8F%82', '最有价值的中文经验帖'],
+      ['cn', 'B 站 · 超参数 调参', 'https://search.bilibili.com/all?keyword=%E8%B6%85%E5%8F%82%E6%95%B0%20%E8%B0%83%E5%8F%82', '视频讲解']
+    ],
+    q: ['超参数 调参 顺序 经验', '学习率 batch size 怎么选']
+  },
+  'baseline': {
+    why: '科研的第一课：没有对比，"我改进了"这句话就不成立。学会找 baseline 是硬技能。',
+    t1: '在 Papers with Code 上找一个你感兴趣的任务，看它列出的 baseline 方法。',
+    s: [
+      ['doc', 'Papers with Code', 'https://paperswithcode.com/', '每个任务都有 baseline 与排名'],
+      ['doc', 'GitHub · 找官方实现', 'https://github.com/search', '按论文名搜官方代码仓库'],
+      ['cn', '知乎 · 如何找 baseline', 'https://www.zhihu.com/search?type=content&q=%E6%80%8E%E4%B9%88%E6%89%BE%20baseline', '方法论讨论']
+    ],
+    q: ['论文 baseline 怎么选', '怎么复现 baseline 实验']
+  },
+  'benchmark': {
+    why: '你必须知道自己的方法"在哪个标准上被评判"。数据集和指标是学术对话的前提。',
+    t1: '去 Papers with Code 看一个榜单，看清楚它用的指标（准确率？F1？还是别的）。',
+    s: [
+      ['doc', 'Papers with Code · SOTA 榜单', 'https://paperswithcode.com/sota', '各任务的统一比武场'],
+      ['doc', 'Kaggle Competitions', 'https://www.kaggle.com/competitions', '带评测标准的真实比赛'],
+      ['doc', 'HuggingFace Datasets', 'https://huggingface.co/datasets', '数据集的集中入口']
+    ],
+    q: ['benchmark 数据集 常用', '准确率 F1 指标 区别']
+  },
+  '多卡 / 分布式训练': {
+    why: '不是必学，但你要知道"模型大到一张卡放不下时，大家是怎么干的"。',
+    t1: '只需读懂两个词：数据并行（每卡一份模型、分数据）、模型并行（模型切开分卡）。',
+    s: [
+      ['doc', 'PyTorch · DDP 官方教程', 'https://pytorch.org/tutorials/intermediate/ddp_tutorial.html', '官方手把手多卡'],
+      ['doc', 'HuggingFace Accelerate', 'https://huggingface.co/docs/accelerate/index', '几行代码就能多卡/混合精度'],
+      ['doc', 'DeepSpeed', 'https://www.deepspeed.ai/', '微软的大模型训练框架'],
+      ['cn', '知乎 · 数据并行 模型并行 区别', 'https://www.zhihu.com/search?type=content&q=%E6%95%B0%E6%8D%AE%E5%B9%B6%E8%A1%8C%20%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%A1%8C', '概念辨析']
+    ],
+    q: ['分布式训练 数据并行 原理', 'DDP 多卡训练 教程']
+  },
+  '消融实验': {
+    why: '这是审稿人最爱问的："你怎么证明是你的某个设计起的作用？"——消融就是答案。',
+    t1: '假设你的方法有 A+B 两部分，列出四行表格：只有 A、只有 B、A+B、都没有。',
+    s: [
+      ['cn', '知乎 · 消融实验 怎么做', 'https://www.zhihu.com/search?type=content&q=%E6%B6%88%E8%9E%8D%E5%AE%9E%E9%AA%8C', '中文方法论最多的地方'],
+      ['paper', '维基百科 · Ablation', 'https://en.wikipedia.org/wiki/Ablation_(artificial_intelligence)', '概念定义'],
+      ['doc', 'Papers with Code · 看别人的消融表', 'https://paperswithcode.com/', '直接找篇论文看它的消融表长什么样']
+    ],
+    q: ['消融实验 ablation 怎么写', '论文 实验部分 结构']
+  },
+  'LaTeX': {
+    why: '论文投稿基本只接受 LaTeX。它的好处不是好看，是"公式和引用不会乱"。',
+    t1: '用 Overleaf 打开一份官方模板，只改标题和作者，编译一次看效果。',
+    s: [
+      ['cn', 'Overleaf 中文学习文档', 'https://cn.overleaf.com/learn', '中文，从零到能写'],
+      ['cn', '《一份不太简短的 LaTeX2e 介绍》', 'https://ctan.org/pkg/lshort-chinese', '最经典的中文入门书，PDF 免费'],
+      ['doc', 'LaTeX 官方项目', 'https://www.latex-project.org/', '本体与文档'],
+      ['vid', 'B 站 · LaTeX 入门', 'https://search.bilibili.com/all?keyword=LaTeX%20%E5%85%A5%E9%97%A8', '视频版上手最快']
+    ],
+    q: ['LaTeX 入门 教程 中文', 'LaTeX 公式 常用符号']
+  },
+  'Overleaf': {
+    why: '不装环境就能写论文，还能多人同时改。本科生几乎都用它起步。',
+    t1: '注册一个账号，从模板库挑一份论文模板，编译看它生成 PDF。',
+    s: [
+      ['doc', 'Overleaf 官网（中文界面）', 'https://cn.overleaf.com/', '直接开写'],
+      ['doc', 'Overleaf 模板库', 'https://www.overleaf.com/latex/templates', '挑现成模板，别从空白开始'],
+      ['cn', 'Overleaf 中文文档', 'https://cn.overleaf.com/learn', '操作说明']
+    ],
+    q: ['Overleaf 使用教程 中文', 'Overleaf 和 本地 LaTeX 区别']
+  },
+  '矢量图 vs 位图': {
+    why: '这是一个"知道了就再也不会犯"的错。论文里放位图会被审稿人指出来。',
+    t1: '把同一张 matplotlib 图分别存成 PNG 和 PDF，放大 500% 看差别。',
+    s: [
+      ['paper', '维基百科 · 矢量图形', 'https://zh.wikipedia.org/wiki/%E5%90%91%E9%87%8F%E5%9B%BE%E5%BD%A2', '概念解释'],
+      ['doc', 'Inkscape（开源矢量图工具）', 'https://inkscape.org/zh-hans/', '要画示意图就用它，免费'],
+      ['doc', 'IEEE 作者指南 · 图表要求', 'https://journals.ieeeauthorcenter.ieee.org/', '看看期刊对图的具体要求']
+    ],
+    q: ['论文 图片 格式 要求 矢量图', 'matplotlib 保存 pdf 矢量图']
+  },
+  'TikZ': {
+    why: '进阶技能。看到论文里那种干净的网络结构示意图、流程图，多半是它画的。',
+    t1: '不用学，先看一眼 TikZ 示例库里的图长什么样，知道"这是代码画的"。',
+    s: [
+      ['doc', 'TikZ 官方手册（tikz.dev）', 'https://tikz.dev/', '官方在线手册'],
+      ['doc', 'TikZ 示例库', 'https://texample.net/tikz/examples/', '想要什么图来这抄'],
+      ['doc', 'Overleaf · TikZ 教程', 'https://cn.overleaf.com/learn/latex/TikZ_package', '上手步骤'],
+      ['doc', 'TikZ 画的神经网络示意图', 'https://github.com/HarisIqbal88/PlotNeuralNet', '论文配图神器']
+    ],
+    q: ['TikZ 入门 教程 中文', 'TikZ 画 神经网络 示意图']
+  },
+  'README': {
+    why: '别人进入你项目的唯一入口。README 写得烂，别人转头就走——包括导师。',
+    t1: '给你的仓库写 4 段：这是什么、怎么装、怎么跑、跑出来是什么样。',
+    s: [
+      ['doc', 'Make a README', 'https://www.makeareadme.com/', '一个页面讲清 README 该有哪些内容'],
+      ['doc', 'Awesome README 示例集', 'https://github.com/matiassingers/awesome-readme', '看别人怎么写，照着抄结构'],
+      ['doc', 'GitHub 官方 · 关于 README', 'https://docs.github.com/zh/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes', '官方说明'],
+      ['doc', 'Choose a License', 'https://choosealicense.com/', '顺便把开源协议也定了']
+    ],
+    q: ['README 怎么写 模板', 'GitHub 项目 README 结构']
+  },
+  '异步沟通': {
+    why: '大学里没人会围着你的问题转。学会"把事情写清楚、等回复"是进组后第一课。',
+    t1: '下次提问题时，用这个格式写：我想做什么 → 我试了什么 → 报错是什么 → 我猜可能是哪里。',
+    s: [
+      ['doc', 'GitLab 团队手册 · 沟通', 'https://handbook.gitlab.com/handbook/communication/', '全远程公司的沟通规范，很值得读'],
+      ['doc', '如何提一个好问题（经典）', 'https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/main/README-zh_CN.md', '中文版《提问的智慧》'],
+      ['cn', '知乎 · 向上沟通 汇报', 'https://www.zhihu.com/search?type=content&q=%E5%90%91%E4%B8%8A%E6%B2%9F%E9%80%9A%20%E6%B1%87%E6%8A%A5', '和导师沟通的方法']
+    ],
+    q: ['提问的智慧 如何提问', '和导师 沟通 邮件 怎么写']
+  },
+  '文档 / Wiki': {
+    why: '项目知识一旦散在聊天记录里就等于丢了。会写文档的人在团队里非常稀缺。',
+    t1: '给一个你自己的项目加一个 docs/ 文件夹，写一页"我怎么跑起来的"。',
+    s: [
+      ['doc', 'MkDocs Material', 'https://squidfunk.github.io/mkdocs-material/', '把 Markdown 一堆页面变成文档站'],
+      ['doc', 'Read the Docs', 'https://docs.readthedocs.io/', '免费托管文档'],
+      ['doc', 'Docusaurus', 'https://docusaurus.io/', '另一套流行的文档站框架']
+    ],
+    q: ['项目文档 怎么写 规范', 'mkdocs 搭建 文档 教程']
+  },
+  '复现': {
+    why: '这是整套卡片里最"科研"的一个词。你进组第一周就会听到它，而且它决定你被不被信任。',
+    t1: '拿一个开源小项目，按它 README 从头跑一遍。跑通了，你就有资格谈复现了。',
+    s: [
+      ['doc', 'The Turing Way（可复现研究指南）', 'https://the-turing-way.netlify.app/', '数据科学可复现性的权威开源书'],
+      ['doc', 'NeurIPS · 论文可复现检查清单', 'https://neurips.cc/public/guides/PaperChecklist', '顶会官方要求，看看标准长什么样'],
+      ['doc', 'Papers with Code · 带代码的论文', 'https://paperswithcode.com/', '找可复现的目标从这开始'],
+      ['cn', '知乎 · 论文复现 经验', 'https://www.zhihu.com/search?type=content&q=%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0%20%E7%BB%8F%E9%AA%8C', '学长学姐的血泪']
+    ],
+    q: ['论文复现 流程 经验', 'reproducibility 可复现 研究']
+  },
+  '随机种子 seed': {
+    why: '一个两行的设置，决定了你的结果能不能被别人重复出来。新手最常忽略的细节。',
+    t1: '在你的脚本开头固定 random 与 numpy 的种子，跑两次，确认输出完全一样。',
+    s: [
+      ['doc', 'PyTorch 官方 · 随机性说明', 'https://pytorch.org/docs/stable/notes/randomness.html', '官方讲怎么才能完全复现'],
+      ['doc', 'NumPy 官方 · 随机数新机制', 'https://numpy.org/doc/stable/reference/random/index.html', '随机数生成器怎么用'],
+      ['cn', '知乎 · 随机种子 怎么设', 'https://www.zhihu.com/search?type=content&q=%E9%9A%8F%E6%9C%BA%E7%A7%8D%E5%AD%90%20%E8%AE%BE%E7%BD%AE', '具体写法讨论']
+    ],
+    q: ['随机种子 seed 怎么设置', '实验结果 不可复现 原因']
+  },
+  '实验记录': {
+    why: '一周后你会完全忘记"这个数字是哪版跑出来的"。实验记录是给自己买保险。',
+    t1: '建一个 results.md，从今天起每跑一次实验就写一行：日期 / 改动 / 参数 / 指标。',
+    s: [
+      ['doc', 'The Turing Way · 研究日志', 'https://the-turing-way.netlify.app/reproducible-research/rdm/rdm-storage', '关于数据与记录管理的规范'],
+      ['doc', 'MLflow 官方', 'https://mlflow.org/', '工程化的实验追踪平台'],
+      ['cn', '知乎 · 实验记录 怎么做', 'https://www.zhihu.com/search?type=content&q=%E5%AE%9E%E9%AA%8C%E8%AE%B0%E5%BD%95%20%E6%80%8E%E4%B9%88%E5%81%9A', '科研习惯讨论']
+    ],
+    q: ['实验记录 模板 科研', '机器学习 实验管理 工具']
+  },
+  '训练 vs 推理': {
+    why: '这两个词决定了你的资源策略：训练要显存，推理要延迟。方向不同，优化完全不同。',
+    t1: '记住一句话：训练是"学"，推理是"用"。然后问自己：我这次的瓶颈在哪一边？',
+    s: [
+      ['doc', 'HuggingFace · 推理优化指南', 'https://huggingface.co/docs/transformers/main/en/perf_infer_gpu_one', '推理怎么变快'],
+      ['doc', 'HuggingFace · 训练优化指南', 'https://huggingface.co/docs/transformers/main/en/perf_train_gpu_one', '训练怎么省显存'],
+      ['cn', '知乎 · 训练和推理 区别', 'https://www.zhihu.com/search?type=content&q=%E8%AE%AD%E7%BB%83%E5%92%8C%E6%8E%A8%E7%90%86%20%E5%8C%BA%E5%88%AB', '概念辨析']
+    ],
+    q: ['训练 推理 区别 优化', '推理 加速 延迟 优化']
+  },
+  '模型量化': {
+    why: '就是你舍友说的那个词。它是"大模型能在普通显卡上跑"的关键手段之一。',
+    t1: '装 ollama 或 llama.cpp，跑一个 4-bit 量化的模型，感受"量化的模型真的能跑"。',
+    s: [
+      ['doc', 'HuggingFace · 量化指南', 'https://huggingface.co/docs/transformers/main/en/quantization', '官方最全的量化方法总览'],
+      ['doc', 'llama.cpp', 'https://github.com/ggml-org/llama.cpp', '端侧量化的标杆项目，看看它的量化档位'],
+      ['doc', 'Ollama（一键跑量化模型）', 'https://ollama.com/', '最省事的体验入口'],
+      ['cn', '知乎 · 模型量化 原理', 'https://www.zhihu.com/search?type=content&q=%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%20%E5%8E%9F%E7%90%86', '中文原理讲解']
+    ],
+    q: ['模型量化 原理 INT8 FP16', 'GGUF GPTQ AWQ 区别']
+  },
+  '部署 / API': {
+    why: '让别人用上你的模型，才算真的做完。这是"科研"和"产品"之间的那道桥。',
+    t1: '用 FastAPI 写一个 10 行的接口，接收文本、返回结果，在本地 curl 一次。',
+    s: [
+      ['doc', 'FastAPI 官方中文文档', 'https://fastapi.tiangolo.com/zh/', '最常用的 Python API 框架，中文全'],
+      ['doc', 'vLLM', 'https://docs.vllm.ai/', '高性能大模型推理服务，现在很主流'],
+      ['doc', 'Gradio', 'https://www.gradio.app/docs', '几行代码给模型做个网页界面，demo 神器'],
+      ['doc', 'HuggingFace Spaces', 'https://huggingface.co/docs/hub/spaces', '免费把你的 demo 挂到网上']
+    ],
+    q: ['FastAPI 入门 教程', '模型 部署 上线 流程']
+  },
+  '剪枝 / 蒸馏': {
+    why: '和量化是"一家人"，合称模型压缩。三个词一起记住，比单独背划算。',
+    t1: '记住分工：量化压数值精度、剪枝删多余连接、蒸馏让大模型教小模型。',
+    s: [
+      ['paper', 'Hinton · 蒸馏原始论文', 'https://arxiv.org/abs/1503.02531', '这一篇开创了知识蒸馏，读摘要就够'],
+      ['doc', 'PyTorch · 剪枝教程', 'https://pytorch.org/tutorials/intermediate/pruning_tutorial.html', '官方动手教程'],
+      ['cn', '知乎 · 剪枝 蒸馏 区别', 'https://www.zhihu.com/search?type=content&q=%E5%89%AA%E6%9E%9D%20%E8%92%B8%E9%A6%8F%20%E5%8C%BA%E5%88%AB', '三个词的辨析']
+    ],
+    q: ['知识蒸馏 原理 论文', '模型剪枝 方法 教程']
+  },
+  'ONNX': {
+    why: '它解决"模型在 A 框架训练、要在 B 硬件上跑"的搬运问题。听一次就记住的通用格式。',
+    t1: '把一个 PyTorch 小模型导出成 .onnx 文件，看它生成的那一刻。',
+    s: [
+      ['doc', 'ONNX 官网', 'https://onnx.ai/', '官方与生态'],
+      ['doc', 'ONNX Runtime', 'https://onnxruntime.ai/', '真正用来跑 ONNX 的引擎'],
+      ['doc', 'PyTorch · 导出 ONNX 教程', 'https://pytorch.org/tutorials/advanced/super_resolution_with_onnxruntime.html', '官方手把手']
+    ],
+    q: ['ONNX 是什么 用途', 'pytorch 导出 onnx 教程']
+  },
+  '数据泄露': {
+    why: '新手最典型的翻车：指标好得不像话。知道这个词，你会本能地先怀疑自己。',
+    t1: '问自己一句：我的预处理是在划分训练/测试之前做的吗？如果是，就有泄露风险。',
+    s: [
+      ['doc', 'scikit-learn · 常见陷阱', 'https://scikit-learn.org/stable/common_pitfalls.html', '官方整理的常见错误，含数据泄露'],
+      ['paper', '维基百科 · Data leakage', 'https://en.wikipedia.org/wiki/Leakage_(machine_learning)', '概念与例子'],
+      ['cn', '知乎 · 数据泄露 机器学习', 'https://www.zhihu.com/search?type=content&q=%E6%95%B0%E6%8D%AE%E6%B3%84%E9%9C%B2%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0', '案例帖']
+    ],
+    q: ['数据泄露 machine learning 例子', '训练集 测试集 划分 规范']
+  },
+  '管道 / 重定向': {
+    why: '命令行的"组合技"。学会它，你就能把十几个小工具拼成一条流水线——这是命令行真正的威力所在。',
+    t1: '试一下：ls -l | grep txt，再试 echo hello > a.txt。',
+    s: [
+      ['doc', 'Bash 官方手册 · 管道与重定向', 'https://www.gnu.org/software/bash/manual/bash.html#Pipelines', '最权威的定义，看 Pipelines 和 Redirections 两节'],
+      ['cn', '菜鸟教程 · Linux 管道和重定向', 'https://www.runoob.com/linux/linux-shell-io-redirections.html', '中文，例子短']
+    ],
+    q: ['Linux 管道 重定向 区别', 'shell 输出重定向 教程']
+  },
+  'grep / 正则': {
+    why: '你以后 90% 的"在一堆东西里找一行"，都是它干的。正则更是到处都在用。',
+    t1: '试一下：grep -rn "error" /var/log，再用 grep -n "Warning" 文件名 试一次。',
+    s: [
+      ['doc', 'GNU grep 官方手册', 'https://www.gnu.org/software/grep/manual/grep.html', '权威手册'],
+      ['cn', '阮一峰 · 正则表达式入门', 'https://javascript.ruanyifeng.com/stdlib/regexp.html', '中文正则入门'],
+      ['cn', '菜鸟教程 · Linux grep', 'https://www.runoob.com/linux/linux-comm-grep.html', '最常用参数速查']
+    ],
+    q: ['Linux grep 常用参数', '正则表达式 入门 教程']
+  },
+  'curl / wget': {
+    why: '服务器上没有浏览器。想下载东西、想验证一个接口活着没有，全靠它。',
+    t1: '试一下：curl https://api.github.com 看看返回什么。',
+    s: [
+      ['doc', 'curl 官方文档', 'https://curl.se/docs/', '权威入口'],
+      ['cn', '菜鸟教程 · curl', 'https://www.runoob.com/linux/linux-comm-curl.html', '常用参数速查']
+    ],
+    q: ['curl 常用参数 详解', 'curl 调用 接口 例子']
+  },
+  'rsync / scp': {
+    why: '"我的数据在本地、算力在服务器"是科研的常态，传文件是你的日常动作。',
+    t1: '试一下（连上服务器后）：scp a.txt 用户名@主机:~/ ',
+    s: [
+      ['doc', 'rsync 官方文档', 'https://rsync.samba.org/documentation.html', '权威入口'],
+      ['cn', '菜鸟教程 · Linux scp', 'https://www.runoob.com/linux/linux-comm-scp.html', 'scp 参数速查']
+    ],
+    q: ['scp 上传 下载 命令', 'rsync 增量同步 用法']
+  },
+  'top / nvidia-smi': {
+    why: '"我的卡是不是被别人占了""我的程序是不是要爆内存"——这两个问题一秒钟就能回答。',
+    t1: '有显卡的话直接敲 nvidia-smi，看那行显存占用。',
+    s: [
+      ['doc', 'NVIDIA 官方 · nvidia-smi 文档', 'https://developer.nvidia.com/nvidia-system-management-interface', '权威说明'],
+      ['cn', '菜鸟教程 · Linux top', 'https://www.runoob.com/linux/linux-comm-top.html', 'top 各列什么意思']
+    ],
+    q: ['nvidia-smi 显存占用 查看', 'Linux top 命令 详解']
+  },
+  '进程 / 线程': {
+    why: '这是你 C 语言这条线通向操作系统的门。也是"程序为什么卡住"的最底层答案。',
+    t1: '试一下：ps aux | grep python 看你现在跑着什么。',
+    s: [
+      ['cn', '小林 coding · 进程与线程', 'https://xiaolincoding.com/os/4_process/process_base.html', '中文图解，讲得最清楚'],
+      ['doc', 'Python 官方 · threading', 'https://docs.python.org/3/library/threading.html', '权威文档']
+    ],
+    q: ['进程 线程 区别 图解', 'Python 多线程 多进程 区别']
+  },
+  'SDK / CLI / GUI': {
+    why: '这三个缩写你每天都会听到，分不清就会读不懂文档在说什么。',
+    t1: '打开你电脑上任意一个工具，问自己：它有没有 CLI？',
+    s: [
+      ['cn', '阮一峰 · CLI 与 GUI', 'https://www.ruanyifeng.com/blog/2021/03/cli.html', '讲"为什么程序员爱命令行"'],
+      ['cn', '维基百科 · 软件开发工具包', 'https://zh.wikipedia.org/wiki/软件开发工具包', 'SDK 是什么']
+    ],
+    q: ['SDK 是什么 通俗解释', 'CLI 和 GUI 区别']
+  },
+  'tar / 压缩解压': {
+    why: 'Linux 世界"发一个东西给你"的默认姿势。看到 .tar.gz 不会解压，第一步就卡住了。',
+    t1: '记一条就够：tar -xzvf 文件名.tar.gz',
+    s: [
+      ['doc', 'GNU tar 官方手册', 'https://www.gnu.org/software/tar/manual/tar.html', '权威手册'],
+      ['cn', '菜鸟教程 · Linux tar', 'https://www.runoob.com/linux/linux-comm-tar.html', '参数速查']
+    ],
+    q: ['tar.gz 解压 命令', 'Linux 打包 压缩 区别']
+  },
+  '交叉编译': {
+    why: '你在做 PCB、想走嵌入式，这一条是绕不过去的关。它解释了为什么嵌入式"要在电脑上开发"。',
+    t1: '搜一下你手上的开发板型号 + "交叉编译工具链"，看看厂商给的是什么。',
+    s: [
+      ['cn', '维基百科 · 交叉编译器', 'https://zh.wikipedia.org/wiki/交叉编译器', '概念'],
+      ['cn', 'B 站 · 交叉编译 入门', 'https://search.bilibili.com/all?keyword=%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91%E5%85%A5%E9%97%A8', '视频讲解']
+    ],
+    q: ['交叉编译 是什么 为什么', 'arm 交叉编译 工具链 搭建']
+  },
+  '影响因子 / 分区': {
+    why: '这是学术圈的"汇率表"。进组第一天你就会听到，听不懂就接不上话。',
+    t1: '打开 CCF 推荐列表页面，随便找一个你听过的会议名，看它在哪个档。',
+    s: [
+      ['doc', 'CCF 推荐国际学术会议和期刊目录', 'https://www.ccf.org.cn/Academic_Evaluation/By_category/', '国内最常引用的分级依据'],
+      ['cn', '知乎 · 影响因子 是什么', 'https://www.zhihu.com/search?type=content&q=%E5%BD%B1%E5%93%8D%E5%9B%A0%E5%AD%90%20%E4%B8%AD%E7%A7%91%E9%99%A2%E5%88%86%E5%8C%BA', '通俗解释帖']
+    ],
+    q: ['影响因子 是什么 通俗解释', 'CCF 推荐 会议 期刊 目录']
+  },
+  '会议 vs 期刊': {
+    why: '你要是不知道"计算机最认会议"，可能会按别的学科的思路去准备，方向就偏了。',
+    t1: '搜一下 CVPR 和 TPAMI 分别是什么，感受一下它俩关系。',
+    s: [
+      ['cn', '知乎 · 会议和期刊哪个更好', 'https://www.zhihu.com/search?type=content&q=%E8%AE%A1%E7%AE%97%E6%9C%BA%20%E4%BC%9A%E8%AE%AE%20%E6%9C%9F%E5%88%8A%20%E5%93%AA%E4%B8%AA%E6%9B%B4%E5%A5%BD', '讨论帖'],
+      ['doc', 'CCF 推荐目录', 'https://www.ccf.org.cn/Academic_Evaluation/By_category/', '看会议和期刊是分开列级的']
+    ],
+    q: ['计算机 会议 期刊 哪个重要', 'CVPR NeurIPS 是什么级别']
+  },
+  '投稿流程': {
+    why: '知道这条流水线，"被拒"就不再是打击，而是一个正常环节。',
+    t1: '随便找一篇 arXiv 上的论文，拉到最后看它的 Comments 和会议信息。',
+    s: [
+      ['cn', '知乎 · 第一次投稿 是怎么个流程', 'https://www.zhihu.com/search?type=content&q=%E8%AE%BA%E6%96%87%20%E6%8A%95%E7%A8%BF%20%E5%AE%A1%E7%A8%BF%20%E6%B5%81%E7%A8%8B', '经验帖'],
+      ['cn', '知乎 · rebuttal 怎么写', 'https://www.zhihu.com/search?type=content&q=rebuttal%20%E6%80%8E%E4%B9%88%E5%86%99', '回辩经验']
+    ],
+    q: ['论文 投稿 审稿 流程', 'rebuttal 怎么写 经验']
+  },
+  'BibTeX / 引用格式': {
+    why: '写成手动引用，早晚会错。知道有这条路，你能省下大量返工时间。',
+    t1: '在 Zotero 里给一篇论文导出 BibTeX 看一眼长什么样。',
+    s: [
+      ['cn', 'BibTeX 中文说明', 'https://www.bibtex.com/zh/', '入门与格式说明'],
+      ['doc', 'Overleaf · 参考文献指南', 'https://www.overleaf.com/learn/latex/Bibliography_management_with_bibtex', '官方教程']
+    ],
+    q: ['BibTeX 怎么用 教程', 'GB/T 7714 引用格式']
+  },
+  '大创 / 国创': {
+    why: '这是本科生能拿到的、最正规的科研入口。你现在大一，正好在它开始的时间点上。',
+    t1: '搜一下你们学校今年的"大学生创新创业训练计划"通知，看申报时间。',
+    s: [
+      ['cn', '百度百科 · 大学生创新创业训练计划', 'https://baike.baidu.com/item/大学生创新创业训练计划', '基本介绍'],
+      ['cn', '知乎 · 大创 值不值得做', 'https://www.zhihu.com/search?type=content&q=%E5%A4%A7%E5%88%9B%20%E5%80%BC%E4%B8%8D%E5%80%BC%E5%BE%97%E5%81%9A', '过来人怎么说']
+    ],
+    q: ['大学生创新创业训练计划 怎么申报', '大创 项目 经验 分享']
+  },
+  '组会 / 周报': {
+    why: '进组之后你的评价几乎全靠它。学会"讲清楚这周干了什么"，比技术还先卡人。',
+    t1: '给自己写一份本周记录：做了什么、卡在哪、下周打算。',
+    s: [
+      ['cn', '知乎 · 研究生 组会 怎么汇报', 'https://www.zhihu.com/search?type=content&q=%E7%A0%94%E7%A9%B6%E7%94%9F%20%E7%BB%84%E4%BC%9A%20%E6%80%8E%E4%B9%88%E6%B1%87%E6%8A%A5', '经验帖'],
+      ['cn', '知乎 · 科研 周报 怎么写', 'https://www.zhihu.com/search?type=content&q=%E7%A7%91%E7%A0%94%20%E5%91%A8%E6%8A%A5%20%E6%80%8E%E4%B9%88%E5%86%99', '模板与建议']
+    ],
+    q: ['组会 汇报 怎么做', '科研 周报 模板']
+  },
+  '调试器 / 断点': {
+    why: '你会花时间 debug（你自己也承认），那这把刀迟早要换更好的——print 是最钝的。',
+    t1: '在 Python 里 import pdb; pdb.set_trace() 试一次，看程序停下来。',
+    s: [
+      ['doc', 'Python 官方 · pdb 调试器', 'https://docs.python.org/3/library/pdb.html', '权威文档'],
+      ['doc', 'GDB 官方文档', 'https://sourceware.org/gdb/documentation/', 'C 语言调试器的标准'],
+      ['cn', '阮一峰 · GDB 入门教程', 'https://www.ruanyifeng.com/blog/2018/06/gdb-tutorial.html', '中文，例子清楚']
+    ],
+    q: ['Python pdb 调试 教程', 'gdb 断点 调试 C 程序']
+  },
+  'make / Makefile': {
+    why: '你学 C 语言，这是"从写一个文件到做一个项目"之间那道门。',
+    t1: '在你任意一个 C 文件夹里建一个只有三行的 Makefile，跑一次 make。',
+    s: [
+      ['doc', 'GNU make 官方手册', 'https://www.gnu.org/software/make/manual/make.html', '权威手册'],
+      ['cn', '阮一峰 · Makefile 教程', 'https://www.ruanyifeng.com/blog/2015/02/make.html', '中文，最常被转发的一篇'],
+      ['cn', '菜鸟教程 · C 语言 Makefile', 'https://www.runoob.com/w3cnote/gcc-parameter-detail.html', 'gcc 与 make 一起看']
+    ],
+    q: ['Makefile 怎么写 入门', 'make 命令 教程 C 语言']
+  },
+  '编译 vs 解释': {
+    why: '这是"为什么 C 报错在跑之前，Python 报错在跑之后"的答案——你会立刻觉得底层清楚了一格。',
+    t1: '想一下：为什么 C 忘写分号时，还没运行就报错了？',
+    s: [
+      ['cn', '小林 coding · 编译型与解释型语言', 'https://xiaolincoding.com/', '底层系列里讲到'],
+      ['cn', '知乎 · 编译型 解释型 区别', 'https://www.zhihu.com/search?type=content&q=%E7%BC%96%E8%AF%91%E5%9E%8B%20%E8%A7%A3%E9%87%8A%E5%9E%8B%20%E5%8C%BA%E5%88%AB', '讨论帖']
+    ],
+    q: ['编译型 解释型 语言 区别', '为什么 C 要编译 Python 不用']
+  },
+  'Markdown': {
+    why: '你以后的笔记、README、实验记录、甚至简历，都靠它。一天就能会，收益吃一辈子。',
+    t1: '打开任意一个 .md 文件（比如 GitHub 上任意仓库的 README），看源码长什么样。',
+    s: [
+      ['cn', 'Markdown 中文入门', 'https://markdown.com.cn/', '中文手册，十分钟读完'],
+      ['vid', 'B 站 · Markdown 入门', 'https://search.bilibili.com/all?keyword=Markdown%20%E5%85%A5%E9%97%A8', '视频版']
+    ],
+    q: ['Markdown 语法 教程', 'Markdown 常用语法 速查']
+  },
+  'JSON / YAML / TOML': {
+    why: '你以后改配置的时间会远超写代码的时间。认得出这三种格式，改配置就不慌。',
+    t1: '找任意一个 config.yaml，逐行读出"哪个参数是什么"。',
+    s: [
+      ['doc', 'JSON 官方（中文）', 'https://www.json.org/json-zh.html', '最简洁的格式定义'],
+      ['cn', '菜鸟教程 · YAML', 'https://www.runoob.com/w3cnote/yaml-intro.html', '中文入门']
+    ],
+    q: ['YAML 语法 入门', 'JSON YAML 区别 配置']
+  },
+  'Jupyter Notebook': {
+    why: '科研里"边看结果边写下一步"的标准工作方式。数据分析、调模型、画图，都在它里面。',
+    t1: '装 jupyter（pip install jupyter）然后 jupyter notebook 打开看一次。',
+    s: [
+      ['doc', 'Jupyter 官方', 'https://jupyter.org/', '官方网站与文档'],
+      ['cn', '知乎 · Jupyter Notebook 入门', 'https://www.zhihu.com/search?type=content&q=Jupyter%20Notebook%20%E5%85%A5%E9%97%A8', '经验帖']
+    ],
+    q: ['Jupyter Notebook 入门 教程', 'Jupyter 和 PyCharm 区别']
+  },
+  '开源许可证 License': {
+    why: '很多新手会直接把别人代码抄进自己项目，然后发现不能这么干。这是能救你一次的知识。',
+    t1: '打开任意一个 GitHub 仓库右上角，找到 License，点进去读一眼。',
+    s: [
+      ['doc', 'Choose a License', 'https://choosealicense.com/', '交互式帮你选许可'],
+      ['cn', '阮一峰 · 开源许可证入门', 'https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html', '最常引用的中文解释']
+    ],
+    q: ['开源许可证 区别 MIT GPL', '用什么开源协议 商用']
+  },
+  '单元测试': {
+    why: '这是"学生代码"和"工程代码"之间最明显的一条分界线。进组之后别人第一个看的就是它。',
+    t1: '给你的一个 Python 函数写 3 行 assert 测试。',
+    s: [
+      ['doc', 'pytest 官方文档', 'https://docs.pytest.org/', 'Python 测试的事实标准'],
+      ['cn', '菜鸟教程 · Python 单元测试', 'https://www.runoob.com/w3cnote/python-unit-test.html', '中文入门']
+    ],
+    q: ['单元测试 怎么写 Python', 'pytest 入门 教程']
+  },
+  '技术债': {
+    why: '这个词一出来，你就知道别人在抱怨什么，也听得懂 code review 里"先这样以后再说"的分量。',
+    t1: '回想一下你写过的、写过一次就再也不敢改的那段代码，那就是债。',
+    s: [
+      ['cn', 'Martin Fowler · Technical Debt', 'https://martinfowler.com/bliki/TechnicalDebt.html', '提出这个隐喻的人写的解释'],
+      ['cn', '维基百科 · 技术负债', 'https://zh.wikipedia.org/wiki/技术负债', '中文定义与来源']
+    ],
+    q: ['技术债 是什么 通俗', '技术债务 举个例子']
+  },
+  'epoch / batch / iteration': {
+    why: '这三个词在所有人的对话里混着用，分不清就永远听不明白别人在调什么。',
+    t1: '假设 1000 条数据、batch size = 100，问自己：跑一个 epoch 要更新几次参数？',
+    s: [
+      ['doc', 'PyTorch 官方 · 数据加载教程', 'https://pytorch.org/tutorials/beginner/basics/data_tutorial.html', '权威术语出处'],
+      ['cn', '知乎 · batch epoch iteration 区别', 'https://www.zhihu.com/search?type=content&q=batch%20epoch%20iteration%20%E5%8C%BA%E5%88%AB', '图解讨论帖']
+    ],
+    q: ['epoch batch iteration 区别', 'batch size 怎么选']
+  },
+  '过拟合 / 欠拟合': {
+    why: '模型不work时你八成会先怀疑网络结构，其实先该看的就是这个。',
+    t1: '画一下训练 loss 和验证 loss 两条线，看看它俩什么时候开始分叉。',
+    s: [
+      ['doc', 'scikit-learn · 过拟合与欠拟合', 'https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html', '官方带图的例子'],
+      ['cn', '知乎 · 过拟合 欠拟合 怎么判断', 'https://www.zhihu.com/search?type=content&q=%E8%BF%87%E6%8B%9F%E5%90%88%20%E6%AC%A0%E6%8B%9F%E5%90%88%20%E6%80%8E%E4%B9%88%E5%88%A4%E6%96%AD', '讨论帖']
+    ],
+    q: ['过拟合 欠拟合 区别 判断', '过拟合 怎么解决']
+  },
+  '微调 fine-tune': {
+    why: '这是你现在最可能真的用上的一条——不训模型，只微调，普通显卡就能干。',
+    t1: '在 HuggingFace 上找一个开源模型页，看它的 Fine-tune 示例代码。',
+    s: [
+      ['doc', 'Hugging Face · 训练与微调', 'https://huggingface.co/docs/transformers/training', '权威教程'],
+      ['cn', '知乎 · 微调 和 预训练 区别', 'https://www.zhihu.com/search?type=content&q=%E5%BE%AE%E8%B0%83%20%E5%92%8C%20%E9%A2%84%E8%AE%AD%E7%BB%83%20%E5%8C%BA%E5%88%AB', '概念理清']
+    ],
+    q: ['微调 是什么 通俗解释', '大模型 微调 入门 教程']
+  },
+  'checkpoint / 权重': {
+    why: '不懂这个，你可能会在"训了 8 小时然后断电"的那天学到人生一课。',
+    t1: '想一下：训练跑一半断了，你希望有什么东西能救你？',
+    s: [
+      ['doc', 'PyTorch · 保存与加载模型', 'https://pytorch.org/tutorials/recipes/recipes/saving_and_loading_a_general_checkpoint.html', '官方教程'],
+      ['cn', '知乎 · 权重 是什么', 'https://www.zhihu.com/search?type=content&q=%E6%A8%A1%E5%9E%8B%20%E6%9D%83%E9%87%8D%20%E6%98%AF%E4%BB%80%E4%B9%88', '通俗解释']
+    ],
+    q: ['模型权重 是什么 通俗', 'checkpoint 断点续训']
+  },
+  'token / 词元': {
+    why: '你以后调任何大模型 API，账单和长度限制都按它算。这是"会花钱"的第一步。',
+    t1: '用 OpenAI 的官方分词器网页，把你一句话喂进去，数数切成了几块。',
+    s: [
+      ['doc', 'OpenAI · Tokenizer 在线试', 'https://platform.openai.com/tokenizer', '官方，能直接看到切分'],
+      ['cn', '知乎 · token 是什么', 'https://www.zhihu.com/search?type=content&q=%E5%A4%A7%E6%A8%A1%E5%9E%8B%20token%20%E6%98%AF%E4%BB%80%E4%B9%88', '通俗解释']
+    ],
+    q: ['token 是什么 大模型 计费', '上下文长度 怎么算 token']
+  },
+  'LoRA': {
+    why: '如果你想在自己显卡上"改造"一个开源大模型，八成就是走这条路。',
+    t1: '在 HuggingFace 上搜一个带 LoRA 标注的模型，看它体积有多小。',
+    s: [
+      ['doc', 'HuggingFace PEFT（含 LoRA）', 'https://huggingface.co/docs/peft/index', '官方库，LoRA 就在这里'],
+      ['cn', '知乎 · LoRA 微调 原理', 'https://www.zhihu.com/search?type=content&q=LoRA%20%E5%BE%AE%E8%B0%83%20%E5%8E%9F%E7%90%86', '原理讲解帖']
+    ],
+    q: ['LoRA 微调 原理 通俗', 'LoRA 微调 教程 实践']
+  },
+  'vLLM / 推理加速': {
+    why: '模型跑通是一回事，跑得快是另一回事——后者才是"能上线"的门槛。',
+    t1: '在 vLLM 文档里找到 Quickstart，看一眼它的启动命令。',
+    s: [
+      ['doc', 'vLLM 官方文档', 'https://docs.vllm.ai/', '权威入口'],
+      ['cn', '知乎 · 大模型 推理加速', 'https://www.zhihu.com/search?type=content&q=%E5%A4%A7%E6%A8%A1%E5%9E%8B%20%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F%20vLLM', '方案对比帖']
+    ],
+    q: ['vLLM 是什么 怎么用', '大模型 推理加速 方法']
+  },
+  '日志 logging': {
+    why: '你只会 print 的话，程序一上服务器就会变成"看不见的黑箱"。',
+    t1: '把一段脚本里的 print 换成 logging，跑一次看输出格式的差别。',
+    s: [
+      ['doc', 'Python 官方 · logging', 'https://docs.python.org/3/library/logging.html', '权威文档'],
+      ['doc', 'Python 官方 · logging 教程', 'https://docs.python.org/3/howto/logging.html', '官方入门，比上面那页好读']
+    ],
+    q: ['Python logging 教程', 'logging 和 print 区别']
+  },
+  '异常处理': {
+    why: 'C 里没有这套东西，所以你从 C 过来一定会漏掉它——但工程代码里到处都是。',
+    t1: '写一个 try/except，故意让它出错，看程序是不是没崩。',
+    s: [
+      ['doc', 'Python 官方 · 错误与异常', 'https://docs.python.org/3/tutorial/errors.html', '官方教程'],
+      ['cn', '菜鸟教程 · Python 异常处理', 'https://www.runoob.com/python/python-exceptions.html', '中文速查']
+    ],
+    q: ['Python 异常处理 try except', '异常处理 最佳实践']
+  },
+  '.env / 密钥管理': {
+    why: '这是最容易被忽略、代价又最大的一条——密钥一旦推上 GitHub，基本等于公开。',
+    t1: '检查你现有的项目里，有没有哪个文件写着一串看起来像密码的东西。',
+    s: [
+      ['doc', 'The Twelve-Factor App · 配置', 'https://12factor.net/zh_cn/config', '中文，配置管理的经典原则'],
+      ['cn', '知乎 · api key 泄露 怎么办', 'https://www.zhihu.com/search?type=content&q=api%20key%20%E6%B3%84%E9%9C%B2%20%E6%80%8E%E4%B9%88%E5%8A%9E', '真实案例']
+    ],
+    q: ['python .env 文件 用法', 'api key 怎么安全存放']
+  },
+  '容器编排 / k8s': {
+    why: '现在不用学，但你必须知道它存在——否则在公司或实验室听到"我们跑在 k8s 上"会完全接不上。',
+    t1: '只做一件事：读一下 Kubernetes 官方的"它是什么"那一页。',
+    s: [
+      ['doc', 'Kubernetes 官方 · 中文文档', 'https://kubernetes.io/zh-cn/docs/home/', '权威中文入口'],
+      ['cn', '菜鸟教程 · Kubernetes 教程', 'https://www.runoob.com/kubernetes/kubernetes-tutorial.html', '中文速览']
+    ],
+    q: ['Kubernetes 是什么 通俗', 'docker 和 k8s 区别']
+  }
+};
+
+/* ============================================================
+   详细解读：再深一层里的正文层
+   body: 分段正文，支持 **粗体** 与 `代码`
+   trap: 容易搞混 / 最常见的错，1~2 条
+   ============================================================ */
+const DEEP_BODY = {
+  "Linux / 命令行": {
+    body: [
+      "服务器、超算、云主机、实验室的机器——这些地方**没有鼠标**。你面对的是一个只能打字的窗口，而那个窗口背后就是 Linux。命令行不是「更高级的操作方式」，它是那些机器**唯一**存在的操作方式。",
+      "它真正的价值是**可重复**：你敲下的每一条命令，都能被复制、写进脚本、交给别人原样再跑一遍。鼠标点击做不到这件事——所以科研里一切「自动跑一遍」，最后都落在命令行上。",
+      "对你还有一层额外好处：你写 C 语言用的 `gcc`、`gdb`、`make`，本身就长在命令行里。这两条线其实是同一件事。"
+    ],
+    trap: [
+      "别把它当成「要另开一门课」。你不是在学新工具，你是在学**你的 C 语言本来就住的那间屋子**。",
+      "命令是**区分大小写**的。`ls` 和 `LS` 是两个完全不同的东西。"
+    ]
+  },
+  "Shell / bash": {
+    body: [
+      "命令行是你一句一句手敲的对话；**Shell 是把这些句子写进一个文件、让它一次跑完的东西**。bash 是最常见的那种 Shell，你以后不断看到的 `.sh` 文件，就是 Shell 脚本。",
+      "举个你会真的遇到的例子：需要「编译 → 跑十组参数 → 把结果分别存好」。手敲三十遍不现实；写进一个二十行的脚本，以后一句话就能重跑。服务器上的启动脚本、实验的批处理，全是它。"
+    ],
+    trap: [
+      "bash 只是 Shell 的一种（还有 sh、zsh）。别人说「写个 shell 脚本」，默认指 bash。"
+    ]
+  },
+  "SSH": {
+    body: [
+      "SSH 是**用一根加密的管子，从你本地连到远处另一台机器上**，然后在那台机器上打字。连上之后，你以为在自己电脑里敲的命令，其实是在远处那台机器上执行的。",
+      "它的分量在场景里：学校超算、实验室服务器、租来的云主机，全都是你人过不去的机器。**进组第一周老师给你的多半就是一个 IP、一个用户名、一个端口**——那就是要你 SSH 过去。"
+    ],
+    trap: [
+      "登录服务器用的 SSH，和 GitHub 里填的 SSH key，是同一个技术的两种用法：一个连机器，一个证明「这次推送确实是我发的」。别当成两回事。"
+    ]
+  },
+  "tmux": {
+    body: [
+      "你 SSH 到远端跑一个要三小时的训练，然后笔记本合上了、宿舍网断了——连接一断，远端那个任务会被系统一起结束，前面的时间白花。",
+      "tmux 解决的就是这件事：**把任务挂在远端的窗口里，让它和你的连接脱钩**。断开、关机、第二天再来，敲一句就能接回那个还在跑的窗口。它还能把屏幕切成好几格，一边跑一边看日志。"
+    ],
+    trap: [
+      "tmux 不是远程桌面，它不传画面，只保住那个终端会话活着。"
+    ]
+  },
+  "环境变量 / PATH": {
+    body: [
+      "环境变量是**贴在系统上的一堆小纸条**，程序启动时会去读它们，好知道该去哪找东西、该用什么配置。PATH 是最常被提到的那张，它记着「你敲一个命令时，系统该去这几个目录里找对应的程序」。",
+      "新手第一次崩溃几乎都发生在这里：软件明明装了，敲命令却是 command not found。九成是因为它被装到了 PATH 里没有的目录。知道这一层，你以后看到这句报错只会挑一下眉，去看一眼 PATH 就完事。"
+    ],
+    trap: [
+      "「装了但找不到」和「装了但版本不对」是两件事：前者是 PATH 问题，后者是环境没生效。"
+    ]
+  },
+  "sudo / 权限": {
+    body: [
+      "Linux 里每个文件都带着三个标记：谁能读、谁能改、谁能在里面执行。`sudo` 的意思是**临时用管理员身份做这一件事**——改系统级文件、装系统级软件，普通用户没这个权力。",
+      "你会频繁撞见 Permission denied。它基本只有两种含义：这个文件归别人管（要用 sudo），或者这个文件没被标成可执行（比如你自己写的脚本忘了加执行权限）。"
+    ],
+    trap: [
+      "**不要习惯性加 sudo**。在共享服务器上用管理员权限乱改系统库，是能把整台机器的环境弄坏的经典事故，而且影响的是所有人。"
+    ]
+  },
+  "WSL": {
+    body: [
+      "你用的是 Windows，但要学的这一套（服务器世界）是 Linux。WSL 让你**在 Windows 里直接开一个真正的 Linux**，文件互通，不装双系统、不重启。",
+      "它对你现在特别实用：不离开 Windows，就能把命令行、Shell 脚本、Docker 这些**原封不动**练一遍。真服务器上长什么样，你在 WSL 里看到的就是什么样。"
+    ],
+    trap: [
+      "WSL 不是模拟器。特别是 WSL2，它跑的是真实的 Linux 内核。"
+    ]
+  },
+  "arXiv": {
+    body: [
+      "arXiv 是论文的**预印本仓库**：作者在正式投出去、被期刊或会议接收之前，就把稿子挂上去公开了。所以这里最新，但也**没有经过同行评审**。",
+      "它的用法是追前沿——听说某个方向出了新东西，第一反应往往是「arXiv 上有没有」。另一个容易被忽略的用处是拿原始 PDF：很多论文的完整实验细节和补充材料，只有 arXiv 版才写得全。"
+    ],
+    trap: [
+      "**arXiv 上有，不等于已经发表**。引用之前要确认它是不是已被正式会议或期刊接收，两者在评审眼里分量差很多。"
+    ]
+  },
+  "综述 Survey": {
+    body: [
+      "综述是一篇文章，它**不提出新方法**，而是把某个方向近几年几十上百篇工作**梳理成一张地图**：这条路怎么走过来的、现在分成哪几派、各自强在哪、弱在哪。",
+      "对刚进领域的人，它的性价比高到离谱——读一篇等于别人替你读了五十篇。进组后老师给你的第一个任务，很多时候就是「先把这个方向的几篇 survey 看了」。"
+    ],
+    trap: [
+      "别把综述当入门教程。它是写给同行看的，默认你懂基本名词；看不懂是正常的，先看它的图和结论部分。"
+    ]
+  },
+  "Zotero": {
+    body: [
+      "读研之后你会攒下几百篇论文，靠文件夹名字管理一定会崩。Zotero 是**文献管理软件**：你把论文丢进去，它自动抓住标题、作者、年份、期刊，并给这篇论文生成一个稳定的编号。",
+      "真正的价值在写论文那一刻——你在 Word 或 LaTeX 里插引用，它自动按你选的格式把参考文献列表排出来。没有它，手动排一百条参考文献就是一场灾难。"
+    ],
+    trap: [
+      "Zotero 管的是**元数据与引用**，不是「下载论文」。PDF 只是它顺手收着的一个附件。"
+    ]
+  },
+  "Connected Papers": {
+    body: [
+      "你手里有一篇论文，想知道「这个方向还有谁在做」。这类工具把**引用关系画成一张图**：每篇论文是一个点，谁引用了谁就连一条线，图上离得越近表示越相关。",
+      "两种最好用的看法的：找**开山之作**（被所有人指向的那个中心点），找**最新进展**（外围新冒出来的点）。你只需要给它一篇论文的标题。"
+    ],
+    trap: [
+      "它算的是**引用关系上的相关**，不等于「最重要的那篇」。图只是入口，最后还是得自己读摘要。"
+    ]
+  },
+  "双链笔记": {
+    body: [
+      "普通笔记是一页一页各管各的；双链笔记的重点是**笔记之间可以互相指**：你在 A 里写到 B，B 里就自动出现「谁提到了我」。攒久了，你会看见一堆自己都没料到的关联。",
+      "它对应的是科研里最真实的困难：**你想不起来三个月前读过什么、当时想到了什么**。Obsidian 是这类工具里最常见的一个，本地存纯文本，不联网也能用。"
+    ],
+    trap: [
+      "工具不是重点，**「写下来」这个动作**才是。用记事本也能做到，双链只是让你更容易顺着线索翻回去。"
+    ]
+  },
+  "Docker": {
+    body: [
+      "Docker 把「代码 + 依赖库 + 系统环境 + 配置」**整个打包成一个可以搬走的盒子**。这个盒子在你电脑上跑起来是什么样，搬到服务器上、搬到同学电脑上，就是一模一样。",
+      "它治的是一个千古顽症：代码在你这能跑，换台机器就报错——因为你装过的某个库、某个版本的编译器，别人机器上没有。它同时也是**复现**的基础：作者给你一个盒子，你就能跑出他论文里的结果。",
+      "所以它总出现在两个地方：一是部署（服务上线要个盒子），二是复现别人的论文——后者是你最可能先用到的一面。"
+    ],
+    trap: [
+      "Docker 不是虚拟机：它不模拟一整套硬件，只隔离进程和文件系统，所以启动快得多。"
+    ]
+  },
+  "镜像 / 容器": {
+    body: [
+      "这两个词必须分清。**镜像是「光盘」**：一层层只读的文件，打包好了放在那里，它自己不会动。**容器是「把光盘放进机器跑起来的那个实例」**：它是运行中的东西，你能进去、能改、关掉就没了。",
+      "所以流程永远是「从镜像**启动**一个容器」。同一个镜像可以同时起十个容器，彼此不干扰。你以后敲的 `docker run`，就是「拿这个镜像起一个容器」。"
+    ],
+    trap: [
+      "把容器里改的东西当成能留住，是新手第一个坑：容器一删，改动全没。想留住就必须写进配方，重新做成镜像。"
+    ]
+  },
+  "Dockerfile": {
+    body: [
+      "Dockerfile 是**做这个盒子的配方**，一行一条指令：从哪个基础系统开始、装哪些包、复制哪些代码、启动时跑什么命令。",
+      "它的价值在于**可重复**：配方写在文件里，谁都能照它做出同一个盒子，也能一眼看出「这个环境里到底装了什么」。这比「我也不知道怎么配好的，反正能跑」强一万倍。"
+    ],
+    trap: [
+      "四个词是一条链：Dockerfile 是配方，`docker build` 是照着配方做，镜像是做出来的成品，容器是成品跑起来。别混着用。"
+    ]
+  },
+  "虚拟环境 venv / conda": {
+    body: [
+      "Python 装库默认是全局的，所有人共用一个池子。麻烦在于项目 A 要 numpy 1.20、项目 B 要 numpy 2.0——装哪个都会把另一个弄坏。",
+      "虚拟环境就是**给每个项目一个独立的库目录**：同一个 Python，各项目各用各的池子，互不干扰。项目从此变成自带一套零件的独立体，交给别人也不会互相撞车。"
+    ],
+    trap: [
+      "venv 只管「这个项目装了哪些 Python 包」；conda 还多管一层「用的是哪个 Python，以及一些非 Python 的库」。用途重叠，别在一个项目里同时用两套。"
+    ]
+  },
+  "requirements.txt": {
+    body: [
+      "这是**一个项目的采购清单**：某一行写着 numpy 1.26.4，意思就是这个项目用的是这个版本。别人拿到你的代码，一条命令就能照单装齐。",
+      "在科研里它是复现的一部分——版本差一个小号，数字都可能对不上。所以清单通常连小版本号一起钉死，而不是只写一个包名。"
+    ],
+    trap: [
+      "只写包名不写版本，等于没写清单：别人装到最新版，跑不出你论文里的数。"
+    ]
+  },
+  "依赖地狱": {
+    body: [
+      "A 要库 X 的 1.0，B 要库 X 的 2.0，而 C 同时依赖 A 和 B——就凑不出一套能同时满足所有人的版本组合，这就是依赖地狱。它是「配环境」之所以让人痛苦的根。",
+      "人类对付它的两样武器你已经有了：**虚拟环境**（每个项目各过各的）和**容器**（干脆连系统一起打包端走）。所以这两个工具不是赶时髦，是被逼出来的。"
+    ],
+    trap: [
+      "看到 conflicting dependencies 别硬装。先问一句「是不是该开一个干净的环境」。"
+    ]
+  },
+  "CUDA 版本": {
+    body: [
+      "CUDA 是英伟达给自家显卡做的一套**并行计算平台**，PyTorch 这类框架要在 GPU 上跑，靠的就是它。麻烦在于它有一条很讨厌的性质：**显卡驱动、CUDA、PyTorch 三者版本必须互相兼容**。",
+      "所以你会不断看到有人问「我 CUDA 是 11.8，该装哪个 torch」——这不是水平问题，是这套生态固有的麻烦。懂这一层，你以后遇到版本报错就知道该去查兼容表，而不是乱装。"
+    ],
+    trap: [
+      "`nvidia-smi` 里那行 CUDA Version 写的是**驱动支持的上限**，不一定等于你环境里装的 CUDA。两个数不一样很正常。"
+    ]
+  },
+  "虚拟机 vs 容器": {
+    body: [
+      "虚拟机是在你系统里**跑一整套完整操作系统**——连内核都是新的，还要虚拟出 CPU、内存、硬盘。隔离得非常彻底，代价是重：几个 G，启动几十秒。",
+      "容器**共用宿主机的内核**，只隔离进程和文件系统。轻、秒级启动，几十兆的镜像也能跑起来。所以「打包环境」这件事，现在基本都选容器。"
+    ],
+    trap: [
+      "真需要跑一整套异构系统时（比如在 Windows 里跑 macOS），还是得用虚拟机。容器做不到那个隔离级别。"
+    ]
+  },
+  "Git": {
+    body: [
+      "Git 是**代码的存档系统**。每做到一个能跑的状态，你就存一档，并写一句话说明改了什么。任何时候都能退回之前任何一档，也能看到某一行是谁、什么时候、为什么改的。",
+      "它对科研真正的意义是：论文里那张图，是从哪一版代码、哪一次运行跑出来的？**没有版本记录，这个问题永远答不上来**。所以它不是「程序员的工具」，它是科研记录的底线。",
+      "你不需要先学会全部命令。会用四个动作（存档、拉取、推送、看历史）就已经覆盖了八成日常。"
+    ],
+    trap: [
+      "Git 是装在你本机上的软件，GitHub 是存放 Git 仓库的网站。名字像，一个是工具，一个是托管服务。"
+    ]
+  },
+  "commit": {
+    body: [
+      "commit 是**一次存档动作**，也是那个存档本身。它记下：这次动了哪些文件的哪些行、谁动的、什么时候，以及你为什么动（你写的那句说明）。",
+      "写说明这件事要从第一档就认真对待：「fix bug」等于没写；「修正数组越界导致的段错误」才能让人看懂——**包括三个月后的你自己，你也是读者**。"
+    ],
+    trap: [
+      "commit 存的是**整个项目在那个时刻的快照**，不是「这次改动的差异」。你看到差异，只是它为了让你好读而算出来的。"
+    ]
+  },
+  "branch": {
+    body: [
+      "分支是**从某个存档点分出去的一条平行线**。你可以在上面乱改、推倒重来，主线上那份能跑的东西丝毫不受影响。",
+      "最常见的用法是：新功能开一条分支，做完合回去；搞砸了就把分支扔掉。在科研代码里它还常被用来隔离实验——「这组参数的结果出自哪一版代码」就是靠它记的。"
+    ],
+    trap: [
+      "分支不是「复制一份代码放到另一个文件夹」，它非常轻，新建一条几乎不占空间。"
+    ]
+  },
+  "merge": {
+    body: [
+      "merge 是把**另一条分支上的改动并回当前分支**。Git 会对比两个版本，把各自的改动合起来；如果两边改了同一处，它不知道听谁的，就把决定权交给你——那就叫冲突。",
+      "日常节奏通常是：拉最新的主线 → 在自己的分支上做完 → 合回主线。理解这一句，你就理解了绝大多数团队协作的节奏。"
+    ],
+    trap: [
+      "合并出冲突不是错误，是**它按规矩办事**。真正危险的是不看内容就一律「保留我的」。"
+    ]
+  },
+  "conflict": {
+    body: [
+      "当两个版本改了同一段文字，Git 无法替你决定，就会在文件里留下标记：上半段是你的，下半段是别人的，中间用一排等号隔开。它是在说「**这里要你拍板，改成人想要的那一份**」，然后删掉这些标记。",
+      "正确的处理姿势是：先读双方为什么这么改，再决定留谁。处理完必须把标记行删干净，否则代码会直接跑不起来。"
+    ],
+    trap: [
+      "看到 conflict 别急着重来一遍。它只是「这里需要你决定」，不是仓库坏了。"
+    ]
+  },
+  "clone / pull / push": {
+    body: [
+      "三个动作对应三个方向：**clone** 把整个仓库从远端搬到本地（只做一次）；**pull** 把远端的新东西取下来（每次开始干活前）；**push** 把你本地的存档推上去（做完之后）。",
+      "它们全是「本地 ↔ 远端」的搬运。理解这个模型，你就明白为什么「改完忘了推，换台电脑就找不到」是最高频的事故。"
+    ],
+    trap: [
+      "push 不会自动先帮你 pull。远端有你本地没有的提交时，push 会被拒绝——那是保护机制，不是坏了。"
+    ]
+  },
+  "GitHub": {
+    body: [
+      "GitHub 是**存放 Git 仓库的网站**，也就是「远端」那一头。它的第一层用途是备份和协作：把你的仓库推上去，换台电脑拉下来就能接着干；几个人一起做，大家对着同一个仓库推拉。",
+      "第二层用途常被低估：它是**你的作品集**。进组面试、保研、找实习，别人真的会点开你的主页看你写过什么。一个持续有提交记录、有 README 的仓库，比一句「我熟悉 C 语言」有说服力得多。"
+    ],
+    trap: [
+      "仓库可以是公开的，也可以是私有的。公开仓库里的 API key、实验数据、个人信息很容易被爬走——放上去之前先看一眼有没有不该露的东西。"
+    ]
+  },
+  "PR (Pull Request)": {
+    body: [
+      "PR 是**「我改好了，请你们看看要不要合进去」的正式请求**。它不是技术动作（技术上就是合并分支），而是一个**评审流程**：改动摆出来，别人逐行提意见，改到满意了再合。",
+      "开源项目基本都靠 PR 运转。对你个人来说，它的价值是**让别人的眼睛进来**——你自己写代码时看不出自己的毛病，被审过几次以后水平会长得很快。"
+    ],
+    trap: [
+      "PR 不是「提交代码」。代码是 commit 推上去的，PR 是请求别人把它合并进主线的那道手续。"
+    ]
+  },
+  "issue": {
+    body: [
+      "issue 是仓库里的**问题追踪单**：可以是「我发现一个 bug」，可以是「我建议加个功能」，也可以是「这段文档写错了」。每条有编号，可以挂着讨论、标签、指派给人。",
+      "它的意义在于**把口头的话变成可追踪的条目**。一个项目里谁在做什么、什么问题还没解决，看 issue 列表比问人快得多。"
+    ],
+    trap: [
+      "issue 和 PR 是两个东西：issue 是「有问题/有想法」，PR 是「我已经改好了」。提问应该开 issue，交代码应该提 PR。"
+    ]
+  },
+  "code review": {
+    body: [
+      "代码评审就是**别人读你的代码并提意见**，目的是找 bug、找隐患、统一风格。它评的是代码，不是人——这条界线在团队里非常重要。",
+      "你一个人做项目时也有替代品：**提交前把 diff 从头读一遍**。很多低级错误（调试用的打印没删、拼错的变量名、写死的路径）只靠这一遍就能拦下来。"
+    ],
+    trap: [
+      "评审意见被采纳与否要讲理由，别因为「对方是学长」就照改。目标是代码对，不是气氛好。"
+    ]
+  },
+  ".gitignore": {
+    body: [
+      "它是一张**黑名单**：列在这里的东西，Git 永远不管。最典型的几类是编译产物（`.o`、可执行文件）、虚拟环境目录、数据集、日志，以及**存着密钥的文件**。",
+      "为什么必须有：这些东西要么巨大（把 5G 数据集推上 GitHub 会被拒），要么是你本机特有的（换台机器就失效），要么是**绝对不能外传的**。"
+    ],
+    trap: [
+      "`.gitignore` 只对还没被跟踪的文件生效。已经被提交进去的文件，加进黑名单也不会自动消失——得先用命令把它从记录里移除。"
+    ]
+  },
+  "CI/CD": {
+    body: [
+      "CI 是「持续集成」，CD 是「持续部署」。说人话：**你每推一次代码，服务器自动帮你跑一遍测试、打包、甚至发布**，跑挂了就在仓库页面亮一个红叉。",
+      "它把「我这边能跑」变成了**一台干净的机器上也确实能跑**。这一步对科研代码尤其重要：它逼你把依赖写全，否则连自动化都过不了。"
+    ],
+    trap: [
+      "CI 是**自动化的检查**，不是自动测试用例生成器。它只跑你已经写好的测试——没写测试，它就只帮你验证「能不能编译」。"
+    ]
+  },
+  "GitHub Actions": {
+    body: [
+      "这是 GitHub 自带的 CI/CD 服务。你在仓库里放一个 YAML 文件（一般叫 `ci.yml`），写明「在什么时机、跑什么命令」，GitHub 就会照办。",
+      "最常见的配置是：每次推代码，就用一台干净机器装你的依赖、跑一遍测试。文件不长，但它就是仓库页面上那个绿勾红叉的来源。"
+    ],
+    trap: [
+      "写 Actions 配置**不需要你懂运维**，照抄官方模板改几行就够。别被 YAML 吓退。"
+    ]
+  },
+  "Python": {
+    body: [
+      "Python 现在实际上是**科研与 AI 的通用语言**：数据处理、画图、跑模型、写脚本，默认答案都是它。原因不是它更快或更优雅，而是**周围的库最多、别人的代码都是它**。",
+      "你会 C 语言，语法层面两天就能上手——真正的差别是使用方式：Python 靠**库**干活，你写的是把几个库串起来的胶水。"
+    ],
+    trap: [
+      "别把学 Python 当成目标。有用的目标永远是「**用它做出某个东西**」——比如一个数据处理脚本，或者一段能跑起来的模型代码。"
+    ]
+  },
+  "pip / PyPI": {
+    body: [
+      "pip 是 Python 的**装包工具**，PyPI 是它背后那个**公共仓库**（几十万个包都住在那里）。你敲 `pip install 包名`，就是从 PyPI 下载并装到当前环境里。",
+      "所以「Python 生态强」具体强在哪，就是这件事：你需要的大多数功能，别人已经写成包放在 PyPI 上了，一行命令就能用。"
+    ],
+    trap: [
+      "不同环境里的 pip 可能指向不同 Python。装完报「找不到模块」，多半是**装到了另一个环境**，用 `which pip` 看一眼。"
+    ]
+  },
+  "numpy": {
+    body: [
+      "numpy 是 Python 里做**数值计算的地基**。它的核心是一个叫「数组」的东西：一整块数连在一起，可以对它整体做加减乘除，而不是一个一个循环。",
+      "为什么快：整块运算是在底层用编译好的代码一次做完的，比 Python 一层层循环快几十上百倍。你以后见过的几乎所有科学计算库（包括深度学习框架），内部都在用它这种数据结构。"
+    ],
+    trap: [
+      "numpy 的关键习惯是「**尽量整块算，别写循环**」。用 Python 循环去处理数组，等于白用了它。"
+    ]
+  },
+  "pandas": {
+    body: [
+      "pandas 处理的是**表格式数据**：一行是一条记录，一列是一个字段。它让你像操作 Excel 一样筛选、分组、统计，但用代码完成，能处理几百万行。",
+      "科研里的位置很清楚：实验日志、问卷结果、跑批参数的汇总表，都先读成一张表，再算指标、画图。"
+    ],
+    trap: [
+      "pandas 适合几十万到几百万行。数据再大就该换工具了（比如更省内存的那种，或者干脆用数据库）。"
+    ]
+  },
+  "SQL": {
+    body: [
+      "SQL 是**向数据库提问题的语言**。数据库把数据存成表，你可以一句话问它：「把去年所有分数大于 90 的按班级分组算平均」。它去算，把结果给你。",
+      "对你的用处是：实验室的数据、爬下来的数据、别人给的语料，通常都躺在数据库里。不会 SQL 就只能等人导出成 CSV，会 SQL 就能自己直接取。"
+    ],
+    trap: [
+      "SQL 只负责取和算，不负责复杂建模。它的定位是「把数据从库里捞出来」，捞出来之后还是交给 Python。"
+    ]
+  },
+  "R 语言": {
+    body: [
+      "R 是和 Python 同一类的语言，但**更偏统计和数据分析**。生物信息、医学统计、社科这些圈子用得极多，很多经典的统计方法只有 R 有现成实现。",
+      "所以你会听到舍友说「我用 R 跑一下」——他多半在做统计分析或画统计图。你不需要学它，但要知道**它和 Python 是并行的两个选项**，不是进阶关系。"
+    ],
+    trap: [
+      "R 和 Python 不是「一个更高级」，是**两个圈子的主流**。选哪个取决于你要进哪个圈子、导师用什么。"
+    ]
+  },
+  "matplotlib": {
+    body: [
+      "matplotlib 是 Python 里**画图的标准工具**：折线、散点、柱状、热力图都能画，论文里那些图大多数是它（或它的上层封装）出来的。",
+      "它之所以关键，是因为**科研的产出最后是图**。一堆数字没人看，一张画得清楚的图能把结论说完。它还能直接导出矢量格式，放大不糊——那是投稿的硬要求。"
+    ],
+    trap: [
+      "默认样式比较丑。别花时间纠结美化，**先把图画出来、把坐标轴标签写清楚**才是正经事。"
+    ]
+  },
+  "Polars": {
+    body: [
+      "Polars 是这两年冒出来的**新一代表格处理库**，定位和 pandas 相同，但更快、更省内存，写法上更强调「把整个操作写成一条链」。",
+      "你会听到它的原因很简单：数据一旦大到几个 G，pandas 会卡甚至跑不动，这时候大家开始换它。它属于**进阶卡**，知道有这个东西就够了。"
+    ],
+    trap: [
+      "不是「pandas 过时了」。绝大多数场景 pandas 完全够用，Polars 是数据大到一定程度之后的备选。"
+    ]
+  },
+  "GPU": {
+    body: [
+      "CPU 是**少数几个很聪明的工人**，擅长一步步的逻辑判断；GPU 是**几千个简单工人**，单个很笨，但一起干活时吞吐量惊人。神经网络的运算恰好就是「同一种简单的加乘，重复几百万次」。",
+      "所以 GPU 成了 AI 的发动机。你不需要懂硬件细节，但要知道：**讨论 AI 的时候，算力指的就是有几张什么型号的 GPU**。"
+    ],
+    trap: [
+      "GPU 不只用于 AI。渲染、仿真、大矩阵计算都用它，只是现在被 AI 带火了。"
+    ]
+  },
+  "显存 VRAM": {
+    body: [
+      "显存是**显卡自己带的内存**，和主机内存是两回事。模型加载、每一批数据、中间算出来的结果，都得住在这里面。",
+      "它通常比主机内存小得多（主机 32G，显卡可能只有 8G 或 12G），而且**不能随便借用硬盘顶上**。所以「跑不动」经常不是算得慢，是**地方不够放**。"
+    ],
+    trap: [
+      "提示显存不够时，先别急着骂硬件。减小每批数据量、换更小的模型、或者用低精度加载，很多时候就够了。"
+    ]
+  },
+  "OOM (爆显存)": {
+    body: [
+      "OOM 是 Out Of Memory，「内存用光」。在 AI 语境里，九成指**显存爆了**：程序要往里放的东西超过了显卡容量，于是直接被系统杀掉。",
+      "它的典型触发场景：模型太大、每批数据太多、序列太长、或者忘了清掉上一轮留下的中间结果。所以它是个**参数问题**，不是一个 bug。"
+    ],
+    trap: [
+      "报 OOM 的时候，程序不是「跑得慢」，是**当场死了**，之前算的全丢。长期任务记得定期存中间结果。"
+    ]
+  },
+  "Slurm / sbatch": {
+    body: [
+      "实验室或超算的 GPU 只有几张，但用的人有几十个。所以不能谁想用就占住，得**排队**。Slurm 就是这套排队系统。",
+      "`sbatch` 是你交作业的命令：你写一个脚本，写明「我要 1 张 GPU、跑 2 小时、执行这个程序」，交上去，它会告诉你排在多少号，排到了自动开始跑。"
+    ],
+    trap: [
+      "别直接在登录节点上跑训练。登录节点是大家一起用的入口，跑重活会被管理员抓，通常也是明令禁止的。"
+    ]
+  },
+  "WandB / TensorBoard": {
+    body: [
+      "训练一个模型要跑几小时到几天，期间你要看：误差是不是在降、什么时候开始不降了、几十组参数哪组更好。这些工具就是**把训练过程记下来并画成曲线**的东西。",
+      "TensorBoard 偏本地（打开一个网页看），WandB 偏云端（多人能同时看着同一组实验对比）。它们的作用是把「训练」这件黑箱事变成**能看、能比较**的曲线。"
+    ],
+    trap: [
+      "它们记录的是**过程**，不负责保存模型。模型权重该另存（那是 checkpoint 的事）。"
+    ]
+  },
+  "超参数": {
+    body: [
+      "模型在训练中**自己学出来**的那些数叫参数（几百万上千万个）；由**你事先定好**的那些数叫超参数：学习率、批大小、迭代轮数、网络层数。",
+      "区别很关键：参数是模型调出来的，超参数是**你调的**。而模型好不好，很多时候就取决于这些你定的数。",
+      "你会听到「**调参**」这个词，说的就是这件事：数据不变、结构不变，只换这些事先定好的数，看哪组效果最好。它是一门经验活——靠的是多做几组、并且认真记录每一组的结果，而不是靠猜。"
+    ],
+    trap: [
+      "超参数不是越多越好。有经验的人会先只调一两个最关键的，而不是一口气搜几十个组合——那只是烧算力。"
+    ]
+  },
+  "baseline": {
+    body: [
+      "baseline 是**对照组**：一个简单、已知水平的做法，用来证明你的新方法真的更好。没有它，你无法说明「提升」是不是本来就有。",
+      "论文里的第一张表通常就是「我们的方法 vs 几个 baseline」。审稿人看论文的顺序也差不多：先看你的 baseline 选得公不公道。"
+    ],
+    trap: [
+      "把 baseline 故意调弱，是审稿人一眼就能识破的事。公平比较是本分，不是情商。"
+    ]
+  },
+  "benchmark": {
+    body: [
+      "benchmark 是**用统一标准去比性能**：同一批数据、同一套指标、同样的评测流程，把不同方法放进去跑，看谁的数字好看。",
+      "它的价值在于**可比性**——如果每个人各测各的，数字之间毫无意义。所以一个领域往往会有几个公认的 benchmark 数据集。"
+    ],
+    trap: [
+      "benchmark 上分数高，不等于真实场景里好用。这句是审稿人和工业界都常说的话。"
+    ]
+  },
+  "多卡 / 分布式训练": {
+    body: [
+      "模型大到一张显卡装不下，或者你想缩短训练时间，就把任务**切到多张卡上并行跑**。切法主要有两种：把数据分给不同卡（每张卡算一部分），或者把模型本身拆开分放到不同卡上。",
+      "你会听到「4 卡跑」「8 卡并行」这类说法，指的就是这件事。它是实验室机器配置高低的核心指标之一。"
+    ],
+    trap: [
+      "多卡不是简单的「快 N 倍」。卡之间要通信，通信开销有时会让加速大打折扣，甚至更慢。"
+    ]
+  },
+  "消融实验": {
+    body: [
+      "消融实验是**把你的方法一块块拆掉，看性能掉多少**。你加了三个设计，那就分别去掉一个跑一遍，看哪个是真的有用。",
+      "它回答的是审稿人最爱问的那句：「**凭什么说这个模块有用？**」没有消融，创新点就像在一堆改动里蒙出来的。",
+      "所以论文里的消融表通常长得像一列减法：完整版、去掉 A、去掉 B、去掉 C，分数依次往下掉。一眼就能看出谁在真的出力、谁只是凑数。"
+    ],
+    trap: [
+      "消融不是「多跑几组参数」。它拆的是**结构上的设计**，不是数值上的取值。"
+    ]
+  },
+  "LaTeX": {
+    body: [
+      "LaTeX 是一种**用代码写文档**的方式：你不排版，你写内容和标记（这是标题、这是公式、这是引用），它负责排出专业样子。",
+      "科研选它主要因为**公式**：数学式用代码写出来又准又好看，编号交叉引用还全自动。期刊和会议的模板几乎都是 LaTeX 的，直接套模板投稿就行。"
+    ],
+    trap: [
+      "LaTeX 和 Word 不是「一个高级一个低级」。要交的东西别人用 Word，你就用 Word——工具服务于交付要求。"
+    ]
+  },
+  "Overleaf": {
+    body: [
+      "Overleaf 是**网页版的 LaTeX**：不用在本地装一整套编译环境，打开浏览器就能写，右边实时显示排好版的 PDF。",
+      "它真正被用起来的原因是**协作**：导师批注、同学同改、版本记录，都在浏览器里完成。很多人第一次写论文就是被导师拉进一个 Overleaf 项目。"
+    ],
+    trap: [
+      "免费版有协作人数和编译时长限制，写到一半可能被卡。重要的东西别只放云上，本地也要有备份。"
+    ]
+  },
+  "矢量图 vs 位图": {
+    body: [
+      "位图是**由一个个像素点拼成的画**：放大会糊，因为它记录的是每个点的颜色。矢量图记录的是**形状和线条的数学描述**：放大一百倍依然锐利。",
+      "投稿时这就是硬要求：论文里的线图、流程图必须是矢量格式（常见后缀 PDF、SVG、EPS），照片才用位图。你用 matplotlib 存图时选 PDF 或 SVG，就是在做这件事。"
+    ],
+    trap: [
+      "截图永远是位图，放大就糊，不能用来投稿。要矢量图必须从源头导出。"
+    ]
+  },
+  "TikZ": {
+    body: [
+      "TikZ 是**用 LaTeX 代码画图**的工具：模型结构图、流程图、坐标系里的示意图，都能用一段代码描述出来，然后编译成矢量图。",
+      "它的好处是**图里的字和论文里的字完全一致**（同一套字体、同一个字号），而且版本可追溯。代价是要学一套画图语法，所以它属于进阶卡。"
+    ],
+    trap: [
+      "别为了用 TikZ 而用 TikZ。流程图用现成的画图软件拖一拖也能交，TikZ 只在需要「和正文风格统一、且要反复改」时才划算。"
+    ]
+  },
+  "README": {
+    body: [
+      "README 是仓库首页那篇说明，回答三件事：**这是什么、怎么装、怎么跑**。别人（和三个月后的你）拿到你的代码，第一眼就看它。",
+      "它是你在科研里最容易被低估的一项能力：一个仓库有没有能跑通的 README，直接决定了导师和同伴愿不愿意花时间看你写的东西。"
+    ],
+    trap: [
+      "README 不是「介绍文档」，它首先是**操作说明**。写清怎么跑起来，比写一堆项目愿景有用得多。"
+    ]
+  },
+  "异步沟通": {
+    body: [
+      "异步沟通就是**不要求对方立刻回**的交流方式：发邮件、写 issue、留文档、在群里留言，对方有空时再处理。与之相对的是开会、打电话这种「必须同时在场」的同步沟通。",
+      "在科研里它几乎是默认模式：导师很忙，同学在不同时间做实验。会异步沟通的人，能把「问题、背景、我已经试过什么」一次说清，别人看一眼就能回；不会的人，只能反复问「在吗」。"
+    ],
+    trap: [
+      "提问前先自己查一遍（文档、搜索），是异步沟通的礼貌底线。伸手就问会被默默降低优先级。"
+    ]
+  },
+  "文档 / Wiki": {
+    body: [
+      "文档是**把做法写下来留给别人**：这个项目怎么搭、这个实验怎么复现、这个服务器上装了什么、踩过哪些坑。多人协作时通常放在一个 Wiki 页面里，谁都能补。",
+      "它的价值在于**不依赖某个人的记忆**。实验室里最怕的就是「只有师兄知道那台机器怎么配」——他一毕业，全组重来一遍。"
+    ],
+    trap: [
+      "文档会过期，这是常态。写的时候**标上日期和版本**，比追求「一次写完美」实际得多。"
+    ]
+  },
+  "复现": {
+    body: [
+      "复现指的是：**别人拿到你的代码、数据、环境说明，能跑出和你论文里一样的数字和图表**。这是科研的底线要求，不是加分项。",
+      "它难在三件事都要对上：**代码**（哪一版）、**环境**（库的版本、编译选项）、**随机性**（随机种子）。所以复现不是一句口号，它是前面那些工具（Git、容器、种子、清单）加起来的产物。",
+      "对你个人的现实意义：进组之后，「复现一篇论文」常常是第一个任务——它同时也是最快的成长方式，因为你会被迫读懂别人完整的工程。"
+    ],
+    trap: [
+      "「我这里能跑」不等于可复现。**换一台干净机器跑得通**，才算。"
+    ]
+  },
+  "随机种子 seed": {
+    body: [
+      "程序里的「随机」其实是**用一套确定算法算出来的**，这个算法的起点就叫种子。同一个种子，跑出来的随机序列完全一样；不设种子，每次结果都不同。",
+      "它的意义在于**让结果能被复核**：论文里写上种子，别人才能跑出你那张表。所以做实验的代码里，通常在第一行就把种子固定住。"
+    ],
+    trap: [
+      "设了种子只能保证**同一台机器、同一套库版本**下一致。换了显卡或换了库的版本，数字照样可能变。"
+    ]
+  },
+  "实验记录": {
+    body: [
+      "实验记录是**一份流水账**：我在哪天、用哪一版代码、什么参数、跑出了什么数。听起来很笨，但它是科研里最省时间的一件事。",
+      "因为它解决的问题你一定遇到过：两周前那组结果很不错，但当时改了什么、用的什么参数，全忘了。**没有记录，等于那两周白跑。**"
+    ],
+    trap: [
+      "实验记录不等于「结果好看的那几次」。**失败的、看不出原因的，更要记**——不然你会在同一个坑里摔三次。"
+    ]
+  },
+  "训练 vs 推理": {
+    body: [
+      "训练是**让模型学**：喂大量数据进去，不断调整它内部那几百万个参数，代价是极贵（几小时到几个月、几十张卡）。推理是**拿训练好的模型用**：输入一条数据，它给你一个结果，代价小得多。",
+      "这个区分到处都是：训练要显卡要显存要排队，推理可以放到手机、摄像头、单片机上跑。很多模型优化的技术（量化、剪枝、蒸馏），目的都是**让推理变轻**。"
+    ],
+    trap: [
+      "同一张显卡能跑推理，未必能跑训练。训练的显存开销通常要**大好几倍**。"
+    ]
+  },
+  "模型量化": {
+    body: [
+      "模型里的数原本用高精度存（比如每个数占 32 位），量化就是**把它们压成低精度**（16 位、8 位、甚至 4 位）。占的地方立刻少一半到八分之一，跑得也更快。",
+      "代价是精度会掉一点——但经验上掉得远比想象中少，因为模型本身对这些小扰动有容忍度。所以它现在是「把大模型塞进小显卡」最主流的一条路。",
+      "它属于**训练之后的事**：模型已经训好了，你在部署前把它压一压，好装进更小的机器里。所以它解决的不是「模型聪不聪明」，而是「这东西到底跑不跑得动」。"
+    ],
+    trap: [
+      "量化省的是**空间和速度**，不会让模型变聪明，通常还会略差一点。它解决的是「跑不动」的问题。"
+    ]
+  },
+  "部署 / API": {
+    body: [
+      "模型训练完放在服务器上不会自己有用。部署就是**把它变成一个能被别的程序调用的服务**：别人发一条请求过来（一段文字、一张图），它把结果发回去。这种对外接口通常叫 API。",
+      "举个你可以理解的例子：你在网页上跟 AI 聊天，聊天框背后就是把你的话发到某个 API，收到回答再显示出来。训练和部署是两件不同的事，也是两种不同的岗位技能。"
+    ],
+    trap: [
+      "部署要考虑的不只是「能不能跑」，还有并发、延迟、成本、稳定——这些是工程问题，不是模型问题。"
+    ]
+  },
+  "剪枝 / 蒸馏": {
+    body: [
+      "它们和量化是**同一家人，都在让模型变小**。剪枝是**把模型里不重要的部分砍掉**（有些权重几乎不影响结果，删了也行）；蒸馏是**让一个小模型去模仿大模型的输出**，学到最后小模型能顶大半事。",
+      "这几种技术通常一起用：先蒸馏出一个小的，再剪一剪，最后量化一下，一张家用显卡也能跑了。"
+    ],
+    trap: [
+      "剪枝不是「随便删」。砍完通常要再微调一下，不然精度会掉得很难看。"
+    ]
+  },
+  "ONNX": {
+    body: [
+      "ONNX 是一个**模型格式的通用标准**。同一个模型，各个框架（PyTorch、TensorFlow）内部格式不一样，导出成 ONNX 之后，别的推理引擎、别的硬件平台就能加载它。",
+      "你可以把它理解成**模型的 PDF**：内容还是那个内容，但谁都能打开。它出现在部署环节，尤其是要把模型放到各种设备上跑的时候。"
+    ],
+    trap: [
+      "导出 ONNX 时偶尔会丢一些自定义算子或精度，需要专门处理。它不是无损万能的转存。"
+    ]
+  },
+  "数据泄露": {
+    body: [
+      "数据泄露是**在训练时不小心让模型看到了考试题**：测试集的数据（或它的信息）混进了训练过程，于是模型「考」得很好，其实只是背过答案。",
+      "它为什么被反复强调：因为**你几乎看不出来**。分数高得离谱，你会以为是模型强，实际上论文一投就被质疑。典型来源是划分数据前就做了归一化，或者同一批样本被切到了训练集和测试集两处。"
+    ],
+    trap: [
+      "「测试集效果特别好」这件事本身就该让你警惕。**先怀疑泄露，再庆祝。**"
+    ]
+  },
+  "管道 / 重定向": {
+    body: [
+      "命令行里的每个程序都有输入和输出。**重定向**是把输出写进文件（而不是刷在屏幕上）；**管道**是把一个程序的输出直接喂给另一个程序当输入。",
+      "一个真实例子：`cat 日志.txt | grep 错误 | wc -l` ——读日志、筛出含「错误」的行、数一共几行。三个小工具串起来，就完成了一件不小的事。这是命令行最核心的思维方式：**小工具，拼起来用**。"
+    ],
+    trap: [
+      "`>` 是覆盖写（原文件直接没了），`>>` 是追加。搞错一次能让你丢掉一整天的日志。"
+    ]
+  },
+  "grep / 正则": {
+    body: [
+      "grep 是**在文字里找东西**的命令，正则是**描述「要找什么样的文字」的一套写法**。比如你想找「所有以 Error 开头、后面跟一串数字的行」，用正则一句话就能表达。",
+      "它在科研里极其常用：几万行日志里找异常、代码里找某个函数的调用、文本语料里筛出符合模式的句子。学会基础正则（几个符号），能省掉大量手工翻找。"
+    ],
+    trap: [
+      "正则的写法在不同工具里略有差别（grep 和 Python 的就不太一样）。别硬背，用的时候查一眼。"
+    ]
+  },
+  "curl / wget": {
+    body: [
+      "它们是**在命令行里下载东西、访问网址**的工具。wget 偏「把文件抓下来」，curl 偏「和网站说一句话，看它回什么」。",
+      "典型用法：在服务器上（没有浏览器、没有图形界面）下载数据集和模型权重，或者测试一个 API 通不通——`curl` 一下，看它回不回应。"
+    ],
+    trap: [
+      "很多数据集和模型要从境外站点下载，服务器上常常需要额外的代理设置，不然会卡住或直接失败。"
+    ]
+  },
+  "rsync / scp": {
+    body: [
+      "它们是**在两台机器之间搬文件**的命令。scp 是简单复制，rsync 更聪明：它只传**改过的那部分**，还能断点续传、删掉对面多余的文件。",
+      "科研场景里你几乎一定会用：把几十 G 数据集从本地传到服务器，或者把训练结果从服务器拉回本地。用 rsync 传大目录比 scp 省很多时间。"
+    ],
+    trap: [
+      "rsync 结尾的斜杠很讲究：带斜杠是「把里面的内容搬过去」，不带是「把这个目录本身搬过去」。差一个字符，目录结构就可能错一层。"
+    ]
+  },
+  "top / nvidia-smi": {
+    body: [
+      "这是两个**看机器状态**的命令。`top` 看 CPU 和内存：哪个进程在吃、吃了多少。`nvidia-smi` 看显卡：有没有人在用、用了多少显存、当前利用率和温度。",
+      "它们是你排查问题时的第一站：程序卡住了？先看它是不是还在跑。要申请资源？先看卡是不是空的。写论文报资源开销？这两个命令的数字就是依据。"
+    ],
+    trap: [
+      "nvidia-smi 显示有进程占着显存，往往意味着有人（或你自己）的旧任务还在跑。这时候再跑新任务一定会 OOM。"
+    ]
+  },
+  "进程 / 线程": {
+    body: [
+      "进程是**一个正在运行的程序**（它有自己的内存空间）。线程是**进程内部的执行流**，同一个进程里的多个线程共用这块内存。",
+      "差别在开销与隔离：进程之间互不干扰但通信麻烦，线程之间共享数据方便但容易互相踩。你写 C 时将来会碰到多线程，而跑 Python 时遇到的那些「并发下载/预处理」脚本，本质都是这件事。"
+    ],
+    trap: [
+      "多线程不一定变快。**计算型的任务**在 Python 里常因一个语言层面的限制而无法真正并行——这也是为什么数据处理常改用多进程。"
+    ]
+  },
+  "SDK / CLI / GUI": {
+    body: [
+      "这三个缩写天天出现，含义其实是**三种和软件打交道的入口**：**SDK** 是给开发者用的一套工具包（代码库 + 工具），**CLI** 是命令行界面（用打字操作），**GUI** 是图形界面（用鼠标点）。",
+      "同一个东西常常同时提供三种：Docker 有命令行（CLI），也有桌面软件（GUI），还有给 Python 用的库（SDK）。看到这些缩写时，先判断「这是给人点的还是给程序调的」，基本就不会错。"
+    ],
+    trap: [
+      "「装个 SDK」通常意味着拿到的是一堆代码库，**不是能双击运行的软件**。找不到图标是正常的。"
+    ]
+  },
+  "tar / 压缩解压": {
+    body: [
+      "tar 是 Linux 上最常见的**打包**工具：把一堆文件合成一个文件（`.tar`），再加压缩就变成 `.tar.gz`。下载数据集、打包代码交作业，都靠它。",
+      "你不用记全部参数。`tar -xzf 文件名` 解压、`tar -czf 名字.tar.gz 目录` 打包，这两个覆盖了九成场景。"
+    ],
+    trap: [
+      "解压前先看一眼包里是什么（`tar -tzf 文件名`）。有些数据集解压出来是几十万个碎文件，能直接把文件系统搞慢。"
+    ]
+  },
+  "交叉编译": {
+    body: [
+      "交叉编译是**在你的电脑上，为目标硬件的另一种 CPU 架构编译程序**。你的电脑是 x86，而板子上的芯片可能是 ARM——两者的机器码不通用，所以必须交叉着编。",
+      "你做过 PCB、想做嵌入式，那这就是你迟早会撞上的一步：写好 C 代码，用专门的编译工具链编成板子能执行的固件。"
+    ],
+    trap: [
+      "交叉编译报错时，八成不是你的代码有问题，而是**工具链不对或库的头文件不匹配**。先怀疑工具链，再怀疑自己。"
+    ]
+  },
+  "影响因子 / 分区": {
+    body: [
+      "这两样都是**给期刊排段位**的方式。影响因子是一个数，大致反映这本期刊的文章平均被引用的次数；分区是把这个数按学科内排名切成几档。",
+      "你会不断听到「一区」「二区」——那是分区的说法，通常一区指该学科前百分之几的那批期刊。它之所以重要：毕业要求、评奖、保研加分，往往直接按分区写。"
+    ],
+    trap: [
+      "**同一本期刊在不同学科里分区可能差很远**，因为分区是按学科内相对排名算的。听到「几区」时要问清是哪个体系、哪个学科。"
+    ]
+  },
+  "会议 vs 期刊": {
+    body: [
+      "论文发表主要有两条路：**会议**是把成果带去一个大会上讲、收录进论文集；**期刊**是投给一份定期出版物，走审稿流程后刊登。",
+      "在计算机领域，**顶会常常比期刊更被看重**——审稿快、时效强，最新的东西都先在会上出现。而数学、物理这类领域，期刊才是主战场。所以「会议和期刊哪个好」没有统一答案，看你在哪个学科。"
+    ],
+    trap: [
+      "**警惕「野鸡会议」**：交钱就收、审稿形同虚设的那种。名字取得很像顶会，投进去反而伤履历。查的时候看它是否被领域内公认的索引收录。"
+    ]
+  },
+  "投稿流程": {
+    body: [
+      "一篇论文的大致行程：选目标会议或期刊 → 按它的模板写好 → 在截止日期前提交 → **审稿人评审**（几周到几个月）→ 要么被拒、要么得到「大改/小改」的意见 → 按意见修改再交 → 最终接收或拒稿。",
+      "走到接收之后还有一步常被忽略：**相机就绪版**（按最终格式再排一遍）和做报告。所以「中了」不是终点，只是过了最难的那一关。"
+    ],
+    trap: [
+      "被拒是常态，不是耻辱。同一篇稿子改完后投下一个会议，是很常规的操作。"
+    ]
+  },
+  "BibTeX / 引用格式": {
+    body: [
+      "BibTeX 是**用一段结构化文字记录一条参考文献**的方式：作者、标题、年份、期刊、DOI 各占一行，每条有一个你自己起的短名字（键）。需要引用的时候，写那个短名字就行。",
+      "它的好处是**格式自动**：你今天投 A 期刊要一种引用格式，明天投 B 会议要另一种，改一个配置就行，不用手工重排几十条参考文献。"
+    ],
+    trap: [
+      "从网上复制 BibTeX 条目时**一定要核对**：标题里的单词大小写、作者名拼写经常是错的，而这类错误会带进最终稿。"
+    ]
+  },
+  "大创 / 国创": {
+    body: [
+      "大创是「大学生创新创业训练计划」，国创是它的国家级版本。形式是**几个本科生组队，找一个老师带，做一个立项课题**，中期考核、结题报告、有时还要做展示。",
+      "为什么值得：它是本科生**进实验室最正规的门票**。你有了一个项目，就有了找老师谈的理由，也有了简历上能写的东西。你现在大一，正好是报名的时间点。"
+    ],
+    trap: [
+      "大创的分量取决于**你实际做了多少**。挂名躺完的结题，面试时一句话就会被问穿。"
+    ]
+  },
+  "组会 / 周报": {
+    body: [
+      "组会是课题组固定的例会：每人汇报进展、遇到的问题、下一步计划。周报是它对应的书面形式——把这一周干了什么写下来发出去。",
+      "这两样东西是**研究生生活的基本节奏**。它们的作用不是形式主义：把「我这周没进展」暴露出来，总比在期末被一次抓出来好。而会写周报的人，会让导师清楚地知道你能干什么。"
+    ],
+    trap: [
+      "周报要写**具体**：「做了实验」没有信息量，「跑了 5 组参数，发现学习率大于 0.1 就发散」才是。"
+    ]
+  },
+  "调试器 / 断点": {
+    body: [
+      "调试器是**能在程序跑着的时候把它停住、让你看现场**的工具：每个变量现在是多少、刚才调用了哪些函数、这行为什么走不到。停下来这件事的做法是「打断点」——在你想停的那一行做个标记。",
+      "你在 C 里学 debug 时迟早会碰到 `gdb`；写 Python 时也有一模一样的工具。核心是**不要靠打印**（往代码里插一堆输出语句）去猜，而是直接去看现场。"
+    ],
+    trap: [
+      "调试器看的是**运行时**的状态。**编译错误**（语法、类型）根本轮不到它，先让编译器说完。"
+    ]
+  },
+  "make / Makefile": {
+    body: [
+      "一个 C 项目会有很多源文件，编译命令会变得又长又难记。make 工具就是**把「怎么编译这个项目」写进一个叫 Makefile 的文件**，以后只敲 `make` 一句。",
+      "它还有一层聪明之处：**只重新编译改动过的文件**。你改了一个 `.c`，它不会把几十个文件全部重编一遍。所以大项目的编译体验全靠它。",
+      "你在 C 这条线上会很快用到——它不是新知识，是「你的编译命令需要被管理起来」的自然结果。"
+    ],
+    trap: [
+      "Makefile 里的缩进**必须是 Tab，不能是空格**。这个坑几十年来一直在咬人。"
+    ]
+  },
+  "编译 vs 解释": {
+    body: [
+      "编译是**先把代码整个翻译成机器能直接执行的程序**（C 就是这样），运行的是翻译结果。解释是**一边读你的代码一边执行**（Python 的常见方式），没有独立的可执行文件。",
+      "这个区别解释了你感受到的很多事：C 要先去编译、跑得快、同一个程序能拿到没装编译器的机器上跑；Python 写完就能跑、方便试错，但得在装了 Python 的机器上跑，速度也慢一些。"
+    ],
+    trap: [
+      "这不是「低级与高级」的区别。它们的取舍是**启动前的准备 vs 运行时的灵活**。"
+    ]
+  },
+  "Markdown": {
+    body: [
+      "Markdown 是**用极简的符号写格式**：`#` 是标题，`-` 是列表，`**字**` 是加粗。写成纯文本，任何地方都能打开；需要排版时，它能被渲染成网页、PDF、文档。",
+      "它的地位在于「**到处都用**」：GitHub 的 README、issue 正文、笔记软件、甚至论文草稿，默认格式都是它。学会它大约二十分钟，收益是长期的。"
+    ],
+    trap: [
+      "Markdown 是**纯文本**。那些花哨的排版能力（多栏、精确字号）它做不到，要交正式文档还是得换工具。"
+    ]
+  },
+  "JSON / YAML / TOML": {
+    body: [
+      "这三样都是**给程序看的配置文件格式**：用文字描述一组设置，程序读它来决定怎么运行。JSON 最常见（网页接口全用它），YAML 最像人话（靠缩进分层），TOML 介于两者之间（配置文件里很舒服）。",
+      "你会不断遇到它们：CI 配置、容器配置、模型训练的参数字典、项目设置文件，全是这三种之一。看懂结构（谁包含谁、哪一项属于哪一层）就够了。"
+    ],
+    trap: [
+      "**YAML 严格依赖缩进**，多一个或少一个空格都会解析失败，而且报错常常不说清是哪里。"
+    ]
+  },
+  "Jupyter Notebook": {
+    body: [
+      "Notebook 是**能一段一段执行、并把结果（尤其是图）留在页面上的代码文件**。你写一段、按一下运行、当场看到输出，再写下一段。",
+      "它在数据处理和实验记录里几乎是默认工具：一边试一边看结果，图和中间结论都留在文件里。缺点同样明显：代码可以乱序执行、不好复用、不好做版本管理。"
+    ],
+    trap: [
+      "**执行顺序会骗人**：你改了上面的代码但没重跑，下面的结果还是旧的，看起来一切正常。交付前记得「全部重新运行一遍」。"
+    ]
+  },
+  "开源许可证 License": {
+    body: [
+      "开源不等于「随便用」。许可证是**作者给你的一份授权条款**，规定你能怎么用这份代码：能不能商用、改动之后要不要也开源、必须不必须署作者的名。",
+      "科研里它的意义很实际：你复现别人的代码、把别人的库用在自己的项目里、或者将来把自己的代码开源，都要看一眼这个条款。用错了不会立刻爆炸，但可能给你带来麻烦。"
+    ],
+    trap: [
+      "**没有许可证的公开仓库，默认不是「随便用」**，只是作者没授权。要用之前最好去问一声。"
+    ]
+  },
+  "单元测试": {
+    body: [
+      "单元测试是**为代码的每个小功能写一小段检验**：给它输入，断言它应该输出什么。全都在通过，说明你没把老功能改坏。",
+      "它的价值在你每次改代码的时候体现：你改了一处，跑一遍测试，十几秒就知道有没有踩到别的地方。没有测试的大项目，改一行要心虚一整天。"
+    ],
+    trap: [
+      "测试通过不等于没有 bug，只说明**你想到的那些情况**是对的。测试是你对代码的理解，不是真理。"
+    ]
+  },
+  "技术债": {
+    body: [
+      "技术债是**为了赶进度而做的将就**：写死的路径、复制的代码、糊上去的临时补丁。当时省了时间，之后每次改动都要为它付利息。",
+      "它不是「烂代码」的同义词，而是一种**权衡记录**。健康的做法是：欠的时候知道自己在欠，留个标记（比如写一行注释说明这里是临时方案），有空就还。"
+    ],
+    trap: [
+      "科研代码尤其容易债台高筑，因为目标是「出结果」。但**复现和交接的时候，利息会一起到期**——别人（或你）读不懂，图就再也跑不出来。"
+    ]
+  },
+  "epoch / batch / iteration": {
+    body: [
+      "训练时数据要反复喂给模型。**epoch** 是「把全部数据看一遍」；数据一次喂不完，要分成小份，每份叫一个 **batch**；喂一个 batch 并更新一次参数，叫一次 **iteration**。",
+      "所以三者的关系是：一个 epoch 里包含若干个 iteration。你会听到「训了 50 个 epoch」「batch size 设 32」——都是在说这套节奏。"
+    ],
+    trap: [
+      "batch 大小直接决定显存占用。**爆显存时，第一个该调的就是它**。"
+    ]
+  },
+  "过拟合 / 欠拟合": {
+    body: [
+      "**过拟合**是模型把训练数据背得太死，连噪声都记住了，于是训练集分数很高、新数据上很差。**欠拟合**是它根本没学到东西，两边都很差。",
+      "判断方法很直白：看训练集和验证集的曲线。一旦训练集还在降、验证集开始回升，就是过拟合的信号。这是你读论文图表时会不断看到的一对词。"
+    ],
+    trap: [
+      "**训练集准确率高没有意义**，那只是记忆力的证明。真正看的是没见过的数据上的表现。"
+    ]
+  },
+  "微调 fine-tune": {
+    body: [
+      "微调是**拿一个已经在大规模数据上训好的模型，用你自己的数据再训一会儿**，让它适应你的任务。因为大模型学到的通用能力还在，你只需要少量数据、少量算力。",
+      "它和「从头训练」的区别就像：前者是教一个已经会说话的人你的行话，后者是从婴儿开始教。现在绝大多数应用型工作走的都是微调这条路。"
+    ],
+    trap: [
+      "微调需要**标注好的任务数据**，不是「多喂点资料就行」。数据没整理好，微调只会更糟。"
+    ]
+  },
+  "checkpoint / 权重": {
+    body: [
+      "**权重**就是模型学到的那些数字（几百万到几千亿个）。**checkpoint** 是训练过程中定期保存下来的一份完整快照——权重加上优化器状态等，用来中断后接着跑。",
+      "保存它的理由很硬：训练可能跑几天，中途机器被占、断电、代码崩，一切从头。有 checkpoint 就能从最近一档接着跑。"
+    ],
+    trap: [
+      "checkpoint 和「最终模型文件」不完全一样：前者大（含训练状态），后者小（只要权重）。交付和部署用后者。"
+    ]
+  },
+  "token / 词元": {
+    body: [
+      "大模型不认识字，它处理的是 **token**：把文本切成的一个个小片段（一个词、半个词、甚至一个符号）。你输入一段话，它先切成 token，再一个个往下预测。",
+      "这个单位之所以重要，是因为**计费和长度都按它算**：API 的价钱按 token 数收，模型的「上下文长度」也按 token 数限。所以你会听到「这个模型支持 128k 上下文」。"
+    ],
+    trap: [
+      "token 不等于字数。中文一般一个字对应一到两个 token，英文一个单词可能被拆成几段。"
+    ]
+  },
+  "LoRA": {
+    body: [
+      "LoRA 是一种**省资源的微调方法**。它不去动原来那几百万个权重，而是**在模型旁边插一小块新参数**，训练时只训这一小块。",
+      "效果很实在：显存需求降一个数量级，一张消费级显卡就能微调；产出的那个小文件只有几十兆，换个任务换一个小文件接上去就行。所以它是现在个人玩大模型最主流的路子。"
+    ],
+    trap: [
+      "LoRA 产出的通常**只是一块增量，不是完整模型**。要用的时候得把它挂回原来的基础模型上。"
+    ]
+  },
+  "vLLM / 推理加速": {
+    body: [
+      "vLLM 是**专门用来做推理加速的引擎**。同一个模型，用普通方式生成一段话可能要几秒，它能在同样硬件上快好几倍、同时服务更多的人。",
+      "它快的原因是把「同时来的很多请求」管理得更聪明，让显卡尽量不空转。属于**部署侧**的工具：模型训完了，用它来把服务跑起来。"
+    ],
+    trap: [
+      "它管的是推理，跟训练无关。别拿它去加速训练过程。"
+    ]
+  },
+  "日志 logging": {
+    body: [
+      "日志是**程序自己写下的运行记录**：什么时候开始、读到多少条数据、中间出现了什么异常、什么时候结束。写进文件，跑完再看。",
+      "它和「打印出来看看」的区别在于：日志是**留得住的**。你跑一个三小时的任务，屏幕上滚过去的东西你根本记不住；写成日志文件，出问题随时回查。"
+    ],
+    trap: [
+      "日志要**分级**（调试信息 / 正常信息 / 警告 / 错误）。全打成一样，等于没有日志。"
+    ]
+  },
+  "异常处理": {
+    body: [
+      "程序出错时有两种活法：**直接崩掉**，或者**接住这个错误、处理一下、继续跑**。后者就叫异常处理（你写 C 时见过的错误返回码，是同一件事的另一种形态）。",
+      "在数据处理里它几乎是必需品：处理十万条样本，有一条格式不对，你不希望整个程序死在那里——接住它、记下来、跳过去。"
+    ],
+    trap: [
+      "最坏的习惯是**把所有异常都吞掉**（接住了但什么都不做）。那样程序看着一切正常，问题被藏起来了。至少要记一条日志。"
+    ]
+  },
+  ".env / 密钥管理": {
+    body: [
+      "调用大模型 API、连数据库、登服务器，都需要密钥或密码。这些东西**绝对不应该写死在代码里**——代码会进 Git、会被分享、会公开。",
+      "通行做法是把它们放在一个单独的文件里（通常叫 `.env`），代码运行时去读它，同时**把这个文件写进 Git 的黑名单**。这样代码可以随便给人，密钥仍然只有你有。"
+    ],
+    trap: [
+      "**一旦密钥被推上公开仓库，就等于公开了**。立即去平台作废并重新生成，删掉那次提交是不够的（历史记录里还在）。"
+    ]
+  },
+  "容器编排 / k8s": {
+    body: [
+      "一台机器上跑一个容器很简单；跑几十上百个、还要自动重启、扩缩容、分配机器，就得有人管。Kubernetes（简称 k8s）就是**管一大群容器的调度系统**。",
+      "它对你属于**知道有这个东西**就够的一层：大多数学校实验室和科研项目用不到它，真正会碰到的是进了公司、或者服务真上线以后。"
+    ],
+    trap: [
+      "k8s 很重，学起来成本高。**一个人做科研完全不需要它**——用一张卡跑一个容器就够了。"
+    ]
+  }
+};
+Object.keys(DEEP_BODY).forEach(k => { if (DEEP[k]) Object.assign(DEEP[k], DEEP_BODY[k]); });
+
+
+
+
+/* ============================================================
+   EXTRA：每张卡的"别名"（别人嘴里可能怎么说它）与六方向相关度
+   a = 别名，逗号分隔（用于"我听到一句话"倒查 + 搜索）—— 只按逗号/分号切分
+   s = [AI/机器学习, 嵌入式/硬件, 服务器/运维, 数据/科研分析, 论文/协作, 通用底座]
+       3 = 主力（这个方向靠它吃饭） 2 = 常用 1 = 沾边 0 = 基本无关
+   w = 与 s 等长的"一句话理由"，只在 s>=2 的位置写：回答"它在这个方向里到底干什么"
+   ============================================================ */
+const SCENES = ['AI / 机器学习', '嵌入式 / 硬件', '服务器 / 运维', '数据 / 科研分析', '论文 / 协作', '通用底座'];
+const SCENE_META = [
+  { emo: '🤖', short: 'AI', color: '#7CC5F0',
+    desc: '算法岗与 AI 科研：训练 / 推理、模型压缩、论文复现。天花板最高，但多数岗位要硕博 + 论文。',
+    first: ['Python', '虚拟环境 venv / conda', 'GPU', '复现', '超参数'] },
+  { emo: '🔧', short: '硬件', color: '#7ED9A8',
+    desc: '嵌入式与边缘 AI：C + 交叉编译 + 烧录 + 串口。本科就能拿到实习入场券，和你的 C 语言、PCB 底子最搭。',
+    first: ['Linux / 命令行', '环境变量 / PATH', 'ONNX', '模型量化', '训练 vs 推理'] },
+  { emo: '🖥', short: '服务器', color: '#F0C674',
+    desc: '超算、集群、后端运维：SSH 登录、排队交作业、部署、监控。只要碰 GPU，就一定躲不开它。',
+    first: ['SSH', 'tmux', 'Slurm / sbatch', 'Docker', '部署 / API'] },
+  { emo: '📊', short: '数据', color: '#C9A7F0',
+    desc: '数据分析、统计、生信：清洗、统计、画图。你舍友说的 R 语言就在这一格，Python 也完全能干。',
+    first: ['pandas', 'matplotlib', 'numpy', 'SQL', 'R 语言'] },
+  { emo: '📝', short: '论文', color: '#F09BA7',
+    desc: '写作与协作：文献管理、LaTeX、图表、评审。只要读研，这条躲不掉——它是"结果被人用"的那一段。',
+    first: ['Zotero', 'arXiv', 'LaTeX', 'matplotlib', '复现'] },
+  { emo: '🌐', short: '通用', color: '#9FB3C8',
+    desc: '不分方向、第一天就要用的底座。这一格里的东西，走哪条路都得会——也正是你最该先补的。',
+    first: ['Git', 'Linux / 命令行', '虚拟环境 venv / conda', 'README', 'Docker'] }
+];
+const EXTRA = {
+  'Linux / 命令行': { a: '终端,命令行,黑框框,敲命令,terminal', s: [3, 3, 3, 3, 2, 3], w: [
+    '跑训练、看日志、开环境的地方',
+    '编译固件、串口调试全在这里',
+    '服务器的唯一操作方式，没有鼠标',
+    '跑脚本、清洗数据的地方',
+    '跑代码、导出实验图表',
+    '不会它，后面每一步都卡住'] },
+  'Shell / bash': { a: 'shell,bash,脚本,sh,一行行命令', s: [2, 2, 3, 2, 1, 3], w: [
+    '批量跑实验、写训练启动脚本',
+    '编译烧录的自动化脚本',
+    '服务器上干活的默认语言',
+    '数据流水线批处理',
+    '',
+    '把重复操作自动化'] },
+  'SSH': { a: '远程登录,连服务器,免密,密钥登录,登录服务器', s: [2, 2, 3, 1, 1, 2], w: [
+    '连到有 GPU 的机器上跑训练',
+    '远程调板子 / 树莓派',
+    '登录超算与实验室机器',
+    '',
+    '',
+    '远程操作任何一台机器'] },
+  'tmux': { a: '会话,断线,后台跑,挂着跑,窗口管理器', s: [3, 1, 3, 2, 1, 2], w: [
+    '断线了训练还继续跑',
+    '',
+    '挂住长任务，不被踢下线',
+    '长跑的脚本挂后台',
+    '',
+    '关窗口也不中断任务'] },
+  '环境变量 / PATH': { a: 'PATH,找不到命令,not found,export,变量', s: [2, 2, 3, 2, 1, 3], w: [
+    'CUDA / conda 的路径都在这配',
+    '交叉编译工具链的路径',
+    '装什么都要改它',
+    '库路径、数据集路径都在这配',
+    '',
+    '"找不到命令"第一个来这查'] },
+  'sudo / 权限': { a: '权限,拒绝访问,Permission denied,root', s: [1, 1, 3, 1, 1, 2], w: [
+    '',
+    '',
+    '装系统包、改服务配置',
+    '',
+    '',
+    '"Permission denied"的答案'] },
+  'WSL': { a: '子系统,Windows 子系统,wsl', s: [2, 2, 2, 2, 1, 2], w: [
+    'Windows 上也能跑 Linux 训练脚本',
+    '手边没有 Linux 机器时凑工具链',
+    '本地先模拟一遍服务器上的操作',
+    '在 Windows 上跑 Linux 的数据工具',
+    '',
+    'Windows 上摸命令行的第一站'] },
+  'arXiv': { a: '论文库,预印本,论文网站,arxiv', s: [3, 1, 1, 1, 3, 0], w: [
+    '最新模型几乎都先挂在这',
+    '',
+    '',
+    '',
+    '找论文的第一站',
+    ''] },
+  '综述 Survey': { a: '综述,survey,review,方向总结,入门论文', s: [3, 1, 1, 1, 3, 0], w: [
+    '进新方向从一篇综述开始',
+    '',
+    '',
+    '',
+    '老师会问"综述看了吗"',
+    ''] },
+  'Zotero': { a: '文献管理,引用,参考文献管理,zotero', s: [2, 1, 1, 2, 3, 1], w: [
+    '攒够一个方向的文献再动手',
+    '',
+    '',
+    '统计类文献也在它这管',
+    '文献全在它这里管，引用一键生成',
+    ''] },
+  'Connected Papers': { a: '引文网络,论文关系图,文献图谱', s: [2, 1, 1, 1, 3, 0], w: [
+    '一眼看出一个方向谁引谁',
+    '',
+    '',
+    '',
+    '顺着引用网络找关键论文',
+    ''] },
+  '双链笔记': { a: '双链,笔记,Obsidian,知识网,obsidian', s: [2, 1, 1, 2, 2, 1], w: [
+    '把读过的论文串成脉络',
+    '',
+    '',
+    '分析过程中的想法随手链起来',
+    '把读到的连成网，写论文时直接抽',
+    ''] },
+  'Docker': { a: '容器,docker,打包环境,封装环境,镜像,环境不一致', s: [3, 3, 3, 3, 2, 3], w: [
+    '复现别人论文代码的标配',
+    '把整套交叉编译环境打包带走',
+    '部署的标准单位',
+    '让分析结果可复现',
+    '让结果在别人机器上一样',
+    '"在我电脑上能跑"的标准答案'] },
+  '镜像 / 容器': { a: '镜像,容器,image,container', s: [3, 2, 3, 2, 1, 3], w: [
+    '一个镜像 = 一次可复现的环境',
+    '把整套交叉编译环境搬过去',
+    '把一整台"软件机器"搬过去',
+    '分析环境一模一样地复用',
+    '',
+    '镜像 = 光盘，容器 = 光盘跑起来'] },
+  'Dockerfile': { a: '配方,构建镜像,写 Dockerfile', s: [3, 2, 3, 2, 1, 2], w: [
+    '写清楚环境到底怎么搭的',
+    '把交叉工具链的安装写成配方',
+    '把"怎么装的"写成可重跑的配方',
+    '写清楚脚本跑在什么环境里',
+    '',
+    '说明书之外，还有一份"环境配方"'] },
+  '虚拟环境 venv / conda': { a: '虚拟环境,venv,conda,环境隔离,装不上库', s: [3, 2, 2, 3, 1, 3], w: [
+    '每个项目一个环境，互不打架',
+    '不污染系统里的包',
+    '服务器上每人都要独立环境',
+    '数据分析项目必备',
+    '',
+    '装崩了的止损点'] },
+  'requirements.txt': { a: '依赖清单,pip freeze,requirements', s: [3, 1, 2, 2, 1, 3], w: [
+    '交代码时把依赖一起交出去',
+    '',
+    '部署时照着装一遍',
+    '分析用的库版本固定住',
+    '',
+    '别人照着重装就能跑'] },
+  '依赖地狱': { a: '依赖冲突,版本冲突,装不上,包冲突', s: [3, 1, 2, 2, 1, 2], w: [
+    '两篇论文的库互相打架',
+    '',
+    '服务器上重建环境最容易崩在这',
+    '两个分析脚本要的版本不一样',
+    '',
+    '版本冲突的俗称'] },
+  'CUDA 版本': { a: 'CUDA,cudnn,驱动版本,版本对不上,cuda', s: [3, 1, 2, 1, 0, 1], w: [
+    '驱动 / CUDA / 框架三者版本对不上就跑不了',
+    '',
+    '服务器驱动版本是固定的，得迁就它',
+    '',
+    '',
+    ''] },
+  '虚拟机 vs 容器': { a: '虚拟机,vm,virtualbox,虚拟化', s: [2, 1, 2, 1, 0, 2], w: [
+    '知道为什么大家都用容器不用虚拟机',
+    '',
+    '隔离更彻底但更重，是个取舍',
+    '',
+    '',
+    '知道两者边界在哪'] },
+  'Git': { a: '版本控制,存档,读档,回滚,代码管理,版本管理', s: [3, 3, 3, 3, 3, 3], w: [
+    '代码的存档 / 读档',
+    '固件版本能回溯',
+    '服务器上的配置也版本管理',
+    '脚本改动全留痕',
+    '论文里那张图能查到是哪版代码跑的',
+    '所有项目的存档键'] },
+  'commit': { a: '提交,存一档,提交记录', s: [3, 3, 3, 3, 3, 3], w: [
+    '每跑通一步就存一档',
+    '固件改动留痕',
+    '配置改动留痕',
+    '每改一步存一档',
+    '实验代码的存档点',
+    '最小单位的存档'] },
+  'branch': { a: '分支,开岔路,checkout,拉分支', s: [3, 2, 3, 2, 2, 3], w: [
+    '试新想法就开个岔路',
+    '固件改动开条分支试',
+    '改配置前先开一条',
+    '试新清洗流程不动原结果',
+    '改论文开分支，怕删了',
+    '改崩了也不影响主干'] },
+  'merge': { a: '合并,rebase,合分支', s: [3, 2, 3, 2, 2, 3], w: [
+    '把试成功的岔路合回来',
+    '把试好的固件改并回主线',
+    '把配置改动并回主分支',
+    '确认没问题的流程并回主线',
+    '把改好的段落并回正文',
+    '把岔路并回主线'] },
+  'conflict': { a: '冲突,撞车,冲突解决', s: [3, 2, 3, 2, 2, 3], w: [
+    '两个人改同一行的现场',
+    '两个人改同一个驱动',
+    '两个人改同一份配置',
+    '两个人改同一段清洗逻辑',
+    '两人改同一段话撞车',
+    '撞车了怎么收拾'] },
+  'clone / pull / push': { a: 'clone,拉代码,推代码,同步代码', s: [3, 2, 3, 2, 3, 3], w: [
+    '把开源实现拉到本地看',
+    '拉别人的驱动 / SDK 例程',
+    '把仓库拉到服务器上跑',
+    '拉到别人整理好的处理脚本',
+    '把论文代码拉下来读',
+    '本地 ↔ 云端同步'] },
+  'GitHub': { a: '远程仓库,开源托管,主页,代码托管,github', s: [3, 2, 3, 2, 3, 3], w: [
+    '开源模型代码都在上面',
+    '找别人写好的驱动和例程',
+    '服务器上直接 clone 下来跑',
+    '找现成的分析脚本',
+    '别人的眼睛从这里进来',
+    '你的代码作品集'] },
+  'PR (Pull Request)': { a: 'PR,pull request,合并请求,提合并', s: [3, 1, 2, 1, 2, 2], w: [
+    '给开源项目提改动的正规方式',
+    '',
+    '改团队配置要走评审',
+    '',
+    '合作写作的正规动作',
+    '合作改东西的正规动作'] },
+  'issue': { a: '提问题,仓库问题,工单,报 bug', s: [3, 1, 2, 1, 2, 2], w: [
+    '项目的问题追踪板',
+    '',
+    '服务出的问题在这记一笔',
+    '',
+    '把待办和疑问挂成 issue',
+    '报 bug / 提需求的正规通道'] },
+  'code review': { a: '代码审查,审代码,别人的意见,review', s: [3, 2, 2, 2, 3, 2], w: [
+    '开源的代码就是被这样过筛的',
+    '驱动出问题代价大，更要人看',
+    '配置上线前先被人看一眼',
+    '清洗逻辑错了，结果全错',
+    '你的代码被人挑错，是好事',
+    '别人的眼睛是免费的质量保障'] },
+  '.gitignore': { a: '忽略文件,别提交,密钥泄露,gitignore', s: [3, 2, 2, 2, 1, 3], w: [
+    '别把密钥和模型权重提交上去',
+    '别把固件二进制和密钥提交',
+    '别把私钥和面板配置提交上去',
+    '别把原始数据集提交上去',
+    '',
+    '提交前的门卫'] },
+  'CI/CD': { a: '持续集成,自动测试,流水线,CI', s: [2, 2, 3, 1, 1, 2], w: [
+    '每次改代码自动跑一遍回归测试',
+    '自动编译 + 跑一遍单元测试',
+    '推代码就自动构建、部署',
+    '',
+    '',
+    '那个"绿勾 / 红叉"'] },
+  'GitHub Actions': { a: 'workflow,自动跑,绿勾,自动化', s: [3, 2, 3, 1, 1, 2], w: [
+    '每次推代码自动跑一遍小样本训练',
+    '自动交叉编译、自动出固件',
+    '推代码自动构建部署',
+    '',
+    '',
+    '不用自己搭服务器就能自动化'] },
+  'Python': { a: 'py,脚本语言,pip,python', s: [3, 2, 3, 3, 3, 3], w: [
+    'AI 科研的默认语言',
+    '板子上的上位机脚本',
+    '服务器上的胶水语言',
+    '数据处理主力',
+    '画图、跑实验都靠它',
+    '不管哪个方向，它都是那瓶"胶水"'] },
+  'pip / PyPI': { a: 'pip,装库,install,包仓库', s: [3, 1, 2, 3, 1, 3], w: [
+    '装 torch 这类库的唯一入口',
+    '',
+    '服务器上装库也要走它',
+    '装 pandas 这类库',
+    '',
+    '装库就靠它'] },
+  'numpy': { a: 'np,数组运算,ndarray', s: [3, 1, 1, 3, 1, 1], w: [
+    '一切数值计算的底座',
+    '',
+    '',
+    '数组运算的地基',
+    '',
+    ''] },
+  'pandas': { a: 'DataFrame,表格处理,读 CSV,数据清洗', s: [2, 1, 1, 3, 2, 1], w: [
+    '数据脏是常态，先清洗再训练',
+    '',
+    '',
+    '读表格、清洗数据的主力',
+    '论文里那些表的原始整理',
+    ''] },
+  'SQL': { a: '数据库,查询,select,join,sql', s: [2, 1, 3, 3, 1, 1], w: [
+    '训练数据常从数据库里捞',
+    '',
+    '服务的数据都在库里',
+    '查大表比翻 CSV 快得多',
+    '',
+    ''] },
+  'R 语言': { a: 'RStudio,统计语言,生信,r语言', s: [2, 0, 0, 3, 2, 0], w: [
+    '做统计检验、实验结果分析时会撞上',
+    '',
+    '',
+    '统计 / 生信圈的头号语言',
+    '统计类图表它画得最顺',
+    ''] },
+  'matplotlib': { a: '画图,绘图,曲线图,plt', s: [3, 1, 1, 3, 3, 1], w: [
+    '训练曲线、论文插图',
+    '',
+    '',
+    '数据分布、趋势图都靠它',
+    '论文里的图基本都它画的',
+    ''] },
+  'Polars': { a: '快速的 pandas,大数据表格', s: [2, 0, 1, 2, 0, 0], w: [
+    '大表格预处理卡住时换它',
+    '',
+    '',
+    'pandas 卡住时的快速替代',
+    '',
+    ''] },
+  'GPU': { a: '显卡,算力,A100,4090,H100', s: [3, 2, 3, 1, 1, 1], w: [
+    '训练和推理的算力来源',
+    'Jetson 这类边缘设备上也有一颗',
+    '超算上要排队抢的资源',
+    '',
+    '',
+    ''] },
+  '显存 VRAM': { a: '显存,VRAM,显卡内存', s: [3, 2, 2, 0, 0, 1], w: [
+    '模型一加载就吃掉好几个 G',
+    '边缘设备内存更小，更怕不够',
+    '超算上显存是要排队抢的资源',
+    '',
+    '',
+    ''] },
+  'OOM (爆显存)': { a: 'OOM,out of memory,内存不够,爆了', s: [3, 2, 2, 0, 0, 1], w: [
+    '那句 "CUDA out of memory"',
+    '板子上内存更小，更容易爆',
+    '超算上爆了会直接被 kill 掉',
+    '',
+    '',
+    ''] },
+  'Slurm / sbatch': { a: '超算,排队,集群,提交作业,交作业,slurm', s: [3, 0, 3, 1, 1, 0], w: [
+    '在超算上跑训练要排队',
+    '',
+    '集群上提交作业的命令',
+    '',
+    '',
+    ''] },
+  'WandB / TensorBoard': { a: 'wandb,tensorboard,曲线,训练可视化', s: [3, 0, 2, 1, 1, 0], w: [
+    '盯着 loss 曲线调参',
+    '',
+    '在服务器上远程盯曲线',
+    '',
+    '',
+    ''] },
+  '超参数': { a: '超参,学习率,learning rate,batch size,调参', s: [3, 0, 2, 1, 1, 0], w: [
+    '学习率、batch size 这些必须自己试的旋钮',
+    '',
+    '一跑就是几天，参数要在提交前定好',
+    '',
+    '',
+    ''] },
+  'baseline': { a: '基线,对比方法,基准', s: [3, 0, 1, 1, 2, 0], w: [
+    '你的方法必须跟它比',
+    '',
+    '',
+    '',
+    '论文里那张对比表',
+    ''] },
+  'benchmark': { a: '榜单,测试集,指标对比,跑分', s: [3, 1, 2, 1, 2, 0], w: [
+    '同一套题上的跑分',
+    '',
+    '跑分也要排队，别浪费机时',
+    '',
+    '用统一标准比性能',
+    ''] },
+  '多卡 / 分布式训练': { a: '多卡,DDP,分布式,数据并行,accelerate', s: [3, 0, 3, 0, 1, 0], w: [
+    '单卡放不下就上多卡',
+    '',
+    '多机多卡要调度排队',
+    '',
+    '',
+    ''] },
+  '消融实验': { a: '消融,ablation,拆开看', s: [3, 0, 0, 0, 3, 0], w: [
+    '把方法拆开，看哪一块真有用',
+    '',
+    '',
+    '',
+    '审稿人最爱问的那部分',
+    ''] },
+  'LaTeX': { a: 'tex,排版,公式排版,论文模板,latex', s: [2, 0, 0, 1, 3, 1], w: [
+    '投稿那天你一定得会',
+    '',
+    '',
+    '',
+    '论文排版的正统',
+    ''] },
+  'Overleaf': { a: '在线 LaTeX,一起写论文,协作写论文', s: [2, 0, 0, 1, 3, 1], w: [
+    '和合作者一起写投稿文章',
+    '',
+    '',
+    '',
+    '多人一起写同一篇论文',
+    ''] },
+  '矢量图 vs 位图': { a: '矢量图,位图,pdf,png,图放大糊了', s: [2, 1, 0, 1, 3, 1], w: [
+    '论文插图必须是矢量，放大不糊',
+    '',
+    '',
+    '',
+    '论文插图要矢量，放大不糊',
+    ''] },
+  'TikZ': { a: '画示意图,流程图,画网络结构', s: [2, 1, 0, 0, 2, 0], w: [
+    '画模型结构图、方法示意图',
+    '',
+    '',
+    '',
+    '画网络结构图、流程图',
+    ''] },
+  'README': { a: '说明书,怎么跑,项目说明,readme', s: [3, 2, 2, 2, 3, 3], w: [
+    '别人第一眼看的就是它',
+    '写清楚接线怎么接、怎么烧',
+    '写清楚怎么在服务器上跑起来',
+    '写清楚数据从哪来、怎么洗',
+    '代码的附带说明书',
+    '"怎么跑"交代在这'] },
+  '异步沟通': { a: '异步,不回消息,提问题,汇报', s: [2, 1, 2, 1, 3, 2], w: [
+    '组里提问题，别指望别人秒回',
+    '',
+    '线上问题要写清现象和复现步骤',
+    '',
+    '组里提问题 / 汇报的正确姿势',
+    '把问题写清楚，比当面问更省事'] },
+  '文档 / Wiki': { a: '文档,docs,wiki,知识沉淀', s: [3, 2, 3, 2, 3, 2], w: [
+    '实验环境怎么搭的写下来',
+    '接线图和踩坑记录最值钱',
+    '团队知识沉淀',
+    '数据口径写下来，不然下次全忘',
+    '把踩过的坑写下来',
+    '写下来 = 省掉下一次的重复'] },
+  '复现': { a: '跑不出结果,对不上,重复实验,复现不出来', s: [3, 0, 1, 1, 3, 1], w: [
+    '别人拿你的代码能跑出一样的结果',
+    '',
+    '',
+    '',
+    '论文级硬要求',
+    ''] },
+  '随机种子 seed': { a: '种子,seed,随机,结果不一样', s: [3, 0, 1, 2, 2, 1], w: [
+    '结果对不上，第一个查它',
+    '',
+    '',
+    '抽样结果要能重跑出来',
+    '可复现的总开关',
+    ''] },
+  '实验记录': { a: '实验记录,日志,记一下,跑过什么', s: [3, 1, 2, 2, 2, 2], w: [
+    '跑过什么、什么参数、结果多少',
+    '',
+    '在服务器上跑过什么要记',
+    '每次清洗参数都记一笔',
+    '写论文时全靠它回溯',
+    '不记，明天就忘了这结果哪来的'] },
+  '训练 vs 推理': { a: '训练,推理,inference,训推', s: [3, 2, 3, 1, 1, 1], w: [
+    '训练吃显存，推理要快',
+    '板上跑的永远只有推理',
+    '服务上线跑的就是推理',
+    '',
+    '',
+    ''] },
+  '模型量化': { a: '量化,quantization,INT8,INT4,GGUF,FP16,压缩模型,压模型', s: [3, 3, 2, 0, 0, 1], w: [
+    '把大模型压到消费级显卡能跑',
+    '让算力很小的板子也跑得动神经网络',
+    '省显存的部署手段',
+    '',
+    '',
+    ''] },
+  '部署 / API': { a: '部署,接口,上线,服务化,fastapi', s: [3, 2, 3, 2, 1, 1], w: [
+    '把模型变成别人能调的服务',
+    '把模型塞进设备里',
+    '上线跑起来',
+    '把分析做成别人能调的服务',
+    '',
+    ''] },
+  '剪枝 / 蒸馏': { a: '剪枝,pruning,蒸馏,distill,模型压缩', s: [3, 2, 1, 0, 1, 0], w: [
+    '模型太大，砍一刀',
+    '模型得塞进小设备里',
+    '',
+    '',
+    '',
+    ''] },
+  'ONNX': { a: 'onnxruntime,模型格式,模型转换,onnx', s: [3, 3, 2, 0, 0, 1], w: [
+    '训练完转成通用格式再交付',
+    '模型跨框架扔到板子上跑',
+    '部署时统一成一种格式',
+    '',
+    '',
+    ''] },
+  '数据泄露': { a: '泄露,leakage,指标虚高,好得不正常', s: [3, 0, 0, 2, 2, 0], w: [
+    '指标好得不正常，第一个怀疑它',
+    '',
+    '',
+    '统计建模最容易踩的坑',
+    '审稿人会盯着这一点',
+    ''] },
+  '管道 / 重定向': { a: '管道,重定向,竖线,pipeline,输出到文件', s: [2, 1, 3, 2, 1, 3], w: [
+    '把训练日志过滤出关键行',
+    '',
+    '日志太多，先筛出要看的',
+    '把好几步处理串成一条流水线',
+    '',
+    '命令串起来用'] },
+  'grep / 正则': { a: '搜内容,查报错,找字符串,正则,regex,rg', s: [3, 2, 3, 2, 2, 3], w: [
+    '从几万行日志里捞出报错那行',
+    '在 SDK 源码里找用法',
+    '服务器上翻日志必备',
+    '按条件筛数据行',
+    '在一堆笔记里找词',
+    '找东西的第一把刀'] },
+  'curl / wget': { a: '下载,调接口,发请求,http,请求工具', s: [2, 1, 2, 1, 1, 3], w: [
+    '测一下模型服务的接口通不通',
+    '',
+    '服务器上装东西、拉文件',
+    '',
+    '',
+    '不开浏览器也能下东西'] },
+  'rsync / scp': { a: '传文件,上传下载,同步文件,scp', s: [3, 2, 3, 1, 1, 2], w: [
+    '把数据集传到有 GPU 的机器上',
+    '把固件 / 二进制拷到板上',
+    '本地 ↔ 服务器搬文件',
+    '',
+    '',
+    '把东西在机器之间搬来搬去'] },
+  'top / nvidia-smi': { a: '看资源,占用,显卡状态,htop,nvidia smi,卡不卡', s: [3, 2, 3, 2, 0, 2], w: [
+    '跑训练前先看 GPU 空不空',
+    '看板子的内存够不够',
+    '服务器上查谁把卡占满了',
+    '跑大表格前先看内存',
+    '',
+    '机器变慢时的第一个诊断'] },
+  '进程 / 线程': { a: 'process,thread,多线程,并行,杀掉进程,kill', s: [3, 3, 3, 2, 0, 2], w: [
+    '数据加载慢就开多线程',
+    '中断和主循环都跟它有关',
+    '程序卡死要 kill 掉',
+    '并行读多个文件更快',
+    '',
+    '程序没反应时先看它'] },
+  'SDK / CLI / GUI': { a: '缩写,sdk,cli,gui,图形界面,命令行界面', s: [3, 3, 2, 2, 0, 3], w: [
+    '装厂商的 SDK 跑推理',
+    '开发板厂商都发 SDK',
+    '服务器上只有 CLI',
+    '有些统计软件只有 GUI',
+    '',
+    '看文档时先分清它说的是哪个'] },
+  'tar / 压缩解压': { a: '压缩,解压,tar.gz,zip,打包', s: [2, 2, 2, 2, 1, 3], w: [
+    '下载的模型、数据集基本都是压缩包',
+    'SDK 和工具链都是压缩包',
+    '服务器上传来传去都是 tar',
+    '数据集基本都是压缩包',
+    '',
+    '拿到压缩包的第一件事'] },
+  '交叉编译': { a: '交叉编译,arm,工具链,toolchain,给板子编', s: [0, 3, 1, 0, 0, 1], w: [
+    '',
+    '在电脑上编出给板子跑的程序',
+    '',
+    '',
+    '',
+    ''] },
+  '影响因子 / 分区': { a: '影响因子,分区,一区二区,CCF,顶会,SCI,EI', s: [3, 1, 1, 2, 3, 1], w: [
+    '选目标会议 / 期刊时先看分级',
+    '',
+    '',
+    '统计、生信也有自己的期刊分级',
+    '老师嘴里的"一区""顶会"就是它',
+    ''] },
+  '会议 vs 期刊': { a: '会议,期刊,投会议,发论文去哪', s: [3, 1, 1, 2, 3, 1], w: [
+    'AI 的成果基本都发在会议上',
+    '',
+    '',
+    '生信、统计这边更认期刊',
+    '投稿前先想清楚投哪边',
+    ''] },
+  '投稿流程': { a: '投稿,审稿,rebuttal,大修小修,被拒,拒稿', s: [3, 0, 0, 1, 3, 0], w: [
+    '第一次投稿会走到每一步',
+    '',
+    '',
+    '',
+    '一篇论文要过的完整流程',
+    ''] },
+  'BibTeX / 引用格式': { a: '引用格式,参考文献格式,bibtex,GBT 7714', s: [2, 0, 0, 1, 3, 1], w: [
+    '写论文时格式错一个标点都被挑',
+    '',
+    '',
+    '',
+    '引用全靠它自动生成',
+    ''] },
+  '大创 / 国创': { a: '大创,国创,创新创业训练,本科生项目', s: [2, 2, 1, 1, 2, 2], w: [
+    '当练手项目的壳',
+    '嵌入式方向本科就能做大创',
+    '',
+    '',
+    '大创是攒出第一篇论文的路',
+    '本科生最实在的科研入口'] },
+  '组会 / 周报': { a: '组会,周报,汇报,例会,讲进展', s: [2, 1, 1, 1, 3, 1], w: [
+    '讲清楚"我这周跑出了什么"',
+    '',
+    '',
+    '',
+    '每周汇报一次进度，跑不掉',
+    ''] },
+  '调试器 / 断点': { a: 'gdb,断点,debug,调试,pdb,单步', s: [3, 3, 2, 1, 1, 3], w: [
+    'Python 里用 pdb 断点看张量',
+    'gdb 调段错误是基本功',
+    '服务器上没图形界面，只能命令行调',
+    '',
+    '',
+    'print 不够用时就上它'] },
+  'make / Makefile': { a: 'make,makefile,构建,编译项目,cmake', s: [2, 3, 2, 1, 1, 2], w: [
+    '有些 AI 项目的 C 扩展靠它编',
+    '交叉编译基本都靠它驱动',
+    '服务器上重编译东西',
+    '',
+    '',
+    '"一键构建"的起点'] },
+  '编译 vs 解释': { a: '编译,解释,编译器,解释器,compiler', s: [2, 3, 2, 2, 0, 2], w: [
+    'Python 的 C 扩展要编译',
+    'C 是编译型，刷固件时才报错',
+    '服务器上装的东西也分这两种',
+    'numpy 这种底层是编译过的',
+    '',
+    '报错早 vs 报错晚的根源'] },
+  'Markdown': { a: 'md,markdown,写笔记的格式,纯文本排版', s: [3, 2, 2, 2, 3, 3], w: [
+    'README 和实验记录都写它',
+    '原理图、阅读笔记都写它',
+    '服务器上的说明文档',
+    '数据口径的说明文档也写它',
+    '笔记、文档都用它',
+    '写文档的通用语言'] },
+  'JSON / YAML / TOML': { a: 'json,yaml,yml,toml,配置文件格式', s: [3, 2, 3, 2, 1, 3], w: [
+    '实验参数常写在一个 yaml 里',
+    '板子的配置和测试用例常写成它',
+    '服务的配置文件都是它',
+    '数据标注、清洗规则常写成配置文件',
+    '',
+    '改配置 = 改这类文件'] },
+  'Jupyter Notebook': { a: 'notebook,jupyter,ipynb,交互式', s: [3, 2, 1, 3, 2, 1], w: [
+    '调模型、试想法最快的方式',
+    '上位机试验脚本用它写最快',
+    '',
+    '边看数据边试，最顺手',
+    '随手记录，写完再整理',
+    ''] },
+  '开源许可证 License': { a: 'license,许可证,MIT,GPL,开源协议,版权', s: [3, 3, 2, 2, 2, 2], w: [
+    '很多模型权重有单独的许可条款',
+    '厂商 SDK 的许可限制商用',
+    '服务器上装的组件也各有许可',
+    '数据集常有单独的使用协议',
+    '引用别人代码更要守规矩',
+    '写进 README 的那一栏'] },
+  '单元测试': { a: '单元测试,test,pytest,自动测试,跑测试', s: [2, 2, 2, 1, 1, 2], w: [
+    '数据清洗函数最容易写成"看着对"',
+    '驱动函数的边界条件最容易错',
+    '服务改一行就怕崩，靠它兜',
+    '',
+    '',
+    '改代码前的安全网'] },
+  '技术债': { a: '技术债,凑合,欠债,以后要还,临时方案', s: [2, 1, 2, 1, 1, 2], w: [
+    '实验代码基本都是债，别直接拿去交付',
+    '',
+    '服务器上凑合的脚本最容易烂尾',
+    '',
+    '',
+    '"先这样，以后再说"的代价'] },
+  'epoch / batch / iteration': { a: 'epoch,batch,iteration,批次,step,训练轮次', s: [3, 0, 2, 0, 0, 0], w: [
+    '调 batch size 是最常动的旋钮',
+    '',
+    '超算上按 step 计机时',
+    '',
+    '',
+    ''] },
+  '过拟合 / 欠拟合': { a: '过拟合,欠拟合,overfit,泛化,不泛化', s: [3, 0, 0, 2, 2, 0], w: [
+    '模型调不动时的第一诊断',
+    '',
+    '',
+    '统计模型同样会过拟合',
+    '审稿必问"泛化到别的数据了吗"',
+    ''] },
+  '微调 fine-tune': { a: '微调,finetune,继续训练,微调模型', s: [3, 0, 1, 0, 1, 0], w: [
+    '不想从零训，就微调一个开源模型',
+    '',
+    '',
+    '',
+    '',
+    ''] },
+  'checkpoint / 权重': { a: 'weights,ckpt,模型文件,存档点,断点续训,模型权重', s: [3, 2, 2, 0, 1, 1], w: [
+    '训练跑一半崩了，靠它续上',
+    '模型权重最终要塞进设备里',
+    '服务器上模型文件动辄几个 G',
+    '',
+    '',
+    ''] },
+  'token / 词元': { a: 'token,词元,上下文长度,计费,字数', s: [3, 0, 2, 0, 0, 1], w: [
+    '"这模型能读多长"就是按它算',
+    '',
+    '调用模型接口按它计费',
+    '',
+    '',
+    ''] },
+  'LoRA': { a: 'lora,低秩微调,省显存微调,补丁', s: [3, 0, 1, 0, 0, 0], w: [
+    '消费级显卡微调大模型的主要办法',
+    '',
+    '',
+    '',
+    '',
+    ''] },
+  'vLLM / 推理加速': { a: 'vllm,推理加速,加速框架,并发推理,跑得快', s: [3, 0, 3, 0, 0, 0], w: [
+    '模型部署要快就靠它',
+    '',
+    '上线服务时它是性能关键',
+    '',
+    '',
+    ''] },
+  '日志 logging': { a: '日志,log,logging,打日志,报错记录', s: [3, 2, 3, 2, 1, 3], w: [
+    '训练崩了先翻日志',
+    '板子跑飞了看串口日志',
+    '服务出问题全靠它',
+    '跑长脚本必须留日志',
+    '',
+    '程序出事的唯一证词'] },
+  '异常处理': { a: '异常处理,try except,try catch,报错处理,容错', s: [2, 2, 2, 2, 0, 2], w: [
+    '训练脚本要能接着跑下一组参数',
+    'C 里是靠返回值和错误码',
+    '服务器上长时间跑的程序不能一崩就死',
+    '洗数据时总有脏行要跳过',
+    '',
+    '"别整体崩"的基本功'] },
+  '.env / 密钥管理': { a: '密钥,api key,密码管理,env,环境变量文件,泄露', s: [3, 2, 3, 2, 1, 2], w: [
+    '调用模型 API 的 key 就放这',
+    '设备访问口令也别硬编码进固件',
+    '服务器上的密码别硬编码',
+    '数据库口令不能写在分析脚本里',
+    '',
+    '跟 .gitignore 是一对'] },
+  '容器编排 / k8s': { a: 'kubernetes,k8s,编排,集群管理,扩容', s: [3, 0, 3, 0, 0, 1], w: [
+    '公司 / 实验室部署模型服务的标配',
+    '',
+    '管一堆容器的调度层',
+    '',
+    '',
+    ''] }
+};
+
+/* ============================================================
+   ZH：这次去知乎站内读过的原文（2026-10-16），挂到对应卡片的"再深一层"里
+   ============================================================ */
+const ZH = [
+  {
+    t: '学习计算机要尽早从理科思维转变到工科思维', a: 'grant的指针',
+    u: 'https://zhuanlan.zhihu.com/p/2086011974253650336',
+    w: '列举了"只有理科思维"的七种典型表现，几乎每条都对得上你',
+    k: ['Git', 'Linux / 命令行', 'code review', '复现', '.gitignore', '实验记录']
+  },
+  {
+    t: '当下计算机本科生应该如何提升自己的编程能力和工程能力?', a: 'gyyg',
+    u: 'https://www.zhihu.com/question/2035640066966565844/answer/2041617213434623030',
+    w: '四个能直接上手的练法：手撕小项目 / 读开源 / 先写设计 / 结对调试',
+    k: ['code review', 'README', '实验记录', '文档 / Wiki', 'Git']
+  },
+  {
+    t: '大一新生未来想要从事 Ai 领域科研该从哪里开始入手？', a: 'SUNNY99',
+    u: 'https://www.zhihu.com/question/4313394829/answer/2028257732881397644',
+    w: '"不要把目标定成学完 Python，而是做出 2-3 个完整小项目"',
+    k: ['arXiv', 'Python', '复现', '部署 / API', 'GPU', '虚拟环境 venv / conda']
+  },
+  {
+    t: '通信工程学生觉得课程太理论化，大学期间该怎样补齐工程能力？', a: '半解',
+    u: 'https://www.zhihu.com/question/2094027087636186161/answer/2094122582471722967',
+    w: '本科生能拿到入场券的层级：嵌入式（C）本科即可，AI 算法岗要硕博 + 论文',
+    k: ['Python', 'GPU', '多卡 / 分布式训练', '训练 vs 推理']
+  },
+  {
+    t: '大学生科研入门避坑指南（文献篇一）：怎么查文献、下载文献', a: 'Ryan学长',
+    u: 'https://zhuanlan.zhihu.com/p/2070995211774334334',
+    w: '文献这条链的中文实操，他也首推 Zotero',
+    k: ['Zotero', 'arXiv', '综述 Survey', '双链笔记']
+  },
+  {
+    t: '一本计算机专业，准大一，有什么忠告？', a: '笙囧同学',
+    u: 'https://www.zhihu.com/question/1938917766951343950/answer/2009915243346813414',
+    w: '"官方文档是你以后解决几乎所有技术问题的核心工具链"——这解释了"再深一层"里为什么官方源排第一',
+    k: ['Linux / 命令行', 'Python', 'Docker', 'SSH', 'tmux', 'CUDA 版本', 'Slurm / sbatch']
+  }
+];
+ZH.forEach(z => z.k.forEach(k => {
+  if (DEEP[k]) DEEP[k].s.push(['zh', z.t + '（' + z.a + '）', z.u, z.w]);
+}));
+
+const NAME2IDX = {};
+CARDS.forEach((c, i) => NAME2IDX[c.n] = i);
+
+let filterRing = -1, filterScene = -1, onlyCore = true, kw = '', cur = null;
+const done = new Set();
+try {
+  const raw = localStorage.getItem('engcard_done');
+  if (raw) JSON.parse(raw).forEach(i => done.add(i));
+} catch (e) {}
+
+const ringbar = document.getElementById('ringbar');
+const ringList = [{ id: -1, label: '全部' }].concat(Object.keys(RINGS).map(k => ({ id: +k, label: k === '0' ? '底座' : '第 ' + k + ' 环' })));
+ringList.forEach(r => {
+  const b = document.createElement('button');
+  b.className = 'chip' + (r.id === -1 ? ' on' : '');
+  b.textContent = r.label;
+  b.dataset.ring = r.id;
+  b.onclick = () => {
+    filterRing = r.id;
+    [...ringbar.children].forEach(c => c.classList.remove('on'));
+    b.classList.add('on');
+    render();
+  };
+  ringbar.appendChild(b);
+});
+
+/* 六方向筛选：选中后只留"在这个方向里用得上（≥2）"的卡 */
+const scenebar = document.getElementById('scenebar');
+const sceneList = [{ id: -1, label: '全部方向' }].concat(SCENES.map((s, i) => ({ id: i, label: SCENE_META[i].emo + ' ' + SCENE_META[i].short })));
+sceneList.forEach((r, k) => {
+  const b = document.createElement('button');
+  b.className = 'chip' + (k === 0 ? ' on' : '');
+  b.textContent = r.label;
+  b.dataset.scene = r.id;
+  b.title = r.id === -1 ? '显示全部' : SCENES[r.id] + '：' + SCENE_META[r.id].desc;
+  b.onclick = () => {
+    filterScene = r.id;
+    [...scenebar.children].forEach(x => x.classList.remove('on'));
+    b.classList.add('on');
+    render();
+  };
+  scenebar.appendChild(b);
+});
+
+function refreshSceneCounts() {
+  [...scenebar.children].forEach(b => {
+    const id = +b.dataset.scene;
+    if (id === -1) { b.textContent = '全部方向'; return; }
+    const idxs = CARDS.map((c, i) => i).filter(i => (EXTRA[CARDS[i].n] || { s: [] }).s[id] >= 2);
+    const d = idxs.filter(i => done.has(i)).length;
+    b.textContent = SCENE_META[id].emo + ' ' + SCENE_META[id].short + ' ' + d + '/' + idxs.length;
+  });
+}
+
+function refreshRingCounts() {
+  [...ringbar.children].forEach(b => {
+    const id = +b.dataset.ring;
+    if (id === -1) { b.textContent = '全部'; return; }
+    const idxs = CARDS.map((c, i) => i).filter(i => CARDS[i].r === id);
+    const d = idxs.filter(i => done.has(i)).length;
+    b.textContent = (id === 0 ? '底座' : '第 ' + id + ' 环') + ' ' + d + '/' + idxs.length;
+  });
+}
+
+const wall = document.getElementById('wall');
+CARDS.forEach((c, i) => {
+  const d = document.createElement('div');
+  d.className = 'card' + (c.lv === 'adv' ? ' adv' : '') + (done.has(i) ? ' done' : '');
+  d.tabIndex = 0;
+  d.dataset.i = i;
+  d.onclick = e => {
+    if (e.target.classList.contains('kin')) return;
+    if (e.target.classList.contains('act')) return;
+    flip(d, i);
+  };
+  d.onkeydown = e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(d, i); }
+  };
+  wall.appendChild(d);
+});
+
+function faceHTML(c) {
+  return '<div class="nm">' + c.n + '</div>' +
+    '<div class="ring">' + RINGS[c.r] + (c.lv === 'adv' ? ' · 进阶' : '') + '</div>' +
+    '<div class="flipback" style="margin-top:auto">点我翻面 →</div>';
+}
+
+function dotsHTML(name) {
+  const ex = EXTRA[name];
+  if (!ex) return '';
+  const hits = SCENES.map((s, i) => i).filter(i => (ex.s[i] || 0) >= 2);
+  if (!hits.length) return '';
+  const rows = hits.map(i => {
+    const m = SCENE_META[i], v = ex.s[i];
+    const dots = '●'.repeat(v) + '○'.repeat(3 - v);
+    return '<div class="scline' + (v === 3 ? ' hi' : '') + '">' +
+      '<b style="color:' + m.color + '">' + m.emo + ' ' + m.short + '</b>' +
+      '<i style="color:' + (v === 3 ? m.color : '#4a5364') + '">' + dots + '</i>' +
+      '<em>' + (ex.w[i] || '') + '</em></div>';
+  }).join('');
+  const extra = hits.length >= 4
+    ? ' <span class="unib">—— 跨 ' + hits.length + ' 个方向，属于通吃型</span>' : '';
+  return '<div class="scwrap"><div class="scap">它在哪几个方向里用得上 · 用在哪' + extra + '</div>' + rows + '</div>';
+}
+
+function backHTML(c, i) {
+  const kins = c.k.filter(x => x in NAME2IDX).map(x =>
+    '<span class="kin" data-t="' + x + '">' + x + '</span>').join('');
+  return '<div class="ring">' + c.n + ' · ' + RINGS[c.r] + '</div>' +
+    '<div class="d">' + c.d + '</div>' +
+    '<div class="m">记：<b>' + c.m + '</b></div>' +
+    dotsHTML(c.n) +
+    '<div class="kinwrap"><div class="kinlbl">同族 —— 点一下跳过去</div>' +
+    '<div class="kins">' + kins + '</div></div>' +
+    (DEEP[c.n] ? '<button class="deepbtn">🔎 再深一层 —— 详细解读 + 去哪学它</button>' : '') +
+    '<div class="acts">' +
+      '<button class="act" data-a="done">记住了</button>' +
+      '<button class="act" data-a="undo">还不行</button>' +
+    '</div>';
+}
+
+/* ---------- 别名（用于倒查与搜索） ---------- */
+function aliasArr(name) {
+  const set = new Set();
+  const ex = EXTRA[name];
+  /* 注意：只按逗号/分号切分，不能用空白切——否则 "build 环境" 会被拆成
+     单字"环境"，让任何提到"环境"的句子都误命中这张卡 */
+  if (ex && ex.a) ex.a.split(/[,，;；]+/).forEach(x => { x = x.trim(); if (x.length >= 2) set.add(x); });
+  set.add(name);
+  name.split(/[\/()（）、]/).forEach(x => { x = x.trim().replace(/^[-—\s]+|[-—\s]+$/g, ''); if (x.length >= 2) set.add(x); });
+  return [...set];
+}
+const ALIAS_IDX = [];
+CARDS.forEach((c, i) => aliasArr(c.n).forEach(a => ALIAS_IDX.push({ a: a.toLowerCase(), n: c.n, i })));
+ALIAS_IDX.sort((x, y) => y.a.length - x.a.length);
+
+/* ---------- 深挖弹层 ---------- */
+const TYPENAME = {
+  doc: ['官方 · 权威', 'b-doc'],
+  cn: ['中文教程', 'b-cn'],
+  vid: ['视频 · 交互', 'b-vid'],
+  paper: ['论文 · 书', 'b-paper'],
+  zh: ['知乎 · 观点', 'b-zh']
+};
+function esc(s) {
+  return String(s).replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
+}
+/* 正文里的 **粗体** 与 `代码` */
+function rich(s) {
+  return esc(s)
+    .replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>')
+    .replace(/`([^`]+)`/g, '<code>$1</code>');
+}
+function qbtn(plat, url) {
+  return '<a class="qbtn" href="' + url + '" target="_blank" rel="noopener">' + plat + '</a>';
+}
+const mask = document.getElementById('mask');
+const modal = document.getElementById('modal');
+let lastCardIdx = null;   // 弹层是从哪张卡开出来的（关闭时还原那张卡的背面）
+
+function openDeep(name) {
+  const d = DEEP[name];
+  if (!d) return;
+  const idx = NAME2IDX[name];
+  const c = CARDS[idx];
+  lastCardIdx = idx;
+  let h = '<h3>' + esc(name) + ' · 再深一层</h3>';
+  h += '<div class="mtag">' + RINGS[c.r] + ' · ' + (c.lv === 'adv' ? '进阶' : '核心') + ' · 记：' + esc(c.m) + '</div>';
+  if (d.body && d.body.length) {
+    h += '<div class="msec first">先说清楚 —— 它到底是什么</div>';
+    h += '<div class="mbody">' + d.body.map(p => '<p>' + rich(p) + '</p>').join('') + '</div>';
+  }
+  if (d.trap && d.trap.length) {
+    h += '<div class="msec">别搞混 / 最容易犯的错</div>';
+    h += '<div class="mtrap">' + d.trap.map(t => '<div class="tr">' + rich(t) + '</div>').join('') + '</div>';
+  }
+  h += '<div class="msec">为什么它值得你花时间</div>';
+  h += '<div class="mwhy">' + rich(d.why) + '</div>';
+  h += '<div class="msec">该去哪里看 —— 从可靠到好懂</div>';
+  d.s.forEach(x => {
+    const t = TYPENAME[x[0]] || TYPENAME.doc;
+    h += '<a class="row" href="' + x[2] + '" target="_blank" rel="noopener">' +
+      '<span class="badge ' + t[1] + '">' + t[0] + '</span>' +
+      '<span><span class="rt">' + esc(x[1]) + '</span><span class="rn">' + esc(x[3]) + '</span></span></a>';
+  });
+  h += '<div class="msec">搜索线索 —— 拿这句话去这三个地方搜</div>';
+  d.q.forEach(q => {
+    h += '<div style="margin-bottom:9px">' +
+      '<div class="rt" style="font-size:12px;color:#a9bdd6;margin-bottom:5px">「' + esc(q) + '」</div>' +
+      qbtn('知乎', 'https://www.zhihu.com/search?type=content&q=' + encodeURIComponent(q)) +
+      qbtn('B 站', 'https://search.bilibili.com/all?keyword=' + encodeURIComponent(q)) +
+      qbtn('Google', 'https://www.google.com/search?q=' + encodeURIComponent(q)) +
+      '</div>';
+  });
+  h += '<div class="msec">第一次上手 —— 只做这一件事，别多</div>';
+  h += '<div class="t1">' + esc(d.t1) + '</div>';
+  h += '<div class="mfoot">' +
+    '<button class="pri" data-a="done">这个我记住了</button>' +
+    '<button data-a="close">先关掉</button></div>';
+  modal.innerHTML = h;
+  mask.classList.add('on');
+  modal.querySelectorAll('[data-a]').forEach(b => {
+    b.onclick = () => {
+      if (b.dataset.a === 'done') {
+        const i = NAME2IDX[name];
+        done.add(i); save(); updateProg();
+        const el = wall.querySelector('.card[data-i="' + i + '"]');
+        if (el) el.classList.add('done');
+      }
+      closeModal();
+    };
+  });
+}
+function closeModal() {
+  mask.classList.remove('on');
+  if (lastCardIdx !== null) {
+    const el = wall.querySelector('.card[data-i="' + lastCardIdx + '"]');
+    if (el && el.dataset.f === '1') {
+      el.innerHTML = backHTML(CARDS[lastCardIdx], lastCardIdx);
+      bindBack(el, lastCardIdx);
+    }
+  }
+  lastCardIdx = null;
+}
+mask.onclick = e => { if (e.target === mask) closeModal(); };
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && mask.classList.contains('on')) closeModal(); });
+
+/* ---------- 跳到某张卡并翻开（带"回到上一张"） ---------- */
+const hist = [];
+function clearFilters() {
+  filterRing = -1; filterScene = -1; onlyCore = false; kw = '';
+  document.getElementById('q').value = '';
+  [...ringbar.children].forEach(x => x.classList.remove('on'));
+  ringbar.children[0].classList.add('on');
+  [...scenebar.children].forEach(x => x.classList.remove('on'));
+  scenebar.children[0].classList.add('on');
+  document.getElementById('lvall').classList.add('on');
+  document.getElementById('lvcore').classList.remove('on');
+  render();
+}
+function openCard(i, remember) {
+  if (remember === undefined) remember = true;
+  if (remember && cur !== null && cur !== i) hist.push(cur);
+  clearFilters();
+  const t = wall.querySelector('.card[data-i="' + i + '"]');
+  if (!t) return;
+  t.dataset.f = '1';
+  t.innerHTML = backHTML(CARDS[i], i);
+  bindBack(t, i);
+  cur = i;
+  t.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  t.classList.add('flash');
+  setTimeout(() => t.classList.remove('flash'), 1400);
+  renderHist();
+}
+function renderHist() {
+  const w = document.getElementById('histwrap');
+  if (!hist.length) { w.innerHTML = ''; return; }
+  const p = hist[hist.length - 1];
+  w.innerHTML = '<span id="goback" style="cursor:pointer;color:#9fc6e8">← 回到「' + esc(CARDS[p].n) + '」</span>';
+  document.getElementById('goback').onclick = () => { const q = hist.pop(); openCard(q, false); };
+}
+
+/* ---------- 六个方向速览 ---------- */
+function openSceneOverview() {
+  lastCardIdx = null;
+  const ringName = r => (r === 0 ? '底座' : '第 ' + r + ' 环');
+  const blocks = SCENES.map((s, i) => {
+    const m = SCENE_META[i];
+    const idxs = CARDS.map((c, k) => k).filter(k => (EXTRA[CARDS[k].n] || { s: [] }).s[i] >= 2);
+    const hi = idxs.filter(k => EXTRA[CARDS[k].n].s[i] >= 3).length;
+    const byRing = {};
+    idxs.forEach(k => { const r = CARDS[k].r; (byRing[r] = byRing[r] || []).push(CARDS[k].n); });
+    const ringTxt = Object.keys(byRing).sort((a, b) => a - b)
+      .map(r => ringName(+r) + ' ' + byRing[r].length + ' 张').join(' · ');
+    return '<div class="scblk" style="border-color:' + m.color + '33">' +
+      '<div class="scbh"><span style="color:' + m.color + '">' + m.emo + ' ' + s + '</span>' +
+      '<em>' + idxs.length + ' 张用得上（其中 ' + hi + ' 张是主力）</em></div>' +
+      '<div class="scbd">' + m.desc + '</div>' +
+      '<div class="scbr">按八环分布：' + ringTxt + '</div>' +
+      '<div class="scbf">想先看，就看这几张：' +
+        m.first.map(x => '<span class="scfk" data-t="' + x + '">' + x + '</span>').join('') + '</div>' +
+      '<button class="scgo" data-scene="' + i + '">只看这个方向 →</button></div>';
+  }).join('');
+  modal.innerHTML = '<h3>六个方向速览</h3>' +
+    '<div class="mtag">这六个方向不是"选一个"，而是"你以后可能落在哪一摊"。同一张卡在不同方向里的用法不一样，所以本喵给每一格都写了理由。</div>' +
+    blocks +
+    '<div class="mfoot"><button id="scClose">先关掉</button></div>';
+  mask.classList.add('on');
+  modal.querySelectorAll('.scgo').forEach(b => b.onclick = () => {
+    const id = +b.dataset.scene;
+    closeModal();
+    filterScene = id; onlyCore = false; kw = '';
+    document.getElementById('q').value = '';
+    [...scenebar.children].forEach(x => x.classList.remove('on'));
+    scenebar.children[id + 1].classList.add('on');
+    document.getElementById('lvall').classList.add('on');
+    document.getElementById('lvcore').classList.remove('on');
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  modal.querySelectorAll('.scfk').forEach(k => k.onclick = () => {
+    const t = k.dataset.t;
+    closeModal();
+    if (NAME2IDX[t] !== undefined) openCard(NAME2IDX[t], false);
+  });
+  document.getElementById('scClose').onclick = closeModal;
+}
+
+/* ---------- 我听到一句话：把口语拆成卡片 ---------- */
+const TRACE_DEMO = '我们先把环境用 docker 封起来，然后跑一下量化后的模型，看看显存够不够，结果要能复现';
+function openTrace() {
+  lastCardIdx = null;
+  modal.innerHTML =
+    '<h3>我听到一句话</h3>' +
+    '<div class="mtag">把舍友 / 老师 / 组会上听到的原话贴进来，本喵帮你拆成卡片，并告诉你它落在哪几环</div>' +
+    '<textarea id="traceIn" placeholder="例：' + TRACE_DEMO + '"></textarea>' +
+    '<div class="tracebar"><button class="pri" id="traceGo">拆一下</button>' +
+    '<button id="traceSample">用个例子试试</button></div>' +
+    '<div id="traceOut"></div>' +
+    '<div class="mfoot"><button data-a="close">关掉</button></div>';
+  mask.classList.add('on');
+  document.getElementById('traceGo').onclick = runTrace;
+  document.getElementById('traceSample').onclick = () => {
+    document.getElementById('traceIn').value = TRACE_DEMO;
+    runTrace();
+  };
+  modal.querySelectorAll('[data-a]').forEach(b => b.onclick = closeModal);
+  setTimeout(() => { const t = document.getElementById('traceIn'); if (t) t.focus(); }, 60);
+}
+function runTrace() {
+  const raw = document.getElementById('traceIn').value.trim();
+  const out = document.getElementById('traceOut');
+  if (!raw) { out.innerHTML = '<div class="weak">先贴一句话进来喵。</div>'; return; }
+  const norm = raw.toLowerCase();
+  const found = new Map();
+  ALIAS_IDX.forEach(k => { if (!found.has(k.n) && norm.includes(k.a)) found.set(k.n, { a: k.a, i: k.i }); });
+  if (!found.size) {
+    out.innerHTML = '<div class="weak">这句话里没认出 102 张卡上的词——可能落在卡片之外。<br>' +
+      '把原话丢给本喵，本喵帮你拆完再决定要不要加一张新卡。</div>';
+    return;
+  }
+  const list = [...found.entries()].map(([n, v]) => ({ n, ...v }))
+    .sort((x, y) => CARDS[x.i].r - CARDS[y.i].r || x.i - y.i);
+  const rings = [...new Set(list.map(x => CARDS[x.i].r))];
+  let h = '<div class="chain">认出 ' + list.length + ' 个词，横跨 <b>' +
+    rings.map(r => RINGS[r]).join(' → ') + '</b>' +
+    (rings.length >= 2 ? '<br>说明这句话在讲一条链，不只是单个名词。' : '') + '</div>';
+  h += list.map(x => {
+    const c = CARDS[x.i];
+    return '<div class="hit"><div style="flex:1">' +
+      '<div class="hn">' + esc(c.n) + '</div>' +
+      '<div class="hi">' + RINGS[c.r] + ' · 你听到的说法是「' + esc(x.a) + '」<br>' + esc(c.d) + '</div>' +
+      '</div><button class="go" data-jump="' + x.i + '">看这张</button></div>';
+  }).join('');
+  const weakSet = new Set();
+  list.forEach(x => CARDS[x.i].k.forEach(k => { if (k in NAME2IDX && !found.has(k)) weakSet.add(k); }));
+  if (weakSet.size) {
+    h += '<div class="weak">一句话里往往还有没说出来的：' +
+      [...weakSet].slice(0, 8).map(k => '<b data-jump="' + NAME2IDX[k] + '">' + esc(k) + '</b>').join(' · ') +
+      '</div>';
+  }
+  out.innerHTML = h;
+  out.querySelectorAll('[data-jump]').forEach(el => {
+    el.onclick = () => { const i = +el.dataset.jump; closeModal(); openCard(i, false); };
+  });
+}
+
+/* ---------- 随机抽一张（自测） ---------- */
+let quizIdx = null, quizRevealed = false;
+function openQuiz(i) {
+  lastCardIdx = null;
+  if (i === undefined || typeof i !== 'number') {
+    const pool = CARDS.map((c, k) => k).filter(k => !onlyCore || CARDS[k].lv === 'core');
+    quizIdx = pool[Math.floor(Math.random() * pool.length)];
+  } else quizIdx = i;
+  quizRevealed = false;
+  mask.classList.add('on');
+  drawQuiz();
+}
+function drawQuiz() {
+  const c = CARDS[quizIdx], i = quizIdx;
+  let h = '<h3>随机抽一张</h3>' +
+    '<div class="mtag">先自己想：它是干什么的、属于哪一环？想不出来再翻底</div>' +
+    '<div class="qbig">' + esc(c.n) + '</div>';
+  if (quizRevealed) {
+    h += '<div class="qmeta">' + RINGS[c.r] + (c.lv === 'adv' ? ' · 进阶' : '') + '</div>' +
+      '<div class="qans">' + esc(c.d) + '<div class="m">记：<b>' + esc(c.m) + '</b></div></div>';
+  }
+  h += '<div class="tracebar">' + (quizRevealed
+    ? '<button class="pri" id="qdone">记住了</button><button id="qundo">还不行</button>'
+    : '<button class="pri" id="qshow">想不出来，看答案</button>') +
+    '<button id="qnext">再来一张</button></div>' +
+    '<div class="mfoot">' + (DEEP[c.n] ? '<button id="qdeep">🔎 再深一层</button>' : '') +
+    '<button data-a="close">关掉</button></div>';
+  modal.innerHTML = h;
+  const $ = s => document.getElementById(s);
+  if ($('qshow')) $('qshow').onclick = () => { quizRevealed = true; drawQuiz(); };
+  $('qnext').onclick = () => openQuiz();
+  if ($('qdone')) $('qdone').onclick = () => { done.add(i); save(); updateProg(); openQuiz(); };
+  if ($('qundo')) $('qundo').onclick = () => { done.delete(i); save(); updateProg(); drawQuiz(); };
+  if ($('qdeep')) $('qdeep').onclick = () => openDeep(c.n);
+  modal.querySelectorAll('[data-a]').forEach(b => b.onclick = closeModal);
+}
+
+document.getElementById('trace').onclick = () => openTrace();
+document.getElementById('quiz').onclick = () => openQuiz();
+
+/* 把一张卡背面的事件全部绑上（翻面与恢复时共用） */
+function bindBack(el, i) {
+  if (!el) return;
+  cur = i;
+  el.querySelectorAll('.kin').forEach(k => {
+    k.onclick = ev => {
+      ev.stopPropagation();
+      openCard(NAME2IDX[k.dataset.t]);
+    };
+  });
+  const db = el.querySelector('.deepbtn');
+  if (db) db.onclick = ev => { ev.stopPropagation(); openDeep(CARDS[i].n); };
+  el.querySelectorAll('.act').forEach(b => {
+    b.onclick = ev => {
+      ev.stopPropagation();
+      if (b.dataset.a === 'done') { done.add(i); el.classList.add('done'); }
+      else { done.delete(i); el.classList.remove('done'); }
+      save(); updateProg();
+    };
+  });
+}
+
+function flip(el, i) {
+  const c = CARDS[i];
+  if (el.dataset.f === '1') {
+    el.dataset.f = '0';
+    el.innerHTML = faceHTML(c);
+  } else {
+    el.dataset.f = '1';
+    el.innerHTML = backHTML(c, i);
+    bindBack(el, i);
+    cur = i;
+  }
+}
+
+function save() {
+  try { localStorage.setItem('engcard_done', JSON.stringify([...done])); } catch (e) {}
+}
+function updateProg() {
+  document.getElementById('dn').textContent = done.size;
+  document.getElementById('tt').textContent = CARDS.length;
+  refreshRingCounts();
+  refreshSceneCounts();
+}
+
+function render() {
+  [...wall.children].forEach(el => {
+    const i = +el.dataset.i, c = CARDS[i];
+    const ex = EXTRA[c.n];
+    const hay = (c.n + c.d + c.m + c.k.join('') + aliasArr(c.n).join('')).toLowerCase();
+    let show = (filterRing === -1 || c.r === filterRing) &&
+               (filterScene === -1 || (ex && ex.s[filterScene] >= 2)) &&
+               (!onlyCore || c.lv === 'core') &&
+               (!kw || hay.includes(kw));
+    el.classList.toggle('hide', !show);
+    el.dataset.f = '0';
+    el.innerHTML = faceHTML(c);
+    el.classList.toggle('done', done.has(i));
+  });
+  updateProg();
+}
+
+document.getElementById('lvcore').onclick = () => {
+  onlyCore = true;
+  document.getElementById('lvcore').classList.add('on');
+  document.getElementById('lvall').classList.remove('on');
+  render();
+};
+document.getElementById('lvall').onclick = () => {
+  onlyCore = false;
+  document.getElementById('lvall').classList.add('on');
+  document.getElementById('lvcore').classList.remove('on');
+  render();
+};
+document.getElementById('q').oninput = e => { kw = e.target.value.trim().toLowerCase(); render(); };
+document.getElementById('reset').onclick = () => {
+  done.clear(); save(); render();
+};
+document.getElementById('scopen').onclick = openSceneOverview;
+
+/* ---------- 底部：这次去知乎读过的原文 ---------- */
+document.getElementById('srcs').innerHTML =
+  '<h4>这次去知乎站内读过的原文（2026-10-16）</h4>' +
+  '<p>下面这 6 篇是按你的处境一条条点开读完的。<b>它们的观点已经挂进对应卡片的「再深一层」里</b>——' +
+  '看到橙色徽章 <span class="badge b-zh" style="font-size:10px">知乎 · 观点</span> 就是它。' +
+  '想自己核，点开看原文。</p>' +
+  ZH.map(z => '<a class="src" href="' + z.u + '" target="_blank" rel="noopener">' +
+    esc(z.t) + ' <em>— ' + esc(z.a) + '</em><br><em>' + esc(z.w) + '</em></a>').join('');
+
+render();
+</script>
+</body>
+</html>

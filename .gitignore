@@ -1,0 +1,16 @@
+# 系统杂项
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+
+# 依赖与临时文件
+node_modules/
+*.log
+
+# 本地工作区（不该进仓库）
+.workbuddy/

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>工程广度地图 · 基于"理论 / 系统"双轴的科研工程框架</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 32px 20px 64px; background: #0b0d12; color: #e6e9ef;
+    font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+    line-height: 1.65;
+  }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .wrap { max-width: 940px; margin: 0 auto; }
+  h1 { font-size: 20px; font-weight: 500; margin: 0 0 6px; letter-spacing: .5px; }
+  .sub { font-size: 13px; color: #8b95a5; margin: 0 0 18px; }
+  .quote {
+    font-size: 13px; color: #b6c0cf; background: #10141c; border: 1px solid #1e2430;
+    border-left: 3px solid #3d5a80; border-radius: 10px; padding: 12px 16px; margin: 0 0 8px;
+  }
+  .quote b { color: #dbe3ee; font-weight: 500; }
+  .src { font-size: 12px; color: #5c6473; margin: 0 0 26px; }
+  h2.sec { font-size: 15px; font-weight: 500; margin: 34px 0 14px; padding-left: 10px; border-left: 2px solid #3d5a80; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: #2a2f3a; border: 1px solid #2a2f3a; border-radius: 14px; overflow: hidden; }
+  .q { padding: 18px; min-height: 132px; }
+  .q.tl { background: #0C447C; }
+  .q.tr { background: #085041; }
+  .q.bl, .q.br { background: #16181d; }
+  .q h3 { margin: 0 0 6px; font-size: 14px; font-weight: 500; }
+  .q p { margin: 0; font-size: 12px; }
+  .q .me { font-size: 12px; margin-top: 10px; }
+  .axis { display: flex; justify-content: space-between; font-size: 12px; color: #6b7484; margin: 8px 2px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid #1c222c; vertical-align: top; }
+  th { font-size: 12px; font-weight: 500; color: #8b95a5; }
+  td.k { color: #dbe3ee; font-weight: 500; white-space: nowrap; }
+  td.l { color: #5DCAA5; white-space: nowrap; }
+  .searchbar { display: flex; gap: 10px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
+  input#q { flex: 1; min-width: 220px; padding: 10px 14px; font-size: 13px; color: #e6e9ef;
+    background: #141821; border: 1px solid #262c38; border-radius: 10px; outline: none; font-family: inherit; }
+  input#q:focus { border-color: #3d5a80; }
+  .cycles { display: grid; grid-template-columns: repeat(auto-fill, minmax(285px, 1fr)); gap: 10px; }
+  .cycle { background: #12161f; border: 1px solid #202632; border-radius: 12px; padding: 14px 16px; }
+  .cycle.hide { display: none; }
+  .cn { font-size: 13px; font-weight: 500; }
+  .ct { font-size: 12px; color: #8b95a5; margin-top: 6px; }
+  .tools { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .tool { font-size: 12px; padding: 3px 9px; border-radius: 999px; border: 1px solid #26303f; color: #9fb3c8; }
+  .phase { display: flex; gap: 14px; padding: 14px 16px; background: #12161f; border: 1px solid #202632; border-radius: 14px; margin-bottom: 10px; }
+  .pnum { flex: 0 0 auto; width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500; }
+  .ptitle { font-size: 14px; font-weight: 500; }
+  .ptime { font-size: 12px; color: #7c8698; }
+  .pout { font-size: 12px; color: #8b95a5; margin-top: 4px; }
+  .pout b { color: #b8c3d4; font-weight: 500; }
+  .refs { font-size: 12px; color: #7c8698; margin: 0; padding-left: 18px; }
+  .refs li { margin-bottom: 6px; }
+  .foot { font-size: 12px; color: #5c6473; margin-top: 30px; text-align: center; }
+</style>
+</head>
+<body>
+<h2 class="sr-only">基于理论深度与系统广度双轴的科研工程能力框架，含八环生命周期、名词归位与学习路线</h2>
+<div class="wrap">
+  <h1>工程广度地图</h1>
+  <p class="sub">v2 · 从"工具清单"改成"能力坐标系" · 2026-10-16</p>
+
+  <div class="quote">
+    计算机科学有两类根本问题。一类是<b>理论</b>：算法、数据结构、复杂度、机器学习。一类是<b>系统</b>：操作系统、网络系统、分布式系统、存储系统。<b>理论走的是深度</b>，追问在给定算力约束下如何把问题解决得更快更好；<b>而系统走的是广度</b>，追问对于现实需求如何在众多技术中设计出<b>最"多快好省"的技术组合</b>。搞 ACM 的人只练第一类——可惜第二类能力没有简单的测量方法，所以很多系统的苗子慢慢消隐了。
+  </div>
+  <p class="src">来源：知乎《什么才算是真正的编程能力？》下的高赞回答（多处转载，原文可查）</p>
+
+  <h2 class="sec">一、你的坐标系：两条正交的轴</h2>
+  <div class="grid2">
+    <div class="q tl">
+      <h3>算法做题家</h3>
+      <p>理论强 · 工程几乎为零</p>
+      <p class="me" style="color:#85B7EB">你在这里</p>
+    </div>
+    <div class="q tr">
+      <h3>能落地的研究者</h3>
+      <p>理论强 · 也能把东西真正做出来</p>
+      <p class="me" style="color:#5DCAA5">你要走的方向</p>
+    </div>
+    <div class="q bl">
+      <h3 style="color:#5c6473">两头都空</h3>
+      <p style="color:#4c5566">入门期，暂时不讨论</p>
+    </div>
+    <div class="q br">
+      <h3 style="color:#8b95a5">工程老兵</h3>
+      <p style="color:#6b7484">系统强 · 理论薄弱</p>
+    </div>
+  </div>
+  <div class="axis"><span>理论 / 深度 ↑</span><span>系统 / 广度 →</span></div>
+
+  <h2 class="sec">二、真正要换的是判断标准：两种思维</h2>
+  <table>
+    <tr><th>维度</th><th>理论思维（你已很熟）</th><th>工程 / 系统思维（要练的）</th></tr>
+    <tr><td class="k">关注点</td><td>正确性、完整性</td><td class="l">可行性、成本</td></tr>
+    <tr><td class="k">方法</td><td>理想化方案</td><td class="l">权衡与折中</td></tr>
+    <tr><td class="k">目标</td><td>完美解决</td><td class="l">实用解决</td></tr>
+    <tr><td class="k">约束</td><td>约束较少</td><td class="l">多重约束同时压过来</td></tr>
+    <tr><td class="k">路径</td><td>深度优先，求最优解</td><td class="l">广度优先，求平衡解</td></tr>
+    <tr><td class="k">容错</td><td>必须 100% 正确</td><td class="l">允许可控的妥协</td></tr>
+    <tr><td class="k">遇到硬骨头</td><td>花三天挖到源码层</td><td class="l">一天内找 workaround，记下问题后续优化</td></tr>
+  </table>
+  <p class="src">来源：《浅谈工程思维和技术思维的差异》等多篇对照整理（合并去重）</p>
+
+  <h2 class="sec">三、系统广度落地在哪：科研项目的八环生命周期</h2>
+  <div class="searchbar">
+    <input id="q" placeholder="搜名词：Docker、量化、复现、显存、R 语言 ……">
+    <button class="btn" id="clear" style="padding:10px 14px;font-size:12px;color:#94a3b8;background:#141821;border:1px solid #262c38;border-radius:10px;cursor:pointer;font-family:inherit">清空</button>
+  </div>
+  <div class="cycles" id="cycles"></div>
+
+  <h2 class="sec">四、名词归位：你听过的词都在哪一格</h2>
+  <table>
+    <tr><th>名词</th><th>落在哪一环</th><th>它的真实身份</th></tr>
+    <tr data-x><td class="k">R 语言</td><td class="l">第 4 环</td><td>和 Python 同类的语言，统计 / 生信圈常用——只是一个选项，不是新世界</td></tr>
+    <tr data-x><td class="k">Docker / 容器</td><td class="l">第 2 环</td><td>让集群和笔记本跑出同一个结果的那把锁</td></tr>
+    <tr data-x><td class="k">Git</td><td class="l">第 3 环</td><td>版本回溯 + 分支协作，从第一行代码就该用</td></tr>
+    <tr data-x><td class="k">GitHub</td><td class="l">第 3 / 7 环</td><td>托管，以及让别人的眼睛进到你的代码里</td></tr>
+    <tr data-x><td class="k">CI 绿勾</td><td class="l">第 3 环</td><td>推代码后自动跑测试，红叉绿勾就是它</td></tr>
+    <tr data-x><td class="k">模型量化</td><td class="l">第 5 → 8 环</td><td>把模型压到能部署；剪枝、量化、蒸馏是一家人</td></tr>
+    <tr data-x><td class="k">显存 OOM</td><td class="l">第 5 环</td><td>算力观测的一部分，不是玄学</td></tr>
+    <tr data-x><td class="k">Linux 命令行</td><td class="l">贯穿 2–5 环</td><td>它不是某一环，是这些环的公共底座</td></tr>
+    <tr data-x><td class="k">复现 / 随机种子</td><td class="l">第 8 环</td><td>科研的硬要求：别人能跑出一样的结果</td></tr>
+  </table>
+
+  <h2 class="sec">五、路线：四阶段，每阶段都有验收物</h2>
+  <div id="phases"></div>
+
+  <h2 class="sec">六、本页依据（可自行核对）</h2>
+  <ul class="refs">
+    <li>知乎《什么才算是真正的编程能力？》高赞回答 —— 理论 / 系统两条能力轴的原始划分（本页第一屏）</li>
+    <li>《计算机专业研究者的第十五个工具箱》—— 科研全生命周期 15 个工具支点（本页第三屏八环的主要来源）</li>
+    <li>人工智能算法工程师能力模型 —— 技术深度 × 工程能力 × 业务理解，三者相乘</li>
+    <li>《浅谈工程思维和技术思维的差异》—— 六维对照表（本页第二屏）</li>
+    <li>计算机专业四年学习规划 —— 基础层 / 技能层 / 领域层的分层思路</li>
+  </ul>
+  <p class="foot">这页的骨架来自公开资料，不是从零散名词往回推的。有新材料随时替换。</p>
+</div>
+
+<script>
+const BLUE = { c: '#85B7EB', bg: '#0C447C', fg: '#E6F1FB', sub: '#B5D4F4' };
+const TEAL = { c: '#5DCAA5', bg: '#085041', fg: '#E1F5EE', sub: '#9FE1CB' };
+
+const CYCLES = [
+  { n: 1, name: '选题与文献', col: BLUE,
+    tools: ['Zotero', 'Connected Papers', '双链笔记', '综述笔记'],
+    note: '核心不是"存文献"，而是"把文献连起来"——存了不连等于没存' },
+  { n: 2, name: '环境与复现', col: BLUE,
+    tools: ['Docker', 'conda / venv', 'requirements.txt'],
+    note: '每个项目一份 Dockerfile，保证从集群到笔记本结果一致；不要在物理机上硬配环境' },
+  { n: 3, name: '代码与版本', col: BLUE,
+    tools: ['Git', 'GitHub', '分支', 'PR 评审'],
+    note: '从写第一行代码就开始用；版本回溯是科研的"后悔药"' },
+  { n: 4, name: '数据与处理', col: BLUE,
+    tools: ['Python', 'Pandas / Polars', 'SQL', 'R'],
+    note: 'R 和 Python 在这一环里是并列选项；数据分析类任务的重头' },
+  { n: 5, name: '实验与监控', col: TEAL,
+    tools: ['W&B', 'TensorBoard', 'Slurm', '显存 / GPU'],
+    note: '别在集群上盲猜延迟，要能观测；实验要留下可对比的记录' },
+  { n: 6, name: '写作与图表', col: TEAL,
+    tools: ['LaTeX', 'Overleaf', 'Matplotlib', 'TikZ'],
+    note: '公式与交叉引用是 LaTeX 的主场；图表优先矢量图，别用 Excel 默认图' },
+  { n: 7, name: '协作与评审', col: TEAL,
+    tools: ['PR Review', '文档', '异步沟通'],
+    note: '让别人的眼睛进到你的代码里，这是"工程"和"自己玩"的分界' },
+  { n: 8, name: '复现与归档', col: TEAL,
+    tools: ['随机种子', '实验记录', 'README', '工作流自动化'],
+    note: '论文级要求：别人拿你的代码和数据，能跑出一样的结果' }
+];
+
+const PHASES = [
+  { n: 1, name: '命令行底座 + 第 3 环 代码与版本', time: '第 1-3 周', col: TEAL,
+    out: '会用命令行干活；GitHub 上有一个提交 20 次以上的仓库' },
+  { n: 2, name: '第 2 环 环境与复现 + 第 4 环 数据处理', time: '第 4-8 周', col: TEAL,
+    out: '一个别人 clone 下来就能跑通的 Python 小项目' },
+  { n: 3, name: '第 5 环 实验与监控', time: '第 9-16 周', col: TEAL,
+    out: '一个能连服务器跑、每次改动都留下对比结果的小课题' },
+  { n: 4, name: '第 6 / 7 / 8 环 写作 · 协作 · 归档', time: '第 17-24 周',
+    col: { c: '#B4B2A9', bg: '#2c2c2a', fg: '#D3D1C7', sub: '#B4B2A9' },
+    out: '一份带图表、能被别人复现的小成果' }
+];
+
+const cw = document.getElementById('cycles');
+CYCLES.forEach(C => {
+  const d = document.createElement('div');
+  d.className = 'cycle';
+  d.style.borderLeft = '2px solid ' + C.col.c;
+  d.innerHTML =
+    '<div class="cn" style="color:' + C.col.fg + '">' + C.n + ' · ' + C.name + '</div>' +
+    '<div class="tools">' + C.tools.map(t =>
+      '<span class="tool" style="border-color:' + C.col.c + '40;color:' + C.col.sub + '">' + t + '</span>').join('') + '</div>' +
+    '<div class="ct">' + C.note + '</div>';
+  cw.appendChild(d);
+});
+
+const pw = document.getElementById('phases');
+PHASES.forEach(P => {
+  const d = document.createElement('div');
+  d.className = 'phase';
+  d.innerHTML =
+    '<div class="pnum" style="background:' + P.col.bg + ';color:' + P.col.fg + ';border:1px solid ' + P.col.c + '">' + P.n + '</div>' +
+    '<div><div class="ptitle">' + P.name + ' <span class="ptime">· ' + P.time + '</span></div>' +
+    '<div class="pout">验收物：<b>' + P.out + '</b></div></div>';
+  pw.appendChild(d);
+});
+
+const q = document.getElementById('q');
+q.oninput = () => {
+  const k = q.value.trim().toLowerCase();
+  document.querySelectorAll('.cycle').forEach(c => {
+    c.classList.toggle('hide', !!k && !c.textContent.toLowerCase().includes(k));
+  });
+  document.querySelectorAll('tr[data-x]').forEach(tr => {
+    tr.style.display = (!k || tr.textContent.toLowerCase().includes(k)) ? '' : 'none';
+  });
+};
+document.getElementById('clear').onclick = () => { q.value = ''; q.oninput(); };
+</script>
+</body>
+</html>
