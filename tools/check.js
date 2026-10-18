@@ -69,6 +69,9 @@ const CARDS = pick('CARDS');
 const DEEP = pick('DEEP');
 const BODY = pick('DEEP_BODY');
 const EXTRA = pick('EXTRA');
+// ZH 是可选的（早期版本没有）。它里面的链接是运行时 push 进 DEEP 的，
+// 静态扫 DEEP 一条都扫不到 —— 必须单独解析这个数组。
+const ZH = /const ZH = \[/.test(src) ? pick('ZH') : null;
 
 // NAME2IDX 是翻面逻辑的索引表 —— 曾经被误删导致"卡片点了没反应"，这里直接查它在不在
 if (!/NAME2IDX/.test(src)) {
@@ -195,6 +198,24 @@ Object.entries(EXTRA).forEach(([n, e]) => {
   }
 }
 
+/* ---------- 7. ZH（知乎 / 外部观点来源）---------- */
+let zhHooks = 0;
+if (Array.isArray(ZH)) {
+  ZH.forEach((z, i) => {
+    const tag = 'ZH[' + i + '] ' + (z.t || '(无题目)');
+    if (!z.u || !/^https?:\/\//.test(z.u)) problems.push(tag + '：u 不是 http(s) 链接');
+    if (!z.a) warn.push(tag + '：a（作者）为空');
+    if (!z.w) warn.push(tag + '：w 为空（弹层里"为什么对你有用"会空着）');
+    if (!Array.isArray(z.k) || !z.k.length) problems.push(tag + '：k 为空，这条来源挂不到任何卡');
+    (z.k || []).forEach(k => {
+      if (!CARDS.some(c => c.n === k)) {
+        // 页面里是 if (DEEP[k]) push —— 名字写错就被静默跳过，页面上完全看不出来
+        problems.push(tag + '：要挂到「' + k + '」，但 CARDS 里没有这张卡（页面会静默跳过）');
+      } else zhHooks++;
+    });
+  });
+}
+
 /* ---------- 输出 ---------- */
 const ok = problems.length === 0;
 console.log('卡片墙体检 · ' + path.basename(FILE) + '\n');
@@ -203,7 +224,11 @@ console.log('  环       ' + Object.keys(RINGS).length + ' 档');
 console.log('  方向     ' + SCENES.length + ' 个');
 console.log('  链接     ' + Object.values(DEEP).reduce((s, d) => s + (d.s || []).length, 0) + ' 条');
 console.log('  正文     ' + Object.values(BODY).reduce((s, b) => s + (b.body || []).join('').length, 0) + ' 字');
-console.log('  方向理由 ' + Object.values(EXTRA).reduce((s, e) => s + (e.w || []).filter(Boolean).length, 0) + ' 条\n');
+console.log('  方向理由 ' + Object.values(EXTRA).reduce((s, e) => s + (e.w || []).filter(Boolean).length, 0) + ' 条');
+if (Array.isArray(ZH)) {
+  console.log('  外部观点 ' + ZH.length + ' 篇 / 挂载 ' + zhHooks + ' 处（运行时注入，不在上面 302 条里）');
+}
+console.log('');
 
 if (warn.length) {
   console.log('提醒（不阻塞）：');
