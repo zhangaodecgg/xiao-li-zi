@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>工程名词卡片墙 · 听懂舍友在聊什么</title>
+<meta name="description" content="102 张可翻转的工程名词卡片，按科研八环归位，每张都能再深一层。给每个字都认识、拼起来不知道在说什么的初学者。">
+<style>
+  :root{
+    --bg:#0b0d12; --panel:#12161f; --panel2:#141924; --line:#212836; --line2:#2b3547;
+    --text:#e6e9ef; --dim:#8b95a5; --dim2:#5c6473;
+    --blue:#85B7EB; --blue-deep:#0C447C; --green:#5DCAA5; --green-dim:#7ee0bb;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--bg); color:var(--text); line-height:1.7;
+    font-family:system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:940px; margin:0 auto; padding:0 22px}
+
+  /* 顶部光晕 */
+  .hero{position:relative; padding:74px 0 54px; overflow:hidden}
+  .hero::before{
+    content:""; position:absolute; top:-260px; left:50%; transform:translateX(-50%);
+    width:720px; height:520px; border-radius:50%;
+    background:radial-gradient(circle,rgba(12,68,124,.45) 0%,rgba(93,202,165,.10) 42%,transparent 68%);
+    pointer-events:none;
+  }
+  .badge{
+    display:inline-flex; align-items:center; gap:7px; font-size:12px; color:#9FE1CB;
+    background:rgba(8,80,65,.42); border:1px solid #2f6b56; border-radius:999px;
+    padding:5px 13px; margin-bottom:22px; position:relative;
+  }
+  .badge i{width:6px; height:6px; border-radius:50%; background:var(--green); font-style:normal}
+  h1{
+    font-size:46px; line-height:1.2; font-weight:600; margin:0 0 10px;
+    letter-spacing:-.8px; position:relative; color:#f4f7fa;
+  }
+  .tagline{
+    font-size:22px; font-weight:500; margin:0 0 20px; position:relative;
+    letter-spacing:.2px;
+    background:linear-gradient(100deg,#85B7EB 0%,#5DCAA5 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    display:inline-block;
+  }
+  .lede{font-size:16.5px; color:#a9b4c4; max-width:640px; margin:0 0 30px; position:relative}
+  .lede b{color:#dfe6ef; font-weight:500}
+
+  .cta{display:flex; flex-wrap:wrap; gap:12px; align-items:center; position:relative}
+  .btn{
+    display:inline-flex; align-items:center; gap:9px; text-decoration:none;
+    font-size:15px; padding:13px 26px; border-radius:11px; transition:.16s;
+    font-family:inherit;
+  }
+  .btn-main{
+    background:linear-gradient(180deg,#1a63ad,#0C447C); color:#F2F8FF;
+    border:1px solid #4a8cc4; box-shadow:0 8px 24px -10px rgba(26,99,173,.85);
+  }
+  .btn-main:hover{transform:translateY(-1px); box-shadow:0 12px 30px -10px rgba(26,99,173,.95)}
+  .btn-ghost{background:var(--panel); color:var(--dim); border:1px solid var(--line2)}
+  .btn-ghost:hover{border-color:#3d5a80; color:#cbd5e1}
+
+  /* 数字条 */
+  .stats{
+    display:grid; grid-template-columns:repeat(5,1fr); gap:1px; margin:0 0 60px;
+    background:var(--line); border:1px solid var(--line); border-radius:14px; overflow:hidden;
+  }
+  .stat{background:var(--panel); padding:18px 10px; text-align:center}
+  .stat b{display:block; font-size:23px; font-weight:600; color:var(--blue); line-height:1.3}
+  .stat span{font-size:11.5px; color:var(--dim2)}
+
+  section{padding:0 0 58px}
+  h2{
+    font-size:13px; font-weight:500; color:var(--green); letter-spacing:1.6px;
+    text-transform:uppercase; margin:0 0 18px;
+  }
+  h3{font-size:20px; font-weight:500; margin:0 0 12px; color:#e6e9ef}
+  p{margin:0 0 14px; color:#a9b4c4}
+  p b{color:#dfe6ef; font-weight:500}
+  p code{
+    font-family:ui-monospace,"Cascadia Code",Consolas,monospace; font-size:13px;
+    background:#1a2030; border:1px solid var(--line2); border-radius:5px; padding:1px 6px; color:#9fc6e8;
+  }
+
+  /* 引用 */
+  .quote{
+    background:var(--panel); border-left:2px solid var(--blue-deep); border-radius:0 12px 12px 0;
+    padding:18px 22px; margin:0 0 18px;
+  }
+  .quote p{margin:0 0 8px; color:#c3ccda; font-size:15px}
+  .quote p:last-child{margin-bottom:0}
+  .quote .who{font-size:12px; color:var(--dim2); margin-top:10px}
+
+  /* 卡组 */
+  .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:12px}
+  .box{
+    background:var(--panel); border:1px solid var(--line); border-radius:13px; padding:19px 20px;
+    transition:.16s;
+  }
+  .box:hover{border-color:#35507a; background:var(--panel2)}
+  .box h4{margin:0 0 7px; font-size:15px; font-weight:500; color:#e6e9ef}
+  .box p{font-size:13.5px; margin:0; color:#8b95a5; line-height:1.65}
+  .box .ico{font-size:17px; margin-bottom:8px; display:block; opacity:.9}
+
+  /* 七层 */
+  .layers{border:1px solid var(--line); border-radius:13px; overflow:hidden; margin-bottom:18px}
+  .layer{
+    display:flex; gap:16px; padding:13px 18px; background:var(--panel);
+    border-bottom:1px solid var(--line); align-items:baseline;
+  }
+  .layer:last-child{border-bottom:none}
+  .layer .n{
+    font-size:11px; color:var(--dim2); min-width:22px; font-family:ui-monospace,monospace;
+  }
+  .layer .k{font-size:13.5px; color:#c3ccda; min-width:96px; font-weight:500}
+  .layer .v{font-size:13px; color:#7c8698}
+
+  /* 三轮 */
+  .steps{counter-reset:s; list-style:none; padding:0; margin:0}
+  .steps li{
+    counter-increment:s; position:relative; padding:0 0 20px 40px; color:#a9b4c4; font-size:14px;
+  }
+  .steps li::before{
+    content:counter(s); position:absolute; left:0; top:1px; width:25px; height:25px;
+    border-radius:50%; background:rgba(12,68,124,.5); border:1px solid #3d5a80;
+    color:#9fc6e8; font-size:12px; display:flex; align-items:center; justify-content:center;
+  }
+  .steps li b{color:#dfe6ef}
+  .steps li:last-child{padding-bottom:0}
+
+  /* 结尾 */
+  .end{
+    background:linear-gradient(160deg,rgba(12,68,124,.30),rgba(8,80,65,.14));
+    border:1px solid var(--line2); border-radius:16px; padding:36px 30px; text-align:center;
+    margin-bottom:52px;
+  }
+  .end h3{font-size:21px; margin:0 0 10px}
+  .end p{max-width:520px; margin:0 auto 22px; font-size:14.5px}
+
+  footer{
+    border-top:1px solid var(--line); padding:24px 0 46px; font-size:12.5px; color:var(--dim2);
+    display:flex; flex-wrap:wrap; gap:14px; justify-content:space-between; align-items:center;
+  }
+  footer a{color:#7d8b9e; text-decoration:none; border-bottom:1px solid #2b3547; padding-bottom:1px}
+  footer a:hover{color:var(--blue); border-color:#3d5a80}
+  .tags{display:flex; flex-wrap:wrap; gap:6px}
+  .tag{font-size:11px; border:1px solid var(--line2); border-radius:999px; padding:2px 9px; color:#7c8698}
+
+  @media(max-width:720px){
+    .hero{padding:52px 0 40px}
+    h1{font-size:32px}
+    .tagline{font-size:18px; margin-bottom:16px}
+    .lede{font-size:15.5px}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .stats .stat:last-child{grid-column:span 2}
+    .stat b{font-size:20px}
+    h2{margin-bottom:14px}
+    .layer{flex-wrap:wrap; gap:4px 14px}
+    .layer .k{min-width:auto}
+    footer{flex-direction:column; align-items:flex-start; gap:10px}
+  }
+  @media(max-width:520px){
+    .btn{width:100%; justify-content:center}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <span class="badge"><i></i>WorkBuddy 1024 造物挑战 · 参赛作品</span>
+    <h1>工程名词卡片墙</h1>
+    <p class="tagline">听懂舍友在聊什么</p>
+    <p class="lede">
+      一个刚进计算机专业的人，最难受的不是学不会，是<b>听不懂别人在聊什么</b>。<br>
+      102 张可翻转的卡片，把那些人人都在用、却从没人系统讲过的名词，<b>按一个项目真实的生命周期归位</b>。
+    </p>
+    <div class="cta">
+      <a class="btn btn-main" href="cardwall.html?sharecode=PH5LQ5PXGW">开始体验 102 张卡 →</a>
+      <a class="btn btn-ghost" href="map.html?sharecode=PH5LQ5PXGW">先看它凭什么这样分类</a>
+    </div>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><b>102</b><span>张知识卡</span></div>
+    <div class="stat"><b>9</b><span>档环节</span></div>
+    <div class="stat"><b>6</b><span>个方向</span></div>
+    <div class="stat"><b>302</b><span>条真实外链</span></div>
+    <div class="stat"><b>1.6万</b><span>字正文解读</span></div>
+  </div>
+
+  <section>
+    <h2>它要解决的那个瞬间</h2>
+    <div class="quote">
+      <p>「我用 R 跑一下这个。」</p>
+      <p>「这个模型量化过，显存够了。」</p>
+      <p>「先 docker 封起来，不然复现不了。」</p>
+      <div class="who">—— 室友随口三句话，每个字都认识，拼起来不知道在说什么。</div>
+    </div>
+    <p>
+      这不是笨，也不是基础差。是<b>缺一层词汇表</b>——而这一层，教材不教、课程不讲、网上零散地散在几百篇博客里。
+      你已经会算法、会数学，缺的是「在真机器上把它跑起来、并且让别人也能跑起来」那一层。
+    </p>
+  </section>
+
+  <section>
+    <h2>为什么是「环」，不是一锅乱炖</h2>
+    <h3>按一个项目从选题到交出去的顺序归位</h3>
+    <p>
+      名词不该按首字母排，也不该按「热门程度」排。它们真正的位置，是<b>在项目生命周期里的位置</b>——
+      所以听到任何一个陌生词，你只要问一句「它是在哪一步出现的」，位置就锁死了。
+    </p>
+    <div class="grid">
+      <div class="box"><span class="ico">🧱</span><h4>底座 · 贯穿全程</h4><p>Linux 命令行 / Shell / SSH / tmux / 权限 / WSL / grep / curl —— 不是某一环，是所有环的地基</p></div>
+      <div class="box"><span class="ico">📚</span><h4>选题与文献 · 环境与复现</h4><p>arXiv / 影响因子 / 会议与期刊 / Zotero ｜ Docker / 镜像容器 / 虚拟环境 / 依赖地狱 / CUDA</p></div>
+      <div class="box"><span class="ico">🌿</span><h4>代码与版本 · 数据与处理</h4><p>Git / commit / branch / PR / CI / 调试器 / Makefile ｜ Python / pip / numpy / pandas / SQL / R</p></div>
+      <div class="box"><span class="ico">⚡</span><h4>实验与监控 · 写作图表</h4><p>GPU / 显存 / OOM / Slurm / 超参数 / 消融实验 ｜ LaTeX / Overleaf / 矢量图 / TikZ</p></div>
+      <div class="box"><span class="ico">🤝</span><h4>协作与评审</h4><p>README / 异步沟通 / 文档与 Wiki / code review —— 从「我能跑」到「别人也能跑」的那道门</p></div>
+      <div class="box"><span class="ico">📦</span><h4>复现 · 交付与归档</h4><p>复现 / 随机种子 / 实验记录 / 模型量化 / ONNX / 部署 —— 科研最硬的那条要求</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>一张卡里有什么</h2>
+    <h3>从「见过」到「知道去哪学」，七层</h3>
+    <div class="layers">
+      <div class="layer"><span class="n">01</span><span class="k">一句话</span><span class="v">它是什么，30 字内说人话</span></div>
+      <div class="layer"><span class="n">02</span><span class="k">口诀</span><span class="v">压到最短的那一句，用来记住</span></div>
+      <div class="layer"><span class="n">03</span><span class="k">六个方向</span><span class="v">AI · 嵌入式 · 服务器 · 数据 · 论文 · 通用，每个方向配一句「它在这有什么用」</span></div>
+      <div class="layer"><span class="n">04</span><span class="k">同族</span><span class="v">相邻概念可点击跳转，让名词连成网而不是孤岛</span></div>
+      <div class="layer"><span class="n">05</span><span class="k">详细解读</span><span class="v">2～3 段正文：它怎么做、治什么病、你在哪一步会撞上它</span></div>
+      <div class="layer"><span class="n">06</span><span class="k">别搞混</span><span class="v">最容易犯的那个错，单独拎出来说</span></div>
+      <div class="layer"><span class="n">07</span><span class="k">去哪学</span><span class="v">官方文档 / 中文教程 / 视频 / 论文 + 搜索关键词 + 一个「今晚就能做」的动作</span></div>
+    </div>
+    <p>
+      六个方向不是拍脑袋打分，<b>每一格都配了理由</b>——你得知道「Docker 在服务器方向是主力」<i>是因为什么</i>，才算真的放进自己的框架。全站共 <b>374 条方向理由</b>。
+    </p>
+  </section>
+
+  <section>
+    <h2>它不只是让人「读」</h2>
+    <div class="grid">
+      <div class="box">
+        <h4>🔎 我听到一句话</h4>
+        <p>把室友的原话整句贴进去，它拆出命中的卡片，并告诉你这句话<b>横跨了哪几环</b>——是在讲一个单点，还是在讲一条链。内置口语别名，「黑框框」能搜到 Linux，「爆了」能搜到 OOM。</p>
+      </div>
+      <div class="box">
+        <h4>🎲 随机抽一张</h4>
+        <p>自测模式。随机弹一张卡考你，说不出来就翻底看答案，答完直接记进度，形成闭环。</p>
+      </div>
+      <div class="box">
+        <h4>📊 进度看得见</h4>
+        <p>「已记 N / 102」存在本地，换页面不丢；环筛选按钮上带 <code>5/13</code> 这样的计数，一眼看出哪一环还是空白。</p>
+      </div>
+      <div class="box">
+        <h4>📴 单文件 · 零依赖</h4>
+        <p>整站是一个 HTML 文件，没有后端、没有 CDN、没有字体请求。断网、离线、拷到 U 盘里都能打开。</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>怎么用</h2>
+    <h3>三轮过卡法，三次就能「认全脸」</h3>
+    <ol class="steps">
+      <li><b>第一遍 · 20 分钟</b>　只看核心卡，一张张翻过去。目的只有一个：让名字从「陌生」变成「见过」。<b>别停下来背。</b></li>
+      <li><b>第二遍 · 每环 5 分钟</b>　按环筛选，一环一环过。这次只盯背面那行 <code>记：</code>。第 2、3 环值得多停两分钟。</li>
+      <li><b>第三遍 · 自测</b>　把卡片翻回正面，自己张嘴说出它是干什么的，说不出来的点「还不行」。</li>
+    </ol>
+    <p style="margin-top:18px">
+      这一版的目标是<b>认脸，不是会用</b>。能用是后面的事——那时候你手上会有真项目，学一个顶现在十个。
+    </p>
+  </section>
+
+  <div class="end">
+    <h3>不用学它，用它就行</h3>
+    <p>室友开口的时候打开它。哪天蹦出一个 102 张卡之外的词，把原话贴进「我听到一句话」——它告诉你落在哪一环。</p>
+    <a class="btn btn-main" href="cardwall.html?sharecode=PH5LQ5PXGW">打开卡片墙 →</a>
+  </div>
+
+  <footer>
+    <div>
+      <a href="https://github.com/zhangaodecgg/xiao-li-zi" target="_blank" rel="noopener">GitHub · 开源仓库</a>
+      &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; 欢迎补充你方向的名词
+    </div>
+    <div class="tags">
+      <span class="tag">单文件</span>
+      <span class="tag">离线可用</span>
+      <span class="tag">零依赖</span>
+      <span class="tag">开源</span>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+/* 线上环境靠地址栏的 ?sharecode= 放行。站内用的是相对链接，跳转时这个参数会被丢掉，
+   结果就是点「开始体验」直接 403。所以这里从当前地址重新读一次，覆盖到所有站内链接上。
+   好处是重新发布换了分享码，页面不用改一行；下面 href 里预置的那串只是 JS 失效时的兜底。 */
+(function () {
+  var code = new URLSearchParams(location.search).get('sharecode');
+  if (!code) return;
+  document.querySelectorAll('a[href]').forEach(function (a) {
+    var h = a.getAttribute('href');
+    if (!h || /^(https?:|mailto:|tel:|#|javascript:)/i.test(h)) return;
+    var base = h.split('?')[0].split('#')[0];
+    a.setAttribute('href', base + '?sharecode=' + encodeURIComponent(code));
+  });
+})();
+</script>
+</body>
+</html>
